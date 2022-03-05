@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:app="clr-namespace:Projet"
+             xmlns:model="clr-namespace:Projet.Model;assembly=Projet"
+             x:DataType="app:ProjectDetailViewModel"
+             x:Class="Projet.ProjectDetailPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding Projet.Name}" FontSize="Title"
+                   Margin="10,10"></Label>
+            <Label Text="{Binding Projet.Description}" FontSize="Large"
+                   Margin="5,5"></Label>
+            <ListView ItemSelected="UpdateChosenTask"
+                      ItemsSource="{Binding Tasks}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Task">
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal"
+                                         HorizontalOptions="Center">
+                                <Label Text="{Binding Name}" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!-- <Button Text="Add" -->
+            <!--         Command="{Binding AddClick}"/> -->
+            <!-- <Button Text="Delete" -->
+            <!--         Command="{Binding DeleteClick}"/> -->
+            <!-- <Button Text="Voir le projet" -->
+            <!--         Command="{Binding DetailClick}"/> -->
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
