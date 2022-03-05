@@ -1,18 +1,18 @@
 ﻿using System;
+using Storm.Mvvm;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
 namespace Projet
 {
-    public partial class App : Application
+    public partial class App : MvvmApplication
     {
-        public App()
+        public App() : base(() => new ProjectsPage())
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
         }
 
         protected override void OnStart()
