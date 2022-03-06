@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:app="clr-namespace:Projet"
+             xmlns:model="clr-namespace:Projet.Model;assembly=Projet"
+             x:Class="Projet.ProjectsPage"
+             x:DataType="app:ProjectsViewModel">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Vos projets en cours" FontSize="Title"
+                   Margin="10,10"></Label>
+            <ListView ItemSelected="UpdateChosenTodo"
+                      ItemsSource="{Binding Projets}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Projet">
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal"
+                                         HorizontalOptions="Center">
+                                <Label Text="{Binding Name}" FontSize="Medium"/>
+                                <Label Text="{Binding Description}" FontSize="Small" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Add"
+                    Command="{Binding AddClick}"/>
+            <Button Text="Delete"
+                    Command="{Binding DeleteClick}"/>
+            <Button Text="Voir le projet"
+                    Command="{Binding DetailClick}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
