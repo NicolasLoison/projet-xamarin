@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:projet="clr-namespace:Projet"
+             x:Class="Projet.InscriptionPage"
+             x:DataType="projet:InscriptionModelView">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="Center"
+                     VerticalOptions="CenterAndExpand" >
+            <!-- Place new controls here -->
+            <Label Text="Écran d'inscription" 
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"/>
+        
+            <Entry WidthRequest="300"
+                   MaxLength="30"
+                   Placeholder="Nom"
+                   Text="{Binding LastName}"/>
+            <Entry WidthRequest="300"
+                   MaxLength="30"
+                   Placeholder="Prénom"
+                   Text="{Binding FirstName}"/>
+            <Entry WidthRequest="300"
+                   MaxLength="30"
+                   Placeholder="Adresse mail"
+                   Text="{Binding Email}"
+                   Keyboard="Email"/>
+            <Entry WidthRequest="300"
+                   MaxLength="30"
+                   Placeholder="Mot de passe"
+                   Text="{Binding Password}"
+                   IsPassword="True"/>
+            
+            <Button Text="Confirmer" Command="{Binding ConfirmClick}"/>
+        </StackLayout>
+           
+    </ContentPage.Content>
+</ContentPage>

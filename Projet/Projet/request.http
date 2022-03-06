@@ -1,0 +1,139 @@
+﻿### Inscription
+POST https://timetracker.julienmialon.ovh/api/v1/register
+Content-Type: application/json
+
+{
+  "client_id": "MOBILE",
+  "client_secret": "COURS",
+  "email": "ffegeil",
+  "first_name": "fegrgrgrzf",
+  "last_name": "strfgrgrzefing",
+  "password": "fegrgrgrzf"
+}
+
+### Connexion
+POST https://timetracker.julienmialon.ovh/api/v1/login
+Content-Type: application/json
+
+{
+  "login": "test.com",
+  "password": "testtest",
+  "client_id": "MOBILE",
+  "client_secret": "COURS"
+}
+
+### Rafraichir
+POST https://timetracker.julienmialon.ovh/api/v1/refresh
+Content-Type: application/json
+
+{
+  "refresh_token": "d2a2eb46573740419c4e648016106966",
+  "client_id": "MOBILE",
+  "client_secret": "COURS"
+}
+
+### Modifier infos
+PATCH https://timetracker.julienmialon.ovh/api/v1/me
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+Content-Type: application/json
+
+{
+  "email": "t",
+  "first_name": "Mester",
+  "last_name": "Clean"
+}
+
+### Modifier mot de passe
+PATCH https://timetracker.julienmialon.ovh/api/v1/password
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+Content-Type: application/json
+
+{
+  "old_password": "tttttttt",
+  "new_password": "testtest"
+}
+
+### Afficher profil
+GET https://timetracker.julienmialon.ovh/api/v1/me
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+
+### Afficher les projets
+GET https://timetracker.julienmialon.ovh/api/v1/projects
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+
+### Ajouter un projet
+POST https://timetracker.julienmialon.ovh/api/v1/projects
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+Content-Type: application/json
+
+{
+  "name": "ProjetDelete",
+  "description": "C'est le projetDelete."
+}
+
+### Modifier un projet par id
+PUT https://timetracker.julienmialon.ovh/api/v1/projects/5
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+Content-Type: application/json
+
+{
+  "name": "ProjetById1",
+  "description": "C'est le ProjetById1, anciennement Projet1."
+}
+
+### Supprimer un projet par id
+DELETE https://timetracker.julienmialon.ovh/api/v1/projects/6
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+
+
+### Afficher les taches d'un projet par id
+GET https://timetracker.julienmialon.ovh/api/v1/projects/5/tasks
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+
+### Ajouter une tache à un projet par id
+POST https://timetracker.julienmialon.ovh/api/v1/projects/5/tasks
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+Content-Type: application/json
+
+{
+  "name": "tache2"
+}
+
+### Modifier une tache par id
+PUT https://timetracker.julienmialon.ovh/api/v1/projects/5/tasks/8
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+Content-Type: application/json
+
+{
+  "name": "tache1modifiee"
+}
+
+### Supprimer une tache par id
+DELETE https://timetracker.julienmialon.ovh/api/v1/projects/5/tasks/9
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+
+
+### Ajouter du temps à une tache par id
+POST https://timetracker.julienmialon.ovh/api/v1/projects/5/tasks/8/times
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+Content-Type: application/json
+
+{
+  "start_time": "2022-01-05T08:12:00.006Z",
+  "end_time": "2022-01-06T10:01:00.006Z"
+}
+
+### Modifier le temps à une tache par id
+PUT https://timetracker.julienmialon.ovh/api/v1/projects/5/tasks/8/times/4
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+Content-Type: application/json
+
+{
+  "start_time": "2022-02-05T20:12:00.006Z",
+  "end_time": "2022-03-05T20:02:00.006Z"
+}
+
+
+### Supprimer le temps à une tache par id
+DELETE https://timetracker.julienmialon.ovh/api/v1/projects/5/tasks/8/times/5
+Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3

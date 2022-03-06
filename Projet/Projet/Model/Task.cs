@@ -6,7 +6,7 @@ namespace Projet.Model
 {
     public class Task
     {
-        public Guid Id
+        public int Id
         {
             get;
             set;
@@ -23,9 +23,9 @@ namespace Projet.Model
             set;
         }
 
-        public Task(string name)
+        public Task(int id, string name)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Name = name;
             Times = new List<Timer>();
         }

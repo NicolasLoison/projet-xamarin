@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:projet="clr-namespace:Projet"
+             x:Class="Projet.HomePage"
+             x:DataType="projet:HomeModelView">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Welcome to HomePage"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="CenterAndExpand" />
+            <Label Text="{Binding User.LastName}"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="CenterAndExpand" />
+            <Button Text="Profile"
+                    Command="{Binding ProfileClick}"></Button>
+            <Button Text="TestProject"
+                    Command="{Binding ProjectClick}"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

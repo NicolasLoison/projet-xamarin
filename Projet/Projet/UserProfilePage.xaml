@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:projet="clr-namespace:Projet"
+             x:Class="Projet.UserProfilePage"
+             x:DataType="projet:UserProfileViewModel">
+    <ContentPage.Content>
+           <StackLayout HorizontalOptions="Center"
+                        VerticalOptions="CenterAndExpand" >
+            <Label Text="Page de profil" 
+                   FontSize="30"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"/>
+
+            <Entry WidthRequest="300"
+                   MaxLength="30"
+                   Placeholder="Email"
+                   Text="{Binding Email}"/>
+            <Entry WidthRequest="300"
+                   MaxLength="30"
+                   Placeholder="First name"
+                   Text="{Binding FirstName}"/>
+            <Entry WidthRequest="300"
+                   MaxLength="30"
+                   Placeholder="Last name"
+                   Text="{Binding LastName}"
+                   Keyboard="Email"/>
+            
+            <Button Text="Change password"
+                    BackgroundColor="DarkOrange"
+                    TextColor="Black"
+                    Command="{Binding PasswordClick}"/>
+            <Button Text="Save"
+                    BackgroundColor="ForestGreen"
+                    Command="{Binding SaveClick}"/>
+            <Button Text="Back to home"
+                    BackgroundColor="DodgerBlue"
+                    Command="{Binding HomeClick}"/>
+        </StackLayout>
+           
+    </ContentPage.Content>
+</ContentPage>

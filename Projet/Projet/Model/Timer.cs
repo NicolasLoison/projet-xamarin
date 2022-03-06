@@ -4,7 +4,7 @@ namespace Projet.Model
 {
     public class Timer
     {
-        public Guid Id
+        public int Id
         {
             get;
             set;
@@ -22,8 +22,9 @@ namespace Projet.Model
             set;
         }
 
-        public Timer(DateTime startTime, DateTime endTime)
+        public Timer(int id, DateTime startTime, DateTime endTime)
         {
+            Id = id;
             StartTime = startTime;
             EndTime = endTime;
         }

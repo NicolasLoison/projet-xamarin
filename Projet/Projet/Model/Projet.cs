@@ -5,7 +5,7 @@ namespace Projet.Model
 {
     public class Projet
     {
-        public Guid Id
+        public int Id
         {
             get;
             set;
@@ -32,9 +32,9 @@ namespace Projet.Model
             set;
         }
 
-        public Projet(string name, string description)
+        public Projet(int id, string name, string description)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Name = name;
             Description = description;
             TotalSeconds = 0;

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:projet="clr-namespace:Projet"
+             xmlns:model="clr-namespace:Projet.Model;assembly=Projet"
+             x:Class="Projet.ProjectPage"
+             x:DataType="projet:ProjectViewModel">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="Center"
+                    VerticalOptions="CenterAndExpand"
+                    Margin="15, 0, 15, 0">
+            
+            <Label Text="{Binding Project.Name}"
+                   FontSize="30"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"
+                   Margin="0, 20, 0, 20"/>
+            
+            <Label Text="{Binding Project.Description}"
+                   FontSize="20"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"
+                   Margin="0, 0, 0, 10"/>
+            
+            <Label Text="Tasks:"
+                   FontSize="20"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"/>
+            
+            <ListView ItemsSource="{Binding Tasks}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Task">
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="CenterAndExpand">
+                                <Label 
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="CenterAndExpand"
+                                    Text="{Binding Name}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
