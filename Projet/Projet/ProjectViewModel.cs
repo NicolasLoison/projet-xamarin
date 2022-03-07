@@ -70,8 +70,8 @@ namespace Projet
             if (ChosenTask == null) return;
             try
             {
-                // TaskPage taskPage = new TaskPage(ChosenTask);
-                // await NavigationService.PushAsync(taskPage);
+                TaskPage taskPage = new TaskPage(ChosenTask);
+                await NavigationService.PushAsync(taskPage);
             }
             catch (Exception e)
             {

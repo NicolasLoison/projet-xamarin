@@ -115,7 +115,7 @@ Authorization: Bearer 8a36e62f1f384914b98d82e58144bb3d
 
 ### Ajouter du temps à une tache par id
 POST https://timetracker.julienmialon.ovh/api/v1/projects/5/tasks/8/times
-Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+Authorization: Bearer 8a36e62f1f384914b98d82e58144bb3d
 Content-Type: application/json
 
 {
@@ -125,7 +125,7 @@ Content-Type: application/json
 
 ### Modifier le temps à une tache par id
 PUT https://timetracker.julienmialon.ovh/api/v1/projects/5/tasks/8/times/4
-Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+Authorization: Bearer 8a36e62f1f384914b98d82e58144bb3d
 Content-Type: application/json
 
 {
@@ -136,4 +136,4 @@ Content-Type: application/json
 
 ### Supprimer le temps à une tache par id
 DELETE https://timetracker.julienmialon.ovh/api/v1/projects/5/tasks/8/times/5
-Authorization: Bearer b3e5aeea8200470092feaedd6fb442e3
+Authorization: Bearer 8a36e62f1f384914b98d82e58144bb3d
