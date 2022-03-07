@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Newtonsoft.Json;
 using Projet.Model;
 using Storm.Mvvm;
+using TimeTracker.Dtos;
+using TimeTracker.Dtos.Authentications;
 using Xamarin.Forms;
+using Task = Projet.Model.Task;
 
 namespace Projet
 {
@@ -34,11 +41,28 @@ namespace Projet
 
         public ICommand TaskClick { get; set; }
 
-        public ProjectViewModel(Model.Projet project)
+        public ProjectViewModel(User user, Model.Projet project)
         {
+            // Console.WriteLine(HomeModelView.User.Password);
             Project = project;
-            Tasks = new ObservableCollection<Task>(project.Tasks);
+            FindTasks();
             TaskClick = new Command(ToTask);
+        }
+        
+        public async void FindTasks()
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(Urls.HOST);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
+            HttpResponseMessage response = await client.GetAsync(new Uri(Urls.LIST_TASKS.Replace("{projectId}", Project.Id.ToString())));
+            if (response.IsSuccessStatusCode)
+            {
+                Task<string> task = response.Content.ReadAsStringAsync();
+                Response<List<Task>> projectTasks =
+                    JsonConvert.DeserializeObject<Response<List<Task>>>(task.Result);
+                ObservableCollection<Task> tasks = new ObservableCollection<Task>(projectTasks.Data);
+                Tasks = tasks;
+            }
         }
 
         public async void ToTask()

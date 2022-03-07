@@ -22,8 +22,8 @@ namespace Projet
 
         public User User
         {
-            get;
-            set;
+            get => UserInstance.User;
+            set => SetProperty(ref UserInstance.User, value);
         }
         public string LastName
         {
@@ -63,16 +63,15 @@ namespace Projet
             get;
             set;
         }
-        public UserProfileViewModel(User user)
+        public UserProfileViewModel()
         {
-            User = user;
-            LastName = user.LastName;
-            FirstName = user.FirstName;
-            Email = user.Email;
-            Password = user.Password;
-            _accessToken = user.AccessToken;
-            _refreshToken = user.RefreshToken;
-            _tokenType = user.TokenType;
+            LastName = User.LastName;
+            FirstName = User.FirstName;
+            Email = User.Email;
+            Password = User.Password;
+            _accessToken = User.AccessToken;
+            _refreshToken = User.RefreshToken;
+            _tokenType = User.TokenType;
             PasswordClick = new Command(ToPassword);
             SaveClick = new Command(SaveChanges);
             HomeClick = new Command(ToHome);
@@ -105,7 +104,7 @@ namespace Projet
                     User.Email = data.Data.Email;
                     User.FirstName = data.Data.FirstName;
                     User.LastName = data.Data.LastName;
-                    await NavigationService.PushAsync(new UserProfilePage(User));
+                    await NavigationService.PushAsync(new UserProfilePage());
                 }
             }
             catch(Exception e)
@@ -116,12 +115,12 @@ namespace Projet
 
         public async void ToHome()
         {
-            await NavigationService.PushAsync(new HomePage(User));
+            await NavigationService.PushAsync(new HomePage());
         }
         
         public async void ToPassword()
         {
-            await NavigationService.PushAsync(new PasswordPage(User));
+            await NavigationService.PushAsync(new PasswordPage());
         }
     }
 }

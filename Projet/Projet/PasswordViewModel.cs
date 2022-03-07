@@ -10,6 +10,7 @@ using Storm.Mvvm;
 using TimeTracker.Dtos;
 using TimeTracker.Dtos.Accounts;
 using TimeTracker.Dtos.Authentications;
+using TimeTracker.Dtos.Authentications.Credentials;
 using Xamarin.Forms;
 
 namespace Projet
@@ -48,13 +49,12 @@ namespace Projet
 
         public User User
         {
-            get;
-            set;
+            get => UserInstance.User;
+            set => SetProperty(ref UserInstance.User, value);
         }
         
-        public PasswordViewModel(User user)
+        public PasswordViewModel()
         {
-            User = user;
             SaveClick = new Command(SaveChanges);
         }
         
@@ -82,15 +82,11 @@ namespace Projet
                         Content = content
                     };
                     HttpResponseMessage response = await client.SendAsync(request);
-                    Console.WriteLine(response.IsSuccessStatusCode);
                     if (response.IsSuccessStatusCode)
                     {
                         Console.WriteLine(response.ReasonPhrase);
                         Task<string> task = response.Content.ReadAsStringAsync();
                         Response<SetUserProfileRequest> data = JsonConvert.DeserializeObject<Response<SetUserProfileRequest>>(task.Result);
-                        Console.WriteLine(data.IsSuccess);
-                        Console.WriteLine(data.ErrorCode);
-                        Console.WriteLine(data.ErrorMessage);
                         if (data.ErrorCode == ErrorCodes.WEAK_PASSWORD)
                         {
                             ErrorMessage = data.ErrorMessage;
@@ -99,9 +95,8 @@ namespace Projet
                         {
                             ErrorMessage = "";
                             User.Password = NewPassword;
-                            Console.WriteLine(User.Password);
                             await NavigationService.PopAsync(false);
-                            await NavigationService.PushAsync(new UserProfilePage(User));
+                            await NavigationService.PushAsync(new UserProfilePage());
                         }
                     }
                     else

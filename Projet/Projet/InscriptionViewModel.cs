@@ -79,8 +79,8 @@ namespace Projet
 
                 if (response2.IsSuccessStatusCode)
                 {   
-                    User newUser = new User(accessToken, refreshToken, tokenType, FirstName, LastName, Email, Password);
-                    await NavigationService.PushAsync(new HomePage(newUser));
+                    UserInstance.User = new User(accessToken, refreshToken, tokenType, FirstName, LastName, Email, Password);
+                    await NavigationService.PushAsync(new HomePage());
                 }
             
             }

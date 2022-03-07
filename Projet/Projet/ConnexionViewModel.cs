@@ -86,20 +86,8 @@ namespace Projet
                         Response<UserProfileResponse> userData = JsonConvert.DeserializeObject<Response<UserProfileResponse>>(task.Result);
                         string firstName = userData.Data.FirstName;
                         string lastName = userData.Data.LastName;
-                        response = await client.GetAsync(new Uri(Urls.LIST_PROJECTS));
-                        if (response.IsSuccessStatusCode)
-                        {
-                            task = response.Content.ReadAsStringAsync();
-                            Response<List<Model.Projet>> userProjects =
-                                JsonConvert.DeserializeObject<Response<List<Model.Projet>>>(task.Result);
-                            List<Model.Projet> projects = userProjects.Data;
-                            User user = new User(accessToken, refreshToken, tokenType, firstName, lastName, Email, Password, projects);
-                            await NavigationService.PushAsync(new HomePage(user));
-                        }
-                        else
-                        {
-                            Console.WriteLine("ERREUR GET LIST PROJECTS");
-                        }
+                        UserInstance.User = new User(accessToken, refreshToken, tokenType, firstName, lastName, Email, Password);
+                        await NavigationService.PushAsync(new HomePage());
                     }
                     else
                     {

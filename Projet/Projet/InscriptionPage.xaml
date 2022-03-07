@@ -7,32 +7,33 @@
              x:DataType="projet:InscriptionModelView">
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
-                     VerticalOptions="CenterAndExpand" >
+                     VerticalOptions="Center">
             <!-- Place new controls here -->
-            <Label Text="Écran d'inscription" 
+            <Label Text="Register" 
+                   FontSize="30"
                    HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"/>
+                   Margin="0, 30"/>
         
             <Entry WidthRequest="300"
                    MaxLength="30"
-                   Placeholder="Nom"
+                   Placeholder="Last name"
                    Text="{Binding LastName}"/>
             <Entry WidthRequest="300"
                    MaxLength="30"
-                   Placeholder="Prénom"
+                   Placeholder="First name"
                    Text="{Binding FirstName}"/>
             <Entry WidthRequest="300"
                    MaxLength="30"
-                   Placeholder="Adresse mail"
+                   Placeholder="Email address"
                    Text="{Binding Email}"
                    Keyboard="Email"/>
             <Entry WidthRequest="300"
                    MaxLength="30"
-                   Placeholder="Mot de passe"
+                   Placeholder="Password"
                    Text="{Binding Password}"
                    IsPassword="True"/>
             
-            <Button Text="Confirmer" Command="{Binding ConfirmClick}"/>
+            <Button Text="Confirm" Command="{Binding ConfirmClick}"/>
         </StackLayout>
            
     </ContentPage.Content>

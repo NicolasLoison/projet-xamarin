@@ -24,7 +24,7 @@
                    Margin="0, 0, 0, 10"/>
             
             <Label Text="Tasks:"
-                   FontSize="20"
+                   FontSize="30"
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"/>
             
@@ -35,12 +35,11 @@
                     <DataTemplate x:DataType="model:Task">
                         <ViewCell>
                             <StackLayout Orientation="Horizontal"
-                                         HorizontalOptions="Center"
                                          VerticalOptions="CenterAndExpand">
                                 <Label 
-                                    HorizontalOptions="Center"
                                     VerticalOptions="CenterAndExpand"
-                                    Text="{Binding Name}"/>
+                                    Text="{Binding Name}"
+                                    FontSize="20"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

@@ -6,12 +6,12 @@
              x:DataType="projet:ConnexionViewModel">
 
     <StackLayout HorizontalOptions="Center"
-                 VerticalOptions="CenterAndExpand" >
+                 VerticalOptions="Center" >
         <!-- Place new controls here -->
         <Label Text="Écran de connexion"
                FontSize="30"
                HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand"/>
+               Margin="0, 30"/>
         
         <Entry WidthRequest="300"
                MaxLength="30"

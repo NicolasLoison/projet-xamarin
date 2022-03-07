@@ -12,10 +12,10 @@ namespace Projet
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PasswordPage : ContentPage
     {
-        public PasswordPage(User user)
+        public PasswordPage()
         {
             InitializeComponent();
-            BindingContext = new PasswordViewModel(user);
+            BindingContext = new PasswordViewModel();
         }
     }
 }

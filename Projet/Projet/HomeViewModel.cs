@@ -1,10 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Newtonsoft.Json;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using Projet.Model;
 using Storm.Mvvm;
+using TimeTracker.Dtos;
+using TimeTracker.Dtos.Authentications;
 using Xamarin.Forms;
 
 namespace Projet
@@ -47,35 +54,40 @@ namespace Projet
         
         public User User
         {
-            get;
-            set;
+            get => UserInstance.User;
+            set => SetProperty(ref UserInstance.User, value);
         }
 
-        public HomeModelView(User user)
+        public HomeModelView()
         {
-            User = user;
-            Model.Projet p = new Model.Projet(1, "Projet 1", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam et pretium sapien. Mauris ac justo eros. Nam accumsan ligula nunc, quis iaculis ligula feugiat a. Ut egestas nibh interdum sem porttitor, a vestibulum purus malesuada. Curabitur convallis, felis id mollis rhoncus, urna turpis ornare velit, nec consequat nisi lacus nec neque. Morbi varius faucibus metus sit amet vestibulum. Sed in varius tellus, ac imperdiet diam. Morbi iaculis leo enim, vel mattis risus tempus tincidunt. Fusce vitae felis dolor. Vestibulum rhoncus dapibus nisi vitae sagittis. Sed facilisis sit amet risus eu pharetra.");
-            Task t = new Task(1, "Ecrire le code à la ligne 202");
-            t.Times.Add(new Timer(1, DateTime.Now, DateTime.Today));
+            FindProjects();
             
-            Model.Projet p2 = new Model.Projet(2, "Projet 2", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam et pretium sapien. Mauris ac justo eros. Nam accumsan ligula nunc, quis iaculis ligula feugiat a. Ut egestas nibh interdum sem porttitor, a vestibulum purus malesuada. Curabitur convallis, felis id mollis rhoncus, urna turpis ornare velit, nec consequat nisi lacus nec neque. Morbi varius faucibus metus sit amet vestibulum. Sed in varius tellus, ac imperdiet diam. Morbi iaculis leo enim, vel mattis risus tempus tincidunt. Fusce vitae felis dolor. Vestibulum rhoncus dapibus nisi vitae sagittis. Sed facilisis sit amet risus eu pharetra.");
-            Task t2 = new Task(2, "Nettoyer et commenter le code");
-            t2.Times.Add(new Timer(1, DateTime.Now, DateTime.MaxValue));
-            
-            p.Tasks.Add(t);
-            p2.Tasks.Add(t2);
-
-            _projets.Add(p);
-            _projets.Add(p2);
             ProfileClick = new Command(ToProfile);
             ProjectClick = new Command(ToProject);
         }
 
+        public async void FindProjects()
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(Urls.HOST);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(User.TokenType, User.AccessToken);
+            HttpResponseMessage response = await client.GetAsync(new Uri(Urls.LIST_PROJECTS));
+            if (response.IsSuccessStatusCode)
+            {
+                Task<string> task = response.Content.ReadAsStringAsync();
+                Response<List<Model.Projet>> userProjects =
+                    JsonConvert.DeserializeObject<Response<List<Model.Projet>>>(task.Result);
+                UserInstance.User.Projets = userProjects.Data;
+                ObservableCollection<Model.Projet> projects = new ObservableCollection<Model.Projet>(UserInstance.User.Projets);
+                Projets = projects;
+            }
+        }
+        
         public async void ToProfile()
         {
             try
             {
-                await NavigationService.PushAsync(new UserProfilePage(User));
+                await NavigationService.PushAsync(new UserProfilePage());
             }
             catch (Exception e)
             {
@@ -88,7 +100,7 @@ namespace Projet
             if (ChosenProject == null) return;
             try
             {
-                ProjectPage projectPage = new ProjectPage(ChosenProject);
+                ProjectPage projectPage = new ProjectPage(UserInstance.User, ChosenProject);
                 await NavigationService.PushAsync(projectPage);
             }
             catch(Exception e)

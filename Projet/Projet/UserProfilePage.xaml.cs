@@ -7,10 +7,10 @@ namespace Projet
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UserProfilePage : ContentPage
     {
-        public UserProfilePage(User user)
+        public UserProfilePage()
         {
             InitializeComponent();
-            BindingContext = new UserProfileViewModel(user);
+            BindingContext = new UserProfileViewModel();
         }
     }
 }
