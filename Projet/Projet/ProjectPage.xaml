@@ -9,7 +9,7 @@
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
                     VerticalOptions="CenterAndExpand"
-                    Margin="15, 0, 15, 0">
+                    Margin="15, 10">
             
             <Label Text="{Binding Project.Name}"
                    FontSize="30"
@@ -18,7 +18,7 @@
                    Margin="0, 20, 0, 20"/>
             
             <Label Text="{Binding Project.Description}"
-                   FontSize="20"
+                   FontSize="15"
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"
                    Margin="0, 0, 0, 10"/>
@@ -28,7 +28,9 @@
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"/>
             
-            <ListView ItemsSource="{Binding Tasks}">
+            <ListView HasUnevenRows="True"
+                      ItemsSource="{Binding Tasks}"
+                      SelectedItem="{Binding ChosenTask}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:Task">
                         <ViewCell>
@@ -44,6 +46,8 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Button Text="See task"
+                    Command="{Binding TaskClick}"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
