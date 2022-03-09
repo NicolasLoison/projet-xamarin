@@ -12,5 +12,12 @@ namespace TimeTracker.Dtos.Accounts
 		
 		[JsonProperty("last_name")]
 		public string LastName { get; set; }
+
+		public SetUserProfileRequest(string email, string first, string last)
+		{
+			Email = email;
+			FirstName = first;
+			LastName = last;
+		}
 	}
 }

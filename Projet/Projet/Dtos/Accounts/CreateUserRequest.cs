@@ -21,5 +21,15 @@ namespace TimeTracker.Dtos.Accounts
 		
         [JsonProperty("password")]
         public string Password { get; set; }
+
+        public CreateUserRequest(string id, string secret, string email, string first, string last, string password)
+        {
+	        ClientId = id;
+	        ClientSecret = secret;
+	        Email = email;
+	        FirstName = first;
+	        LastName = last;
+	        Password = password;
+        }
     }
 }

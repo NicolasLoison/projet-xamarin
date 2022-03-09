@@ -9,5 +9,11 @@ namespace TimeTracker.Dtos.Authentications.Credentials
 
 		[JsonProperty("new_password")]
 		public string NewPassword { get; set; }
+		
+		public SetPasswordRequest(string oldP, string newP)
+		{
+			OldPassword = oldP;
+			NewPassword = newP;
+		}
 	}
 }

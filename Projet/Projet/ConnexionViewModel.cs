@@ -11,6 +11,7 @@ using Storm.Mvvm;
 using TimeTracker.Dtos;
 using TimeTracker.Dtos.Accounts;
 using TimeTracker.Dtos.Authentications;
+using TimeTracker.Dtos.Authentications.Credentials;
 using Xamarin.Forms;
 
 namespace Projet
@@ -65,10 +66,10 @@ namespace Projet
             {
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(Urls.HOST);
-                string jsonData = $@"{{""login"" : ""{Email}"", ""password"" : ""{Password}"",
-                                ""client_id"": ""{Urls.CLIENT_ID}"", ""client_secret"": ""{Urls.CLIENT_SECRET}""}}";
+
+                LoginWithCredentialsRequest loginRequest = new LoginWithCredentialsRequest(Email, Password, Urls.CLIENT_ID, Urls.CLIENT_SECRET);
+                StringContent content = new StringContent(JsonConvert.SerializeObject(loginRequest), Encoding.UTF8, "application/json");
                 
-                StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(Urls.LOGIN, content);
                 Task<string> task = response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)

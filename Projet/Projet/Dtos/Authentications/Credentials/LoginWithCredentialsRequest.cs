@@ -15,5 +15,13 @@ namespace TimeTracker.Dtos.Authentications.Credentials
 		
 		[JsonProperty("client_secret")]
 		public string ClientSecret { get; set; }
+
+		public LoginWithCredentialsRequest(string login, string password, string id, string secret)
+		{
+			Login = login;
+			Password = password;
+			ClientId = id;
+			ClientSecret = secret;
+		}
 	}
 }

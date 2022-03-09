@@ -12,10 +12,10 @@ namespace Projet
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProjectPage : ContentPage
     {   
-        public ProjectPage(User user, Model.Projet project)
+        public ProjectPage(Project project)
         {
             InitializeComponent();
-            BindingContext = new ProjectViewModel(user, project);
+            BindingContext = new ProjectViewModel(project);
         }
     }
 }

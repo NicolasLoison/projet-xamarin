@@ -55,20 +55,20 @@ Content-Type: application/json
 
 ### Afficher profil
 GET https://timetracker.julienmialon.ovh/api/v1/me
-Authorization: Bearer 8a36e62f1f384914b98d82e58144bb3d
+Authorization: Bearer 2b763f114bfe40709260b0bf765adbd2
 
 ### Afficher les projets
 GET https://timetracker.julienmialon.ovh/api/v1/projects
-Authorization: Bearer 8a36e62f1f384914b98d82e58144bb3d
+Authorization: Bearer 2b763f114bfe40709260b0bf765adbd2
 
 ### Ajouter un projet
 POST https://timetracker.julienmialon.ovh/api/v1/projects
-Authorization: Bearer 8a36e62f1f384914b98d82e58144bb3d
+Authorization: Bearer 2b763f114bfe40709260b0bf765adbd2
 Content-Type: application/json
 
 {
-  "name": "ProjetDelete",
-  "description": "C'est le projetDelete."
+  "name": "New",
+  "description": "New description"
 }
 
 ### Modifier un projet par id

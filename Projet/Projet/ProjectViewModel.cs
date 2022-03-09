@@ -17,7 +17,7 @@ namespace Projet
 {
     public class ProjectViewModel : ViewModelBase
     {
-        private Model.Projet _project;
+        private Project _project;
         private Task _chosenTask;
         private ObservableCollection<Task> _tasks;
 
@@ -33,20 +33,23 @@ namespace Projet
             set => SetProperty(ref _chosenTask, value);
         }
 
-        public Model.Projet Project
+        public Project Project
         {
             get => _project;
             set => SetProperty(ref _project, value);
         }
 
         public ICommand TaskClick { get; set; }
+        public ICommand AddTaskClick { get; set; }
+        public ICommand DeleteTaskClick { get; set; }
 
-        public ProjectViewModel(User user, Model.Projet project)
+        public ProjectViewModel(Project project)
         {
-            // Console.WriteLine(HomeModelView.User.Password);
             Project = project;
             FindTasks();
             TaskClick = new Command(ToTask);
+            AddTaskClick = new Command(ToTask);
+            DeleteTaskClick = new Command(DeleteTask);
         }
         
         public async void FindTasks()
@@ -75,7 +78,7 @@ namespace Projet
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.StackTrace);
+                Console.WriteLine(e);
             }
         }
         
@@ -84,8 +87,19 @@ namespace Projet
             if (ChosenTask == null) return;
             bool answer = await App.Current.MainPage.DisplayAlert("Delete", "Do you really want to delete this task?", "Yes", "No");
             if (!answer) return;
-            Tasks.Remove(ChosenTask);
-            ChosenTask = null;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(Urls.HOST);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
+            HttpResponseMessage response = await client.DeleteAsync(new Uri(Urls.DELETE_TASK.Replace("{projectId}", Project.Id.ToString()).Replace("{taskId}", ChosenTask.Id.ToString())));
+            if (response.IsSuccessStatusCode)
+            {
+                Tasks.Remove(ChosenTask);
+                ChosenTask = null;
+            }
+            else
+            {
+                Console.WriteLine(response.ReasonPhrase);
+            }
         }
     }
 }

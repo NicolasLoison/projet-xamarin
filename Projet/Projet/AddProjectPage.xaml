@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:projet="clr-namespace:Projet"
+             x:Class="Projet.AddProjectPage"
+             x:DataType="projet:AddProjectViewModel">
+
+    <StackLayout Margin="20, 10"
+                 HorizontalOptions="Center"
+                 VerticalOptions="Center" >
+        <!-- Place new controls here -->
+        <Label Text="Create a new project"
+               FontSize="30"
+               HorizontalOptions="Center"
+               Margin="0, 30"/>
+        
+        <Entry WidthRequest="300"
+               MaxLength="30"
+               Placeholder="Project name"
+               Text="{Binding Name}"/>
+        <Entry WidthRequest="300"
+               MaxLength="30"
+               Placeholder="Project description"
+               Text="{Binding Description}"/>
+        
+        <Label Text="{Binding ErrorMessage}"
+               TextColor="Red"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand"/>
+        
+        <Button Text="Add"
+                Command="{Binding AddClick}"/>
+    </StackLayout>
+
+</ContentPage>

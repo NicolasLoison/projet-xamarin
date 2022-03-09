@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Projet.Model
 {
-    public class Projet
+    public class Project
     {
         public int Id
         {
@@ -32,7 +32,7 @@ namespace Projet.Model
             set;
         }
 
-        public Projet(int id, string name, string description)
+        public Project(int id, string name, string description)
         {
             Id = id;
             Name = name;

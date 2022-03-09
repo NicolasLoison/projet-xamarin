@@ -19,8 +19,8 @@ namespace Projet
     public class HomeModelView : ViewModelBase
     {
         // private string _nom, _prenom, _mail, _motDePasse;
-        private Model.Projet _chosenProject;
-        private ObservableCollection<Model.Projet> _projets = new ObservableCollection<Model.Projet>();
+        private Project _chosenProject;
+        private ObservableCollection<Project> _projets = new ObservableCollection<Project>();
         
         static ISettings AppSettings => CrossSettings.Current;
         public static string JsonProjects;
@@ -30,6 +30,19 @@ namespace Projet
             set => AppSettings.AddOrUpdateValue("MySettingKey", value);
         }
         
+        private bool _clickable;
+        
+        public bool Clickable
+        {
+            get => _chosenProject!=null;
+            set 
+            {
+                SetProperty(ref _clickable, value);
+                OnPropertyChanged(nameof(_clickable)); // Notify that there was a change on this property
+            }
+        }
+
+
         public ICommand ProfileClick
         {
             get;
@@ -40,13 +53,24 @@ namespace Projet
             get;
             set;
         }
-        public ObservableCollection<Model.Projet> Projets
+
+        public ICommand DeleteProjectClick
+        {
+            get;
+            set;
+        }
+        public ICommand AddProjectClick
+        {
+            get;
+            set;
+        }
+        public ObservableCollection<Project> Projets
         {
             get => _projets;
             set => SetProperty(ref _projets, value);
         }
         
-        public Model.Projet ChosenProject
+        public Project ChosenProject
         {
             get => _chosenProject;
             set => SetProperty(ref _chosenProject, value);
@@ -64,6 +88,8 @@ namespace Projet
             
             ProfileClick = new Command(ToProfile);
             ProjectClick = new Command(ToProject);
+            AddProjectClick = new Command(AddProject);
+            DeleteProjectClick = new Command(DeleteProject);
         }
 
         public async void FindProjects()
@@ -75,10 +101,10 @@ namespace Projet
             if (response.IsSuccessStatusCode)
             {
                 Task<string> task = response.Content.ReadAsStringAsync();
-                Response<List<Model.Projet>> userProjects =
-                    JsonConvert.DeserializeObject<Response<List<Model.Projet>>>(task.Result);
+                Response<List<Project>> userProjects =
+                    JsonConvert.DeserializeObject<Response<List<Project>>>(task.Result);
                 UserInstance.User.Projets = userProjects.Data;
-                ObservableCollection<Model.Projet> projects = new ObservableCollection<Model.Projet>(UserInstance.User.Projets);
+                ObservableCollection<Project> projects = new ObservableCollection<Project>(UserInstance.User.Projets);
                 Projets = projects;
             }
         }
@@ -100,7 +126,7 @@ namespace Projet
             if (ChosenProject == null) return;
             try
             {
-                ProjectPage projectPage = new ProjectPage(UserInstance.User, ChosenProject);
+                ProjectPage projectPage = new ProjectPage(ChosenProject);
                 await NavigationService.PushAsync(projectPage);
             }
             catch(Exception e)
@@ -109,13 +135,33 @@ namespace Projet
             }
         }
         
-        public async void DeleteTask()
+        public async void AddProject()
+        {
+            try
+            {
+                AddProjectPage addProjectPage = new AddProjectPage();
+                await NavigationService.PushAsync(addProjectPage);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+        
+        public async void DeleteProject()
         {
             if (ChosenProject == null) return;
             bool answer = await App.Current.MainPage.DisplayAlert("Delete", "Do you really want to delete this project?", "Yes", "No");
             if (!answer) return;
-            Projets.Remove(ChosenProject);
-            ChosenProject = null;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(Urls.HOST);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
+            HttpResponseMessage response = await client.DeleteAsync(new Uri(Urls.DELETE_PROJECT.Replace("{projectId}", ChosenProject.Id.ToString())));
+            if (response.IsSuccessStatusCode)
+            {
+                Projets.Remove(ChosenProject);
+                ChosenProject = null;
+            }
         }
     }
 }

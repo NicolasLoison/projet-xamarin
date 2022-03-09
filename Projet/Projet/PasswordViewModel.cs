@@ -25,7 +25,7 @@ namespace Projet
             set 
             {
                 SetProperty(ref _errorMessage, value);
-                OnPropertyChanged(nameof(ErrorMessage)); // Notify that there was a change on this property
+                OnPropertyChanged(nameof(_errorMessage)); // Notify that there was a change on this property
             }
         }
         
@@ -62,23 +62,21 @@ namespace Projet
         {
             if (CurrentPassword == NewPassword)
             {
-                ErrorMessage = "Entrez un nouveau mot de passe différent de l'actuel";
+                _errorMessage = "Entrez un nouveau mot de passe différent de l'actuel";
             }
             else
             {
-                ErrorMessage = "";
+                _errorMessage = "";
                 try
                 {
                     HttpClient client = new HttpClient();
                     client.BaseAddress = new Uri(Urls.HOST);
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(User.TokenType, User.AccessToken);
-                    string jsonData =
-                        $@"{{""old_password"" : ""{CurrentPassword}"", ""new_password"" : ""{NewPassword}""}}";
-                    
-                    StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                    SetPasswordRequest passwordRequest = new SetPasswordRequest(CurrentPassword, NewPassword);
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(passwordRequest), Encoding.UTF8, "application/json");
 
-                    var method = new HttpMethod("PATCH");
-                    var request = new HttpRequestMessage(method, Urls.SET_PASSWORD) {
+                    HttpMethod method = new HttpMethod("PATCH");
+                    HttpRequestMessage request = new HttpRequestMessage(method, Urls.SET_PASSWORD) {
                         Content = content
                     };
                     HttpResponseMessage response = await client.SendAsync(request);
@@ -89,11 +87,11 @@ namespace Projet
                         Response<SetUserProfileRequest> data = JsonConvert.DeserializeObject<Response<SetUserProfileRequest>>(task.Result);
                         if (data.ErrorCode == ErrorCodes.WEAK_PASSWORD)
                         {
-                            ErrorMessage = data.ErrorMessage;
+                            _errorMessage = data.ErrorMessage;
                         }
                         else
                         {
-                            ErrorMessage = "";
+                            _errorMessage = "";
                             User.Password = NewPassword;
                             await NavigationService.PopAsync(false);
                             await NavigationService.PushAsync(new UserProfilePage());

@@ -60,15 +60,14 @@ namespace Projet
                 // sinon, on va vers la page Home de l'utilisateur
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(Urls.HOST);
-                string jsonData =
-                    $@"{{""client_id"": ""{Urls.CLIENT_ID}"", ""client_secret"": ""{Urls.CLIENT_SECRET}"",""email"" : ""{Email}"",
-                        ""first_name"" : ""{FirstName}"",""last_name"" : ""{LastName}"", ""password"" : ""{Password}""}}";
-
-                StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                CreateUserRequest createRequest = new CreateUserRequest(Urls.CLIENT_ID, Urls.CLIENT_SECRET, Email,
+                    FirstName, LastName, Password);
+                StringContent content = new StringContent(JsonConvert.SerializeObject(createRequest), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(Urls.CREATE_USER, content);
 
                 Task<string> task = response.Content.ReadAsStringAsync();
                 Response<LoginResponse> data = JsonConvert.DeserializeObject<Response<LoginResponse>>(task.Result);
+                
                 string accessToken = data.Data.AccessToken;
                 string refreshToken = data.Data.RefreshToken;
                 string tokenType = data.Data.TokenType;

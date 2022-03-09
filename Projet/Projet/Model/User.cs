@@ -9,7 +9,7 @@ namespace Projet.Model
     public class User
     {
 
-        public List<Projet> Projets
+        public List<Project> Projets
         {
             get;
             set;
@@ -75,10 +75,10 @@ namespace Projet.Model
             Password = password;
             ClientId = Urls.CLIENT_ID;
             ClientSecret = Urls.CLIENT_SECRET;
-            Projets = new List<Projet>();
+            Projets = new List<Project>();
         }
 
-        public User(string accessToken, string refreshToken, string tokenType, string firstName, string lastName, string email, string password, List<Projet> projets)
+        public User(string accessToken, string refreshToken, string tokenType, string firstName, string lastName, string email, string password, List<Project> projets)
         {
             AccessToken = accessToken;
             RefreshToken = refreshToken;

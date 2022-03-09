@@ -86,10 +86,9 @@ namespace Projet
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(Urls.HOST);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(_tokenType, _accessToken);
-                string jsonData =
-                    $@"{{""email"" : ""{Email}"", ""first_name"" : ""{FirstName}"",""last_name"" : ""{LastName}""}}";
-                
-                StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                SetUserProfileRequest profileRequest = new SetUserProfileRequest(Email, FirstName, LastName);
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(profileRequest), Encoding.UTF8, "application/json");
 
                 var method = new HttpMethod("PATCH");
                 var request = new HttpRequestMessage(method, Urls.SET_USER_PROFILE) {
