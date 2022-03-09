@@ -59,7 +59,7 @@ namespace Projet
         {
             if (_name.Length > 0)
             {
-                _errorMessage = "";
+                ErrorMessage = "";
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(Urls.HOST);
                 AddProjectRequest request = new AddProjectRequest(Name, Description);
@@ -73,8 +73,7 @@ namespace Projet
             }
             else
             {
-                _errorMessage = "Please enter a name for your project";
-                Console.WriteLine("PASSSSE");
+                ErrorMessage = "Please enter a name for your project";
             }
         }
     }

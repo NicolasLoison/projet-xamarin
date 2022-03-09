@@ -51,7 +51,7 @@ namespace Projet
         {
             if (_name.Length > 0)
             {
-                _errorMessage = "";
+                ErrorMessage = "";
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(Urls.HOST);
                 AddTaskRequest request = new AddTaskRequest(Name);
@@ -65,7 +65,7 @@ namespace Projet
             }
             else
             {
-                _errorMessage = "Please enter a name for your task";
+                ErrorMessage = "Please enter a name for your task";
             }
         }
     }

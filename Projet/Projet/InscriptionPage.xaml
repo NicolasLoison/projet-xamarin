@@ -33,6 +33,11 @@
                    Text="{Binding Password}"
                    IsPassword="True"/>
             
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="Red"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"/>
+            
             <Button Text="Confirm" Command="{Binding ConfirmClick}"/>
         </StackLayout>
            

@@ -56,17 +56,18 @@ namespace Projet
         public PasswordViewModel()
         {
             SaveClick = new Command(SaveChanges);
+            _errorMessage = "";
         }
         
         public async void SaveChanges()
         {
             if (CurrentPassword == NewPassword)
             {
-                _errorMessage = "Entrez un nouveau mot de passe différent de l'actuel";
+                ErrorMessage = "Entrez un nouveau mot de passe différent de l'actuel";
             }
             else
             {
-                _errorMessage = "";
+                ErrorMessage = "";
                 try
                 {
                     HttpClient client = new HttpClient();
@@ -87,11 +88,11 @@ namespace Projet
                         Response<SetUserProfileRequest> data = JsonConvert.DeserializeObject<Response<SetUserProfileRequest>>(task.Result);
                         if (data.ErrorCode == ErrorCodes.WEAK_PASSWORD)
                         {
-                            _errorMessage = data.ErrorMessage;
+                            ErrorMessage = data.ErrorMessage;
                         }
                         else
                         {
-                            _errorMessage = "";
+                            ErrorMessage = "";
                             User.Password = NewPassword;
                             await NavigationService.PopAsync(false);
                             await NavigationService.PushAsync(new UserProfilePage());
