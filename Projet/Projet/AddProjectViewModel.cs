@@ -62,9 +62,7 @@ namespace Projet
                 _errorMessage = "";
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(Urls.HOST);
-                AddProjectRequest request = new AddProjectRequest();
-                request.Description = Description;
-                request.Name = Name;
+                AddProjectRequest request = new AddProjectRequest(Name, Description);
                 StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
                 HttpResponseMessage response = await client.PostAsync(new Uri(Urls.ADD_PROJECT), content);
@@ -78,7 +76,6 @@ namespace Projet
                 _errorMessage = "Please enter a name for your project";
                 Console.WriteLine("PASSSSE");
             }
-            
         }
     }
 }

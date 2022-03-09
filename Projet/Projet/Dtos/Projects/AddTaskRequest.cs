@@ -6,5 +6,10 @@ namespace TimeTracker.Dtos.Projects
     {
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        public AddTaskRequest(string name)
+        {
+            Name = name;
+        }
     }
 }

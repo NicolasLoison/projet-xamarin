@@ -48,7 +48,7 @@ namespace Projet
             Project = project;
             FindTasks();
             TaskClick = new Command(ToTask);
-            AddTaskClick = new Command(ToTask);
+            AddTaskClick = new Command(AddTask);
             DeleteTaskClick = new Command(DeleteTask);
         }
         
@@ -75,6 +75,19 @@ namespace Projet
             {
                 TaskPage taskPage = new TaskPage(ChosenTask);
                 await NavigationService.PushAsync(taskPage);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        
+        public async void AddTask()
+        {
+            try
+            {
+                AddTaskPage addTaskPage = new AddTaskPage(Project);
+                await NavigationService.PushAsync(addTaskPage);
             }
             catch (Exception e)
             {
