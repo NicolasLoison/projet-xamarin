@@ -37,12 +37,6 @@ namespace Projet
         {
             Task = task;
             Timers = new ObservableCollection<Timer>(Task.Times);
-            foreach (var t in Timers)
-            {
-                Console.WriteLine(t.StartTime);
-                Console.WriteLine(Convert.ToDateTime(t.StartTime).ToString("dddd, dd MMMM yyyy"));
-            }
-            Console.WriteLine(Timers.Count);
         }
     }
 }

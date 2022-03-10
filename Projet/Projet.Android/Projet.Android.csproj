@@ -62,6 +62,10 @@
         <None Include="Properties\AndroidManifest.xml" />
     </ItemGroup>
     <ItemGroup>
+        <AndroidResource Include="Resources\drawable\bin.png" />
+        <AndroidResource Include="Resources\drawable\eye.png" />
+        <AndroidResource Include="Resources\drawable\hourglass.png" />
+        <AndroidResource Include="Resources\drawable\profile.png" />
         <AndroidResource Include="Resources\layout\Tabbar.axml" />
         <AndroidResource Include="Resources\layout\Toolbar.axml" />
         <AndroidResource Include="Resources\values\styles.xml" />

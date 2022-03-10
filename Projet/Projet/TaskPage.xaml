@@ -29,19 +29,14 @@
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:Timer">
                         <ViewCell>
-                            <StackLayout Orientation="Horizontal"
-                                         VerticalOptions="CenterAndExpand">
+                            <StackLayout VerticalOptions="StartAndExpand">
                                 <Label 
-                                    VerticalOptions="CenterAndExpand"
-                                    Text="{Binding Id}"
-                                    FontSize="20"/>
-                                <Label 
-                                    VerticalOptions="CenterAndExpand"
-                                    Text="{Binding StartTime}"
+                                    HorizontalOptions="Fill"
+                                    Text="{Binding StartTimeFormat}"
                                     FontSize="15"/>
                                 <Label 
-                                    VerticalOptions="CenterAndExpand"
-                                    Text="{Binding EndTime}"
+                                    HorizontalOptions="Fill"
+                                    Text="{Binding EndTimeFormat}"
                                     FontSize="15"/>
                             </StackLayout>
                         </ViewCell>

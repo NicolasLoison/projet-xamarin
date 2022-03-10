@@ -24,6 +24,16 @@ namespace Projet.Model
             set;
         }
 
+        public string StartTimeFormat
+        {
+            get => Convert.ToDateTime(StartTime).ToString("dd/MM/yyyy HH:mm");
+        }
+        
+        public string EndTimeFormat
+        {
+            get => Convert.ToDateTime(EndTime).ToString("dd/MM/yyyy HH:mm");
+        }
+
         public Timer(int id, DateTime startTime, DateTime endTime)
         {
             Id = id;
