@@ -1,6 +1,4 @@
-﻿using System;
-using Projet.Model;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Projet
@@ -11,7 +9,7 @@ namespace Projet
         public HomePage()
         {
             InitializeComponent();
-            BindingContext = new HomeModelView();
+            BindingContext = new HomeViewModel();
         }
     }
 }

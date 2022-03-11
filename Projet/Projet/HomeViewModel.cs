@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -16,11 +17,10 @@ using Xamarin.Forms;
 
 namespace Projet
 {
-    public class HomeModelView : ViewModelBase
+    public class HomeViewModel : ViewModelBase
     {
-        // private string _nom, _prenom, _mail, _motDePasse;
-        private Project _chosenProject;
         private ObservableCollection<Project> _projets = new ObservableCollection<Project>();
+        private string _timerColor = "#FF9ACD32";
         
         static ISettings AppSettings => CrossSettings.Current;
         public static string JsonProjects;
@@ -29,68 +29,67 @@ namespace Projet
             get => AppSettings.GetValueOrDefault("MySettingKey", JsonProjects);
             set => AppSettings.AddOrUpdateValue("MySettingKey", value);
         }
-        
-        private bool _clickable;
-        
-        public bool Clickable
+
+        public string TimerColor
         {
-            get => _chosenProject!=null;
-            set 
+            get => _timerColor;
+            set
             {
-                SetProperty(ref _clickable, value);
-                OnPropertyChanged(nameof(_clickable)); // Notify that there was a change on this property
-            }
+                SetProperty(ref _timerColor, value);
+                OnPropertyChanged(nameof(TimerColor));
+            } 
         }
-
-
         public ICommand ProfileClick
         {
             get;
             set;
         }
-        public ICommand ProjectClick
+        public ICommand TimerClick
         {
             get;
             set;
         }
-
-        public ICommand DeleteProjectClick
-        {
-            get;
-            set;
-        }
+        
         public ICommand AddProjectClick
         {
             get;
             set;
         }
-        public ObservableCollection<Project> Projets
+        public ObservableCollection<Project> Projects
         {
             get => _projets;
-            set => SetProperty(ref _projets, value);
-        }
-        
-        public Project ChosenProject
-        {
-            get => _chosenProject;
-            set => SetProperty(ref _chosenProject, value);
+            set
+            {
+                SetProperty(ref _projets, value);
+                OnPropertyChanged(nameof(_projets));
+            } 
         }
         
         public User User
         {
             get => UserInstance.User;
-            set => SetProperty(ref UserInstance.User, value);
         }
 
-        public HomeModelView()
+        public HomeViewModel()
         {
             //TODO Commencer un timer et l'assigner à une tache
             FindProjects();
             
             ProfileClick = new Command(ToProfile);
-            ProjectClick = new Command(ToProject);
             AddProjectClick = new Command(AddProject);
-            DeleteProjectClick = new Command(DeleteProject);
+            TimerClick = new Command(TriggerTimer);
+            // Device.StartTimer (new TimeSpan (0, 0, 1), () =>
+            // {
+            //     // do something every 60 seconds
+            //     Device.BeginInvokeOnMainThread (() => 
+            //     {
+            //         if (TimerInstance.Timer != null)
+            //         {
+            //             Console.WriteLine(TimerInstance.Timer.GetTotalTime());
+            //         }
+            //     });
+            //     return true; // runs again, or false to stop
+            // });
         }
 
         public async void FindProjects()
@@ -106,7 +105,11 @@ namespace Projet
                     JsonConvert.DeserializeObject<Response<List<Project>>>(task.Result);
                 UserInstance.User.Projets = userProjects.Data;
                 ObservableCollection<Project> projects = new ObservableCollection<Project>(UserInstance.User.Projets);
-                Projets = projects;
+                Projects = projects;
+                foreach (Project p in Projects)
+                {
+                    p.View = this;
+                }
             }
         }
         
@@ -122,19 +125,6 @@ namespace Projet
             }
         }
         
-        public async void ToProject()
-        {
-            if (ChosenProject == null) return;
-            try
-            {
-                ProjectPage projectPage = new ProjectPage(ChosenProject);
-                await NavigationService.PushAsync(projectPage);
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.StackTrace);
-            }
-        }
         
         public async void AddProject()
         {
@@ -149,19 +139,28 @@ namespace Projet
             }
         }
         
-        public async void DeleteProject()
+        public void TriggerTimer()
         {
-            if (ChosenProject == null) return;
-            bool answer = await App.Current.MainPage.DisplayAlert("Delete", "Do you really want to delete this project?", "Yes", "No");
-            if (!answer) return;
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(Urls.HOST);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
-            HttpResponseMessage response = await client.DeleteAsync(new Uri(Urls.DELETE_PROJECT.Replace("{projectId}", ChosenProject.Id.ToString())));
-            if (response.IsSuccessStatusCode)
+            if (TimerInstance.Timer != null)
             {
-                Projets.Remove(ChosenProject);
-                ChosenProject = null;
+                // Stop
+                if (TimerInstance.Timer.Started)
+                {
+                    TimerColor = "#FF9ACD32";
+                    TimerInstance.Timer.Stop();
+                }
+                // Start
+                else
+                {
+                    TimerColor = "#EB5809";
+                    TimerInstance.Timer = new TimerInstance();
+                }
+            }
+            // Start
+            else
+            {
+                TimerColor = "#EB5809";
+                TimerInstance.Timer = new TimerInstance();
             }
         }
     }

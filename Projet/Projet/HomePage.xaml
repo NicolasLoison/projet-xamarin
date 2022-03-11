@@ -5,46 +5,15 @@
              xmlns:projet="clr-namespace:Projet"
              xmlns:model="clr-namespace:Projet.Model;assembly=Projet"
              x:Class="Projet.HomePage"
-             x:DataType="projet:HomeModelView">
+             x:DataType="projet:HomeViewModel">
     <ContentPage.Content>
         <StackLayout Margin="20, 10">
-            <Grid VerticalOptions="StartAndExpand"
-                  ColumnSpacing="30">
-                <!-- IsVisible="{Binding Clickable}" -->
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <ImageButton Grid.Column="0"
-                             Grid.ColumnSpan="2"
-                             Grid.Row="0"
-                             WidthRequest="50"
-                             HeightRequest="50"
-                             CornerRadius="25"
-                             Source="eye.png"
-                             Command="{Binding ProjectClick}"
-                             BackgroundColor="CornflowerBlue"
-                             HorizontalOptions="Start"/>
-                <ImageButton Grid.Column="1"
-                             Grid.ColumnSpan="2"
-                             Grid.Row="0"
-                             WidthRequest="50"
-                             HeightRequest="50"
-                             CornerRadius="25"
-                             Source="bin.png"
-                             Command="{Binding DeleteProjectClick}"
-                             BackgroundColor="#ff6666"
-                             HorizontalOptions="End"/>
-            </Grid>
             <Label Text="Your projects"
                    VerticalOptions="CenterAndExpand"
                    HorizontalOptions="CenterAndExpand"
                    FontSize="30"/>
-            <Label Text="{Binding User.LastName}"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
             <ListView HasUnevenRows="True"
-                      SelectedItem="{Binding ChosenProject}"
-                      ItemsSource="{Binding Projets}">
+                      ItemsSource="{Binding Projects}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:Project">
                         <ViewCell>
@@ -70,11 +39,13 @@
                                                  Grid.ColumnSpan="2"
                                                  Grid.Row="0"
                                                  BackgroundColor="Transparent"
+                                                 Command="{Binding PageClick}"
                                                  Source="eye.png" HeightRequest="20"/>
                                     <ImageButton Grid.Column="1"
                                                  Grid.ColumnSpan="2"
                                                  Grid.Row="0"
                                                  BackgroundColor="Transparent"
+                                                 Command="{Binding DeleteClick}"
                                                  Source="bin.png" HeightRequest="20"/>
                                 </Grid>
                             </Grid>
@@ -110,8 +81,9 @@
                                  WidthRequest="50"
                                  HeightRequest="50"
                                  CornerRadius="25"
-                                 BackgroundColor="YellowGreen"
+                                 BackgroundColor="{Binding TimerColor}"
                                  Source="hourglass.png"
+                                 Command="{Binding TimerClick}"
                                  HorizontalOptions="End"/>
                     <Button Grid.Column="1"
                              Grid.ColumnSpan="2"

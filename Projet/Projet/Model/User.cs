@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
+﻿using System.Collections.Generic;
 using TimeTracker.Dtos;
-using TimeTracker.Dtos.Authentications;
 
 namespace Projet.Model
 {

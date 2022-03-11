@@ -8,19 +8,19 @@
     <StackLayout HorizontalOptions="Center"
                  VerticalOptions="Center" >
         <!-- Place new controls here -->
-        <Label Text="Écran de connexion"
+        <Label Text="Login screen"
                FontSize="30"
                HorizontalOptions="Center"
                Margin="0, 30"/>
         
         <Entry WidthRequest="300"
                MaxLength="30"
-               Placeholder="Adresse mail"
+               Placeholder="Email address"
                Text="{Binding Email}"
                Keyboard="Email"/>
         <Entry WidthRequest="300"
                MaxLength="30"
-               Placeholder="Mot de passe"
+               Placeholder="Password"
                Text="{Binding Password}"
                IsPassword="True"/>
         
@@ -28,9 +28,9 @@
                TextColor="Red"
                HorizontalOptions="Center"
                VerticalOptions="CenterAndExpand"/>
-        <Button Text="Connexion"
+        <Button Text="Login"
                 Command="{Binding ConnexionClick}"/>
-        <Button Text="S'inscrire"
+        <Button Text="Sign in"
                 Command="{Binding InscriptionClick}"/>
     </StackLayout>
 

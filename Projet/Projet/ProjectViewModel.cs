@@ -39,17 +39,13 @@ namespace Projet
             set => SetProperty(ref _project, value);
         }
 
-        public ICommand TaskClick { get; set; }
         public ICommand AddTaskClick { get; set; }
-        public ICommand DeleteTaskClick { get; set; }
 
         public ProjectViewModel(Project project)
         {
             Project = project;
             FindTasks();
-            TaskClick = new Command(ToTask);
             AddTaskClick = new Command(AddTask);
-            DeleteTaskClick = new Command(DeleteTask);
         }
         
         public async void FindTasks()
@@ -65,23 +61,13 @@ namespace Projet
                     JsonConvert.DeserializeObject<Response<List<Task>>>(task.Result);
                 ObservableCollection<Task> tasks = new ObservableCollection<Task>(projectTasks.Data);
                 Tasks = tasks;
+                foreach (Task t in tasks)
+                {
+                    t.View = this;
+                }
             }
         }
 
-        public async void ToTask()
-        {
-            if (ChosenTask == null) return;
-            try
-            {
-                TaskPage taskPage = new TaskPage(ChosenTask);
-                await NavigationService.PushAsync(taskPage);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-        
         public async void AddTask()
         {
             try
@@ -95,24 +81,5 @@ namespace Projet
             }
         }
         
-        public async void DeleteTask()
-        {
-            if (ChosenTask == null) return;
-            bool answer = await App.Current.MainPage.DisplayAlert("Delete", "Do you really want to delete this task?", "Yes", "No");
-            if (!answer) return;
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(Urls.HOST);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
-            HttpResponseMessage response = await client.DeleteAsync(new Uri(Urls.DELETE_TASK.Replace("{projectId}", Project.Id.ToString()).Replace("{taskId}", ChosenTask.Id.ToString())));
-            if (response.IsSuccessStatusCode)
-            {
-                Tasks.Remove(ChosenTask);
-                ChosenTask = null;
-            }
-            else
-            {
-                Console.WriteLine(response.ReasonPhrase);
-            }
-        }
     }
 }

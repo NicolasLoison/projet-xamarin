@@ -11,38 +11,98 @@
                      VerticalOptions="CenterAndExpand"
                      Margin="15, 10">
             
-            <Label Text="{Binding Task.Id}"
-                   FontSize="30"
-                   HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"
-                   Margin="0, 20, 0, 20"/>
-            
             <Label Text="{Binding Task.Name}"
-                   FontSize="15"
+                   FontSize="30"
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"
                    Margin="0, 0, 0, 10"/>
             
+            <Label Text="Timers:"
+                   FontSize="30"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"/>
+            
             <ListView HasUnevenRows="True"
                       ItemsSource="{Binding Timers}"
-                      SelectedItem="{Binding ChosenTimer}">
+                      SeparatorColor="Black"
+                      SeparatorVisibility="Default">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:Timer">
                         <ViewCell>
-                            <StackLayout VerticalOptions="StartAndExpand">
-                                <Label 
-                                    HorizontalOptions="Fill"
-                                    Text="{Binding StartTimeFormat}"
-                                    FontSize="15"/>
-                                <Label 
-                                    HorizontalOptions="Fill"
-                                    Text="{Binding EndTimeFormat}"
-                                    FontSize="15"/>
+                            <StackLayout Margin="10">
+                                <Grid VerticalOptions="StartAndExpand"
+                                  ColumnSpacing="30"
+                                  Margin="0, 0, 0, 10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Column="0"  
+                                       Grid.ColumnSpan="3"
+                                       Grid.Row="0"
+                                       Text="Start" FontSize="20"/>
+                                <Label Grid.Column="0"
+                                       Grid.ColumnSpan="3"
+                                       Grid.Row="1"
+                                       Text="End" FontSize="20"/>
+                                <Label Grid.Column="0"
+                                       Grid.ColumnSpan="3"
+                                       Grid.Row="2"
+                                       Text="Total" FontSize="20"/>
+                                <Label Grid.Column="1"  
+                                       Grid.ColumnSpan="3"
+                                       Grid.Row="0"
+                                       Text="{Binding StartTimeFormat}" FontSize="20"/>
+                                <Label Grid.Column="1"
+                                       Grid.ColumnSpan="3"
+                                       Grid.Row="1"
+                                       Text="{Binding EndTimeFormat}" FontSize="20"/>
+                                <Label Grid.Column="1"
+                                       Grid.ColumnSpan="3"
+                                       Grid.Row="2"
+                                       Text="{Binding TotalTimeFormat}" FontSize="20"/>
+                                <Grid Grid.Column="1"
+                                      Grid.ColumnSpan="3"
+                                      Grid.Row="1"
+                                      HorizontalOptions="End"
+                                      ColumnSpacing="40">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <ImageButton Grid.Column="0"
+                                                 Grid.Row="0"
+                                                 BackgroundColor="Transparent"
+                                                 Command="{Binding DeleteClick}"
+                                                 Source="bin.png" HeightRequest="30"/>
+                                </Grid>
+                            </Grid>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Grid ColumnSpacing="70">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Column="1"
+                      Grid.ColumnSpan="2"
+                      Grid.Row="0"
+                      HorizontalOptions="End"
+                      ColumnSpacing="70">
+                    <Button Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Grid.Row="0"
+                            WidthRequest="50"
+                            HeightRequest="50"
+                            CornerRadius="25"
+                            Text="+"
+                            FontSize="20"
+                            IsEnabled="{Binding Clickable}"
+                            Command="{Binding TimerClick}"
+                            BackgroundColor="YellowGreen"
+                            HorizontalOptions="End"/>
+                </Grid>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

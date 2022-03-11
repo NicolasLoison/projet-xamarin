@@ -10,5 +10,11 @@ namespace TimeTracker.Dtos.Projects
         
         [JsonProperty("end_time")]
         public DateTime EndTime { get; set; }
+
+        public AddTimeRequest(DateTime start, DateTime end)
+        {
+            StartTime = start;
+            EndTime = end;
+        }
     }
 }
