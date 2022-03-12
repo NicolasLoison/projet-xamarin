@@ -16,7 +16,7 @@ using Task = Projet.Model.Task;
 
 namespace Projet
 {
-    public class ProjectGraphViewModel : ViewModelBase
+    public class TaskGraphViewModel : ViewModelBase
     {
         public bool _working;
 
@@ -33,17 +33,24 @@ namespace Projet
 
         private Chart _chart;
         
-        public Chart ProjectChart
+        public Chart TaskChart
         {
             get => _chart;
             set
             {
                 SetProperty(ref _chart, value);
-                OnPropertyChanged(nameof(ProjectChart));
+                OnPropertyChanged(nameof(TaskChart));
             }
         }
-        public ProjectGraphViewModel()
+
+        public Project Project
         {
+            get;
+            set;
+        }
+        public TaskGraphViewModel(Project project)
+        {
+            Project = project;
             Working = false;
             FindTasks();
         }
@@ -62,31 +69,28 @@ namespace Projet
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(Urls.HOST);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
-            foreach (Project p in UserInstance.User.Projets)
+            HttpResponseMessage response = await client.GetAsync(new Uri(Urls.LIST_TASKS.Replace("{projectId}", Project.Id.ToString())));
+            if (response.IsSuccessStatusCode)
             {
-                HttpResponseMessage response = await client.GetAsync(new Uri(Urls.LIST_TASKS.Replace("{projectId}", p.Id.ToString())));
-                if (response.IsSuccessStatusCode)
-                {
-                    Task<string> task = response.Content.ReadAsStringAsync();
-                    Response<List<Task>> projectTasks =
-                        JsonConvert.DeserializeObject<Response<List<Task>>>(task.Result);
-                    List<Task> tasks = new List<Task>(projectTasks.Data);
-                    p.Tasks = tasks;
-                }
+                Task<string> task = response.Content.ReadAsStringAsync();
+                Response<List<Task>> projectTasks =
+                    JsonConvert.DeserializeObject<Response<List<Task>>>(task.Result);
+                List<Task> tasks = new List<Task>(projectTasks.Data);
+                Project.Tasks = tasks;
             }
             List<ChartEntry> entries = new List<ChartEntry>();
-            foreach (Project p in UserInstance.User.Projets)
+            foreach (Task task in Project.Tasks)
             {
-                int time = p.GetTotalTime();
+                int time = task.GetTotalTime();
                 entries.Add(new ChartEntry(time)
                 {
                     Color = SKColor.Parse(getRandColor()),
-                    Label = p.Name,  
+                    Label = task.Name,  
                     ValueLabel = time.ToString()
                 });
             }
-            ProjectChart = new BarChart() {Entries = entries};
-            ProjectChart.LabelTextSize = 50.0f;
+            TaskChart = new BarChart() {Entries = entries};
+            TaskChart.LabelTextSize = 50.0f;
             Working = false;
         }
     }

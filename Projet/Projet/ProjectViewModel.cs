@@ -41,11 +41,18 @@ namespace Projet
 
         public ICommand AddTaskClick { get; set; }
 
+        public ICommand GraphClick
+        {
+            get;
+            set;
+        }
+        
         public ProjectViewModel(Project project)
         {
             Project = project;
             FindTasks();
             AddTaskClick = new Command(AddTask);
+            GraphClick = new Command(GraphTask);
         }
         
         public async void FindTasks()
@@ -78,6 +85,19 @@ namespace Projet
             catch (Exception e)
             {
                 Console.WriteLine(e);
+            }
+        }
+        
+        public async void GraphTask()
+        {
+            try
+            {
+                TaskGraphPage taskGraphPage = new TaskGraphPage(Project);
+                await NavigationService.PushAsync(taskGraphPage);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
             }
         }
         

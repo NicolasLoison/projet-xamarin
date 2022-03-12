@@ -71,6 +71,16 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
+                <ImageButton Grid.Column="0"
+                             Grid.ColumnSpan="2"
+                             Grid.Row="0"
+                             WidthRequest="50"
+                             HeightRequest="50"
+                             CornerRadius="25"
+                             Source="bar_chart.png"
+                             Command="{Binding GraphClick}"
+                             BackgroundColor="CornflowerBlue"
+                             HorizontalOptions="Start"/>
                 <Grid Grid.Column="1"
                       Grid.ColumnSpan="2"
                       Grid.Row="0"

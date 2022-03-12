@@ -66,20 +66,21 @@ namespace Projet
             {
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(Urls.HOST);
-
+                client.Timeout = TimeSpan.FromSeconds(1);
                 LoginWithCredentialsRequest loginRequest = new LoginWithCredentialsRequest(Email, Password, Urls.CLIENT_ID, Urls.CLIENT_SECRET);
                 StringContent content = new StringContent(JsonConvert.SerializeObject(loginRequest), Encoding.UTF8, "application/json");
-                
                 HttpResponseMessage response = await client.PostAsync(Urls.LOGIN, content);
-                Task<string> task = response.Content.ReadAsStringAsync();
+                Console.WriteLine("Reponse obtenue");
                 if (response.IsSuccessStatusCode)
                 {
+                    Task<string> task = response.Content.ReadAsStringAsync();
                     Response<LoginResponse> data = JsonConvert.DeserializeObject<Response<LoginResponse>>(task.Result);
                     string accessToken = data.Data.AccessToken;
                     string refreshToken = data.Data.RefreshToken;
                     string tokenType = data.Data.TokenType;
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                     // On met le token dans le header Authorization
+
                     response = await client.GetAsync(Urls.USER_PROFILE);
                     if (response.IsSuccessStatusCode)
                     {
