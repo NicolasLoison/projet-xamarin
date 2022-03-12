@@ -70,6 +70,10 @@ namespace Projet
                 {
                     await NavigationService.PushAsync(new HomePage());
                 }
+                else
+                {
+                    Console.WriteLine(response.ReasonPhrase);
+                }
             }
             else
             {

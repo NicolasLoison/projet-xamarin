@@ -46,6 +46,7 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="Storm.Mvvm.Forms" Version="2.4.0" />
         <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
@@ -62,6 +63,7 @@
         <None Include="Properties\AndroidManifest.xml" />
     </ItemGroup>
     <ItemGroup>
+        <AndroidResource Include="Resources\drawable\bar_chart.png" />
         <AndroidResource Include="Resources\drawable\bin.png" />
         <AndroidResource Include="Resources\drawable\eye.png" />
         <AndroidResource Include="Resources\drawable\hourglass.png" />

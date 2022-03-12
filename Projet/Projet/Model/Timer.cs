@@ -72,6 +72,13 @@ namespace Projet.Model
             EndTime = endTime;
             DeleteClick = new Command(DeleteTimer);
         }
+
+        public int GetTotalTime()
+        {
+            TimeSpan t = EndTime.Subtract(StartTime);
+            Console.WriteLine("Timer: " + t.Minutes);
+            return t.Seconds;
+        }
         
         public async void DeleteTimer()
         {

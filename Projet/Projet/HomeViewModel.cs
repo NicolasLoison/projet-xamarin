@@ -44,6 +44,13 @@ namespace Projet
             get;
             set;
         }
+
+        public ICommand GraphClick
+        {
+            get;
+            set;
+        }
+        
         public ICommand TimerClick
         {
             get;
@@ -78,6 +85,7 @@ namespace Projet
             ProfileClick = new Command(ToProfile);
             AddProjectClick = new Command(AddProject);
             TimerClick = new Command(TriggerTimer);
+            GraphClick = new Command(GraphProject);
             // Device.StartTimer (new TimeSpan (0, 0, 1), () =>
             // {
             //     // do something every 60 seconds
@@ -132,6 +140,19 @@ namespace Projet
             {
                 AddProjectPage addProjectPage = new AddProjectPage();
                 await NavigationService.PushAsync(addProjectPage);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+        
+        public async void GraphProject()
+        {
+            try
+            {
+                ProjectGraphPage projectGraphPage = new ProjectGraphPage();
+                await NavigationService.PushAsync(projectGraphPage);
             }
             catch(Exception e)
             {

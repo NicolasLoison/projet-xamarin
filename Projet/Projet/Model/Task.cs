@@ -54,6 +54,17 @@ namespace Projet.Model
             PageClick = new Command(ToPage);
             DeleteClick = new Command(DeleteProject);
         }
+
+        public int GetTotalTime()
+        {
+            int total = 0;
+            foreach (Timer t in Times)
+            {
+                total += t.GetTotalTime();
+            }
+
+            return total;
+        }
         
         public async void ToPage()
         {

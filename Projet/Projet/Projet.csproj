@@ -10,6 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="Storm.Mvvm.Forms" Version="2.4.0" />
         <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />

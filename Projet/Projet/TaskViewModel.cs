@@ -59,33 +59,36 @@ namespace Projet
             if (TimerInstance.Timer != null)
             {
                 Console.WriteLine(TimerInstance.Timer.Started);
-                _clickable = TimerInstance.Timer.Started;
+                Clickable = TimerInstance.Timer.Started;
             }
             else
             {
-                _clickable = false;
+                Clickable = false;
             }
         }
         
         public async void AddTimer()
         {
-            if (TimerInstance.Timer.Started)
+            if (TimerInstance.Timer != null)
             {
-                TimerInstance.Timer.Stop();
-                Clickable = false;
-                HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(Urls.HOST);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
-                AddTimeRequest request = new AddTimeRequest(TimerInstance.Timer.StartTime, TimerInstance.Timer.EndTime);
-                StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(new Uri(
-                        Urls.ADD_TIME.
-                            Replace("{projectId}", Task.View.Project.Id.ToString()).
-                            Replace("{taskId}", Task.Id.ToString())),
-                    content);
-                if (response.IsSuccessStatusCode)
+                if (TimerInstance.Timer.Started)
                 {
-                    // Timers.Add(new Timer());
+                    TimerInstance.Timer.Stop();
+                    Clickable = false;
+                    HttpClient client = new HttpClient();
+                    client.BaseAddress = new Uri(Urls.HOST);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
+                    AddTimeRequest request = new AddTimeRequest(TimerInstance.Timer.StartTime, TimerInstance.Timer.EndTime);
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PostAsync(new Uri(
+                            Urls.ADD_TIME.
+                                Replace("{projectId}", Task.View.Project.Id.ToString()).
+                                Replace("{taskId}", Task.Id.ToString())),
+                        content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Timers.Add(new Timer());
+                    }
                 }
             }
         }
