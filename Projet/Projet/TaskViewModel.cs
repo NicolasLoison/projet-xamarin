@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Projet.Model;
 using Storm.Mvvm;
 using TimeTracker.Dtos;
+using TimeTracker.Dtos.Authentications;
 using TimeTracker.Dtos.Projects;
 using Xamarin.Forms;
 
@@ -59,7 +60,15 @@ namespace Projet
             if (TimerInstance.Timer != null)
             {
                 Console.WriteLine(TimerInstance.Timer.Started);
-                Clickable = TimerInstance.Timer.Started;
+                if (TimerInstance.Timer.Started)
+                {
+                    Clickable = true;
+                }
+                else
+                {
+                    Clickable = false;
+                }
+                
             }
             else
             {
@@ -87,7 +96,12 @@ namespace Projet
                         content);
                     if (response.IsSuccessStatusCode)
                     {
-                        // Timers.Add(new Timer());
+                        string task = await response.Content.ReadAsStringAsync();
+                        Response<AddTimeResponse> data = JsonConvert.DeserializeObject<Response<AddTimeResponse>>(task);
+                        int Id = data.Data.Id;
+                        DateTime Start = data.Data.StartTime;
+                        DateTime End = data.Data.EndTime;
+                        Timers.Add(new Timer(Id, Start, End));
                     }
                 }
             }

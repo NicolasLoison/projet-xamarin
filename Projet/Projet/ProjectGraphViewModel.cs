@@ -77,7 +77,7 @@ namespace Projet
             List<ChartEntry> entries = new List<ChartEntry>();
             foreach (Project p in UserInstance.User.Projets)
             {
-                int time = p.GetTotalTime();
+                int time = p.GetTotalMinutes();
                 entries.Add(new ChartEntry(time)
                 {
                     Color = SKColor.Parse(getRandColor()),

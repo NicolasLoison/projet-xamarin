@@ -55,12 +55,23 @@ namespace Projet.Model
             DeleteClick = new Command(DeleteProject);
         }
 
-        public int GetTotalTime()
+        public int GetTotalHours()
         {
             int total = 0;
             foreach (Timer t in Times)
             {
-                total += t.GetTotalTime();
+                total += t.GetTotalHours();
+            }
+
+            return total;
+        }
+        
+        public int GetTotalMinutes()
+        {
+            int total = 0;
+            foreach (Timer t in Times)
+            {
+                total += t.GetTotalMinutes();
             }
 
             return total;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -81,7 +82,9 @@ namespace Projet
             List<ChartEntry> entries = new List<ChartEntry>();
             foreach (Task task in Project.Tasks)
             {
-                int time = task.GetTotalTime();
+                int time = task.GetTotalMinutes();
+                Debug.WriteLine(task.Name);
+                Debug.WriteLine(time);
                 entries.Add(new ChartEntry(time)
                 {
                     Color = SKColor.Parse(getRandColor()),

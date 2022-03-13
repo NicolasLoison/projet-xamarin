@@ -67,16 +67,28 @@ namespace Projet.Model
             DeleteClick = new Command(DeleteProject);
         }
 
-        public int GetTotalTime()
+        public int GetTotalHours()
         {
             int total = 0;
             foreach (Task t in Tasks)
             {
-                total += t.GetTotalTime();
+                total += t.GetTotalHours();
             }
 
             return total;
         }
+        
+        public int GetTotalMinutes()
+        {
+            int total = 0;
+            foreach (Task t in Tasks)
+            {
+                total += t.GetTotalMinutes();
+            }
+
+            return total;
+        }
+
         
         public async void ToPage()
         {

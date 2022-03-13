@@ -97,8 +97,8 @@
                             CornerRadius="25"
                             Text="+"
                             FontSize="20"
-                            IsEnabled="{Binding Clickable}"
                             Command="{Binding TimerClick}"
+                            IsEnabled="{Binding Clickable}"
                             BackgroundColor="YellowGreen"
                             HorizontalOptions="End"/>
                 </Grid>
