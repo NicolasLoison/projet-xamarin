@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Newtonsoft.Json;
@@ -13,11 +15,15 @@ using TimeTracker.Dtos.Accounts;
 using TimeTracker.Dtos.Authentications;
 using TimeTracker.Dtos.Authentications.Credentials;
 using Xamarin.Forms;
+using Xamarin.Essentials;
+using Task = Projet.Model.Task;
+
 
 namespace Projet
 {
     public class ConnexionViewModel : ViewModelBase
     {
+        private string _aT, _rT, _tT;
         private string _email, _password;
         private string _errorMessage;
         
@@ -60,32 +66,35 @@ namespace Projet
             InscriptionClick = new Command(Register);
         }
 
+        // public void R()
+        // {
+        //     Test.Login();
+        // }
         public async void Login()
         {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(Urls.HOST);
+            client.Timeout = TimeSpan.FromSeconds(1);
+            LoginWithCredentialsRequest loginRequest = new LoginWithCredentialsRequest(Email, Password, Urls.CLIENT_ID, Urls.CLIENT_SECRET);
+            StringContent content = new StringContent(JsonConvert.SerializeObject(loginRequest), Encoding.UTF8, "application/json");
             try
             {
-                HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(Urls.HOST);
-                client.Timeout = TimeSpan.FromSeconds(1);
-                LoginWithCredentialsRequest loginRequest = new LoginWithCredentialsRequest(Email, Password, Urls.CLIENT_ID, Urls.CLIENT_SECRET);
-                StringContent content = new StringContent(JsonConvert.SerializeObject(loginRequest), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(Urls.LOGIN, content);
-                Console.WriteLine("Reponse obtenue");
+                var response = await client.PostAsync(Urls.LOGIN, content);
                 if (response.IsSuccessStatusCode)
                 {
-                    Task<string> task = response.Content.ReadAsStringAsync();
-                    Response<LoginResponse> data = JsonConvert.DeserializeObject<Response<LoginResponse>>(task.Result);
+                    string task = await response.Content.ReadAsStringAsync();
+                    Response<LoginResponse> data = JsonConvert.DeserializeObject<Response<LoginResponse>>(task);
                     string accessToken = data.Data.AccessToken;
                     string refreshToken = data.Data.RefreshToken;
                     string tokenType = data.Data.TokenType;
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                     // On met le token dans le header Authorization
-
+        
                     response = await client.GetAsync(Urls.USER_PROFILE);
                     if (response.IsSuccessStatusCode)
                     {
-                        task = response.Content.ReadAsStringAsync();
-                        Response<UserProfileResponse> userData = JsonConvert.DeserializeObject<Response<UserProfileResponse>>(task.Result);
+                        task = await response.Content.ReadAsStringAsync();
+                        Response<UserProfileResponse> userData = JsonConvert.DeserializeObject<Response<UserProfileResponse>>(task);
                         string firstName = userData.Data.FirstName;
                         string lastName = userData.Data.LastName;
                         UserInstance.User = new User(accessToken, refreshToken, tokenType, firstName, lastName, Email, Password);
@@ -104,7 +113,6 @@ namespace Projet
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
                 ErrorMessage = "";
             }
         }

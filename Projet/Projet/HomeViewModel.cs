@@ -78,7 +78,6 @@ namespace Projet
 
         public HomeViewModel()
         {
-            //TODO Commencer un timer et l'assigner à une tache
             FindProjects();
             
             ProfileClick = new Command(ToProfile);
