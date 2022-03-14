@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Windows.Input;
@@ -95,9 +96,6 @@ namespace Projet.Model
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(Urls.HOST);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
-            Console.WriteLine(View.Task.View.Project.Id.ToString());
-            Console.WriteLine(View.Task.Id.ToString());
-            Console.WriteLine(Id.ToString());
             HttpResponseMessage response = await client.DeleteAsync(new Uri(
                 Urls.DELETE_TIME.
                     Replace("{projectId}", View.Task.View.Project.Id.ToString()).

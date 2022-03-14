@@ -101,7 +101,9 @@ namespace Projet
                         int Id = data.Data.Id;
                         DateTime Start = data.Data.StartTime;
                         DateTime End = data.Data.EndTime;
-                        Timers.Add(new Timer(Id, Start, End));
+                        Timer t = new Timer(Id, Start, End);
+                        t.View = this;
+                        Timers.Add(t);
                     }
                 }
             }
