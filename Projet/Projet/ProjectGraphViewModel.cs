@@ -85,7 +85,7 @@ namespace Projet
                     ValueLabel = time.ToString()
                 });
             }
-            ProjectChart = new BarChart() {Entries = entries};
+            ProjectChart = new BarChart{Entries = entries};
             ProjectChart.LabelTextSize = 50.0f;
             Working = false;
         }

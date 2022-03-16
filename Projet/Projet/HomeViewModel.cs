@@ -10,6 +10,7 @@ using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using Projet.Model;
 using Storm.Mvvm;
+using Storm.Mvvm.Services;
 using TimeTracker.Dtos;
 using TimeTracker.Dtos.Authentications;
 using Xamarin.Forms;
@@ -19,7 +20,6 @@ namespace Projet
     public class HomeViewModel : ViewModelBase
     {
         private ObservableCollection<Project> _projets = new ObservableCollection<Project>();
-        private string _timerColor = "#FF9ACD32";
         
         static ISettings AppSettings => CrossSettings.Current;
         public static string JsonProjects;
@@ -29,13 +29,28 @@ namespace Projet
             set => AppSettings.AddOrUpdateValue("MySettingKey", value);
         }
 
+        private string TimerColorUpdater
+        {
+            get
+            {
+                if (TimerInstance.Timer.Started)
+                {
+                    return "#EB5809";
+                }
+                return "#FF9ACD32";
+            }
+        }
+
+        private string _timerColor;
+        
         public string TimerColor
         {
             get => _timerColor;
             set
             {
                 SetProperty(ref _timerColor, value);
-                OnPropertyChanged(nameof(TimerColor));
+                // OnPropertyChanged(nameof(TimerColor));
+                OnPropertyChanged(nameof(TimerInstance.Timer.Started));
             } 
         }
         public ICommand ProfileClick
@@ -160,26 +175,18 @@ namespace Projet
         
         public void TriggerTimer()
         {
-            if (TimerInstance.Timer != null)
+            // Stop
+            Console.WriteLine(TimerInstance.Timer.Started);
+            if (TimerInstance.Timer.Started)
             {
-                // Stop
-                if (TimerInstance.Timer.Started)
-                {
-                    TimerColor = "#FF9ACD32";
-                    TimerInstance.Timer.Stop();
-                }
-                // Start
-                else
-                {
-                    TimerColor = "#EB5809";
-                    TimerInstance.Timer = new TimerInstance();
-                }
+                TimerInstance.Timer.Stop();
+                TimerColor = TimerColorUpdater;
             }
             // Start
             else
             {
-                TimerColor = "#EB5809";
-                TimerInstance.Timer = new TimerInstance();
+                TimerInstance.Timer.Start();
+                TimerColor = TimerColorUpdater;
             }
         }
     }

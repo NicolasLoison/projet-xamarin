@@ -100,6 +100,5 @@ namespace Projet
                 Console.WriteLine(e.StackTrace);
             }
         }
-        
     }
 }

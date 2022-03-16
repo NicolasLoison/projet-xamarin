@@ -4,7 +4,7 @@ namespace Projet.Model
 {
     public class TimerInstance
     {
-        public static TimerInstance Timer;
+        public static TimerInstance Timer = new TimerInstance();
 
         public bool Started
         {
@@ -23,12 +23,12 @@ namespace Projet.Model
             set;
         }
         
-        public TimerInstance()
+        public void Start()
         {
             StartTime = DateTime.Now;
             Started = true;
         }
-
+        
         public void Stop()
         {
             EndTime = DateTime.Now;

@@ -78,33 +78,29 @@ namespace Projet
         
         public async void AddTimer()
         {
-            if (TimerInstance.Timer != null)
+            if (TimerInstance.Timer.Started)
             {
-                if (TimerInstance.Timer.Started)
+                Clickable = false;
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(Urls.HOST);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
+                AddTimeRequest request = new AddTimeRequest(TimerInstance.Timer.StartTime, TimerInstance.Timer.EndTime);
+                StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(new Uri(
+                        Urls.ADD_TIME.
+                            Replace("{projectId}", Task.View.Project.Id.ToString()).
+                            Replace("{taskId}", Task.Id.ToString())),
+                    content);
+                if (response.IsSuccessStatusCode)
                 {
-                    TimerInstance.Timer.Stop();
-                    Clickable = false;
-                    HttpClient client = new HttpClient();
-                    client.BaseAddress = new Uri(Urls.HOST);
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
-                    AddTimeRequest request = new AddTimeRequest(TimerInstance.Timer.StartTime, TimerInstance.Timer.EndTime);
-                    StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PostAsync(new Uri(
-                            Urls.ADD_TIME.
-                                Replace("{projectId}", Task.View.Project.Id.ToString()).
-                                Replace("{taskId}", Task.Id.ToString())),
-                        content);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string task = await response.Content.ReadAsStringAsync();
-                        Response<AddTimeResponse> data = JsonConvert.DeserializeObject<Response<AddTimeResponse>>(task);
-                        int Id = data.Data.Id;
-                        DateTime Start = data.Data.StartTime;
-                        DateTime End = data.Data.EndTime;
-                        Timer t = new Timer(Id, Start, End);
-                        t.View = this;
-                        Timers.Add(t);
-                    }
+                    string task = await response.Content.ReadAsStringAsync();
+                    Response<AddTimeResponse> data = JsonConvert.DeserializeObject<Response<AddTimeResponse>>(task);
+                    int Id = data.Data.Id;
+                    DateTime Start = data.Data.StartTime;
+                    DateTime End = data.Data.EndTime;
+                    Timer t = new Timer(Id, Start, End);
+                    t.View = this;
+                    Timers.Add(t);
                 }
             }
         }
