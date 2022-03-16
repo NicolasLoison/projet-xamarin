@@ -89,6 +89,16 @@
                       Grid.Row="0"
                       HorizontalOptions="End"
                       ColumnSpacing="70">
+                    <ImageButton Grid.Column="0"
+                                 Grid.ColumnSpan="2"
+                                 Grid.Row="0"
+                                 WidthRequest="50"
+                                 HeightRequest="50"
+                                 CornerRadius="25"
+                                 BackgroundColor="{Binding TimerColor}"
+                                 Source="hourglass.png"
+                                 Command="{Binding TimerClick}"
+                                 HorizontalOptions="End"/>
                     <Button Grid.Column="1"
                             Grid.ColumnSpan="2"
                             Grid.Row="0"
@@ -97,7 +107,7 @@
                             CornerRadius="25"
                             Text="+"
                             FontSize="20"
-                            Command="{Binding TimerClick}"
+                            Command="{Binding AddTimerClick}"
                             IsEnabled="{Binding Clickable}"
                             BackgroundColor="YellowGreen"
                             HorizontalOptions="End"/>

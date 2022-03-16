@@ -53,6 +53,7 @@ namespace Projet
                 OnPropertyChanged(nameof(TimerInstance.Timer.Started));
             } 
         }
+        
         public ICommand ProfileClick
         {
             get;
@@ -94,7 +95,7 @@ namespace Projet
         public HomeViewModel()
         {
             FindProjects();
-            
+            TimerColor = TimerColorUpdater;
             ProfileClick = new Command(ToProfile);
             AddProjectClick = new Command(AddProject);
             TimerClick = new Command(TriggerTimer);
