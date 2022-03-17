@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -18,7 +19,6 @@ namespace Projet
     public class ProjectViewModel : ViewModelBase
     {
         private Project _project;
-        private Task _chosenTask;
         private ObservableCollection<Task> _tasks;
 
         public ObservableCollection<Task> Tasks
@@ -31,9 +31,36 @@ namespace Projet
         public Project Project
         {
             get => _project;
-            set => SetProperty(ref _project, value);
+            set
+            {
+                SetProperty(ref _project, value);
+                OnPropertyChanged(nameof(Project));
+            } 
+        }
+        
+        private bool _editing;
+        public bool Editing
+        {
+            get => _editing;
+            set
+            {
+                SetProperty(ref _editing, value);
+                OnPropertyChanged(nameof(Editing));
+            } 
         }
 
+        public ICommand EditClick
+        {
+            get;
+            set;
+        }
+
+        public ICommand ConfirmEditClick
+        {
+            get;
+            set;
+        }
+        
         public ICommand DeleteClick
         {
             get;
@@ -51,6 +78,9 @@ namespace Projet
         {
             Project = project;
             FindTasks();
+            Editing = false;
+            EditClick = new Command(TriggerEdit);
+            ConfirmEditClick = new Command(ConfirmEdit);
             DeleteClick = new Command(DeleteProject);
             AddTaskClick = new Command(AddTask);
             GraphClick = new Command(GraphTask);
@@ -76,6 +106,16 @@ namespace Projet
             }
         }
 
+        public void TriggerEdit()
+        {
+            Editing = true;
+        }
+
+        public void ConfirmEdit()
+        {
+            Project.ModifyProject(this);
+        }
+        
         public void DeleteProject()
         {
             Project.DeleteProject();

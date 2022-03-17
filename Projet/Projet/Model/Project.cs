@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Windows.Input;
+using Newtonsoft.Json;
 using Storm.Mvvm;
 using TimeTracker.Dtos;
+using TimeTracker.Dtos.Authentications.Credentials;
+using TimeTracker.Dtos.Projects;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Projet.Model
@@ -100,6 +106,28 @@ namespace Projet.Model
             catch (Exception e)
             {
                 Console.WriteLine(e);
+            }
+        }
+        
+        public async void ModifyProject(ProjectViewModel projectViewModel)
+        {
+            bool answer = await App.Current.MainPage.DisplayAlert("Confirm changes", "Do you really want to confirm changes?", "Yes", "No");
+            if (!answer) return;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(Urls.HOST);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
+            AddProjectRequest modifyProject = new AddProjectRequest(Name, Description);
+            StringContent content = new StringContent(JsonConvert.SerializeObject(modifyProject), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await client.PutAsync(new Uri(Urls.UPDATE_PROJECT.Replace("{projectId}", Id.ToString())), content);
+            if (!response.IsSuccessStatusCode)
+            {
+                Debug.WriteLine("Modify error: " + response.ReasonPhrase);
+            }
+            else
+            {
+                projectViewModel.Editing = false;
+                projectViewModel.Project = this;
             }
         }
         

@@ -15,15 +15,12 @@ using TimeTracker.Dtos.Accounts;
 using TimeTracker.Dtos.Authentications;
 using TimeTracker.Dtos.Authentications.Credentials;
 using Xamarin.Forms;
-using Xamarin.Essentials;
-using Task = Projet.Model.Task;
 
 
 namespace Projet
 {
     public class ConnexionViewModel : ViewModelBase
     {
-        private string _aT, _rT, _tT;
         private string _email, _password;
         private string _errorMessage;
         
@@ -113,6 +110,7 @@ namespace Projet
             }
             catch(Exception e)
             {
+                Console.WriteLine(e);
                 ErrorMessage = "";
             }
         }

@@ -8,7 +8,7 @@ using Task = System.Threading.Tasks.Task;
 namespace Projet
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ProjectPage : ContentPage
+    public partial class ProjectPage
     {
         private Project _project;
         

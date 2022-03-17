@@ -3,42 +3,23 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:projet="clr-namespace:Projet"
-             xmlns:model="clr-namespace:Projet.Model;assembly=Projet"
+             xmlns:model="clr-namespace:Projet.Model"
+             xmlns:converter="clr-namespace:Projet.Converter"
              x:Class="Projet.ProjectPage"
              x:DataType="projet:ProjectViewModel">
-            <NavigationPage.TitleView>
-                <StackLayout Margin="20, 10"
-                             HorizontalOptions="End">
-                    <Grid VerticalOptions="Center"
-                          Margin="0,5, 0, 0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Column="1"
-                              Grid.ColumnSpan="2"
-                              Grid.Row="0"
-                              HorizontalOptions="End"
-                              ColumnSpacing="50">
-                            <Grid.RowDefinitions>
-                            </Grid.RowDefinitions>
-                            <ImageButton Grid.Column="0"
-                                         Grid.ColumnSpan="2"
-                                         Grid.Row="0"
-                                         BackgroundColor="Transparent"
-                                         Source="pencil.png"
-                                         HeightRequest="30"/>
-                            <ImageButton Grid.Column="1"
-                                         Grid.ColumnSpan="2"
-                                         Grid.Row="0"
-                                         BackgroundColor="Transparent"
-                                         Command="{Binding DeleteClick}"
-                                         Source="bin.png"
-                                         HeightRequest="30"/>
-                        </Grid>
-                    </Grid>
-                </StackLayout>
-            </NavigationPage.TitleView>
-    
+            <ContentPage.ToolbarItems>
+                <!-- Order a secondary pour les textes, primary pour les images -->
+                <ToolbarItem Text="Edit"
+                             IconImageSource="pencil.png"
+                             Order="Secondary"
+                             Priority="0"
+                             Command="{Binding EditClick}"/>
+                <ToolbarItem Text="Delete"
+                             IconImageSource="bin.png"
+                             Order="Secondary"
+                             Priority="0"
+                             Command="{Binding DeleteClick}"/>
+            </ContentPage.ToolbarItems>
     <RefreshView x:Name="MyRefreshView" Refreshing="Refresh">
         <StackLayout Margin="20, 10" x:DataType="projet:ProjectViewModel">
                 <ScrollView >
@@ -47,17 +28,35 @@
                        FontSize="30"
                        HorizontalOptions="Center"
                        VerticalOptions="CenterAndExpand"
+                       Margin="0, 20, 0, 20"
+                       IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
+                <Entry Text="{Binding Project.Name}"
+                       FontSize="30"
+                       HorizontalOptions="Center"
+                       VerticalOptions="CenterAndExpand"
+                       IsVisible="{Binding Editing}"
                        Margin="0, 20, 0, 20"/>
-            
-            <Label Text="{Binding Project.Description}"
-                   FontSize="15"
-                   HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"
-                   Margin="0, 0, 0, 10"/>
-            <Label Text="Tasks:"
-                   FontSize="30"
-                   HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"/>
+                
+                <Label Text="{Binding Project.Description}"
+                       FontSize="15"
+                       HorizontalOptions="Center"
+                       VerticalOptions="CenterAndExpand"
+                       Margin="0, 0, 0, 10"
+                       IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
+                <Entry Text="{Binding Project.Description}"
+                       FontSize="15"
+                       HorizontalOptions="Center"
+                       VerticalOptions="CenterAndExpand"
+                       IsVisible="{Binding Editing}"
+                       Margin="0, 0, 0, 10"/>
+                
+                <Button Text="Ok"
+                        IsVisible="{Binding Editing}"
+                        Command="{Binding ConfirmEditClick}"/>
+                <Label Text="Tasks:"
+                       FontSize="30"
+                       HorizontalOptions="Center"
+                       VerticalOptions="CenterAndExpand"/>
             
                 
             <ListView HasUnevenRows="True"
