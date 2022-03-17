@@ -86,6 +86,12 @@ namespace Projet
                 OnPropertyChanged(nameof(_projets));
             } 
         }
+
+        public Project ChosenProject
+        {
+            get;
+            set;
+        }
         
         public User User
         {

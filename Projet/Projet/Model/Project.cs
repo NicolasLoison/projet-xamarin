@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Windows.Input;
@@ -112,7 +113,7 @@ namespace Projet.Model
             HttpResponseMessage response = await client.DeleteAsync(new Uri(Urls.DELETE_PROJECT.Replace("{projectId}", Id.ToString())));
             if (response.IsSuccessStatusCode)
             {
-                View.Projects.Remove(this);
+                await NavigationService.PushAsync(new HomePage());
             }
         }
     }

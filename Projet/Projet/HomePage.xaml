@@ -13,7 +13,10 @@
                    HorizontalOptions="CenterAndExpand"
                    FontSize="30"/>
             <ListView HasUnevenRows="True"
-                      ItemsSource="{Binding Projects}">
+                      ItemsSource="{Binding Projects}"
+                      SelectedItem="{Binding ChosenProject}"
+                      ItemTapped="OnItemTapped"
+                      SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:Project">
                         <ViewCell>
@@ -27,27 +30,6 @@
                                        Grid.ColumnSpan="2"
                                        Grid.Row="0"
                                        Text="{Binding Name}" FontSize="Medium"/>
-                                <Grid Grid.Column="1"
-                                      Grid.ColumnSpan="2"
-                                      Grid.Row="0"
-                                      HorizontalOptions="End"
-                                      ColumnSpacing="30">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto" />
-                                    </Grid.RowDefinitions>
-                                    <ImageButton Grid.Column="0"
-                                                 Grid.ColumnSpan="2"
-                                                 Grid.Row="0"
-                                                 BackgroundColor="Transparent"
-                                                 Command="{Binding PageClick}"
-                                                 Source="eye.png" HeightRequest="20"/>
-                                    <ImageButton Grid.Column="1"
-                                                 Grid.ColumnSpan="2"
-                                                 Grid.Row="0"
-                                                 BackgroundColor="Transparent"
-                                                 Command="{Binding DeleteClick}"
-                                                 Source="bin.png" HeightRequest="20"/>
-                                </Grid>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

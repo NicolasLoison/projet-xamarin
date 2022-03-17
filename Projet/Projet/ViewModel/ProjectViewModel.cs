@@ -26,12 +26,7 @@ namespace Projet
             get => _tasks;
             set => SetProperty(ref _tasks, value);
         }
-
-        public Task ChosenTask
-        {
-            get => _chosenTask;
-            set => SetProperty(ref _chosenTask, value);
-        }
+        
 
         public Project Project
         {
@@ -39,6 +34,11 @@ namespace Projet
             set => SetProperty(ref _project, value);
         }
 
+        public ICommand DeleteClick
+        {
+            get;
+            set;
+        }
         public ICommand AddTaskClick { get; set; }
 
         public ICommand GraphClick
@@ -51,6 +51,7 @@ namespace Projet
         {
             Project = project;
             FindTasks();
+            DeleteClick = new Command(DeleteProject);
             AddTaskClick = new Command(AddTask);
             GraphClick = new Command(GraphTask);
         }
@@ -75,6 +76,11 @@ namespace Projet
             }
         }
 
+        public void DeleteProject()
+        {
+            Project.DeleteProject();
+        }
+        
         public async void AddTask()
         {
             try
