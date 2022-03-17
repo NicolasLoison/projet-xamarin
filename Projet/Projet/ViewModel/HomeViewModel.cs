@@ -87,12 +87,6 @@ namespace Projet
             } 
         }
 
-        public Project ChosenProject
-        {
-            get;
-            set;
-        }
-        
         public User User
         {
             get => UserInstance.User;

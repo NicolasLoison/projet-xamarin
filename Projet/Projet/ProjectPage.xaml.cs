@@ -21,7 +21,7 @@ namespace Projet
         
         public async void Refresh(Object sender, EventArgs e)
         {
-            await Task.Delay(300);
+            await Task.Delay(100);
             MyRefreshView.IsRefreshing = false;
             BindingContext = new ProjectViewModel(_project);
         }

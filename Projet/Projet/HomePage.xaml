@@ -14,7 +14,6 @@
                    FontSize="30"/>
             <ListView HasUnevenRows="True"
                       ItemsSource="{Binding Projects}"
-                      SelectedItem="{Binding ChosenProject}"
                       ItemTapped="OnItemTapped"
                       SelectionMode="None">
                 <ListView.ItemTemplate>

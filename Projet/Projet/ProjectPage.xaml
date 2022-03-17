@@ -20,48 +20,50 @@
                              Priority="0"
                              Command="{Binding DeleteClick}"/>
             </ContentPage.ToolbarItems>
-    <RefreshView x:Name="MyRefreshView" Refreshing="Refresh">
+        
+    <RefreshView x:Name="MyRefreshView" Refreshing="Refresh">    
         <StackLayout Margin="20, 10" x:DataType="projet:ProjectViewModel">
-                <ScrollView >
-                </ScrollView>
-                <Label Text="{Binding Project.Name}"
-                       FontSize="30"
-                       HorizontalOptions="Center"
-                       VerticalOptions="CenterAndExpand"
-                       Margin="0, 20, 0, 20"
-                       IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
-                <Entry Text="{Binding Project.Name}"
-                       FontSize="30"
-                       HorizontalOptions="Center"
-                       VerticalOptions="CenterAndExpand"
-                       IsVisible="{Binding Editing}"
-                       Margin="0, 20, 0, 20"/>
-                
-                <Label Text="{Binding Project.Description}"
-                       FontSize="15"
-                       HorizontalOptions="Center"
-                       VerticalOptions="CenterAndExpand"
-                       Margin="0, 0, 0, 10"
-                       IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
-                <Entry Text="{Binding Project.Description}"
-                       FontSize="15"
-                       HorizontalOptions="Center"
-                       VerticalOptions="CenterAndExpand"
-                       IsVisible="{Binding Editing}"
-                       Margin="0, 0, 0, 10"/>
-                
-                <Button Text="Ok"
-                        IsVisible="{Binding Editing}"
-                        Command="{Binding ConfirmEditClick}"/>
-                <Label Text="Tasks:"
-                       FontSize="30"
-                       HorizontalOptions="Center"
-                       VerticalOptions="CenterAndExpand"/>
+            <ScrollView >
+            </ScrollView>
+            <Label Text="{Binding Project.Name}"
+                   FontSize="30"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"
+                   Margin="0, 20, 0, 20"
+                   IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
+            <Entry Text="{Binding Project.Name}"
+                   FontSize="30"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"
+                   IsVisible="{Binding Editing}"
+                   Margin="0, 20, 0, 20"/>
             
+            <Label Text="{Binding Project.Description}"
+                   FontSize="15"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"
+                   Margin="0, 0, 0, 10"
+                   IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
+            <Entry Text="{Binding Project.Description}"
+                   FontSize="15"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"
+                   IsVisible="{Binding Editing}"
+                   Margin="0, 0, 0, 10"/>
+            
+            <Button Text="Ok"
+                    IsVisible="{Binding Editing}"
+                    Command="{Binding ConfirmEditClick}"/>
+            <Label Text="Tasks:"
+                   FontSize="30"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"/>
+        
                 
             <ListView HasUnevenRows="True"
                       ItemsSource="{Binding Tasks}"
-                      ItemTapped="OnItemTapped">
+                      ItemTapped="OnItemTapped"
+                      SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:Task">
                         <ViewCell>

@@ -7,10 +7,12 @@
              x:Class="Projet.TaskPage"
              x:DataType="projet:TaskViewModel">
     <ContentPage.Content>
+        <RefreshView x:Name="MyRefreshView" Refreshing="Refresh">
         <StackLayout HorizontalOptions="Center"
                      VerticalOptions="CenterAndExpand"
                      Margin="15, 10">
-            
+            <ScrollView>
+            </ScrollView>
             <Label Text="{Binding Task.Name}"
                    FontSize="30"
                    HorizontalOptions="Center"
@@ -25,7 +27,7 @@
             <ListView HasUnevenRows="True"
                       ItemsSource="{Binding Timers}"
                       SeparatorColor="Black"
-                      SeparatorVisibility="Default">
+                      SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:Timer">
                         <ViewCell>
@@ -114,5 +116,6 @@
                 </Grid>
             </Grid>
         </StackLayout>
+        </RefreshView>
     </ContentPage.Content>
 </ContentPage>
