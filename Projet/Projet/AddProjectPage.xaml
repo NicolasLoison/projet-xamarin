@@ -19,7 +19,7 @@
                Placeholder="Project name"
                Text="{Binding Name}"/>
         <Entry WidthRequest="300"
-               MaxLength="30"
+               MaxLength="60"
                Placeholder="Project description"
                Text="{Binding Description}"/>
         

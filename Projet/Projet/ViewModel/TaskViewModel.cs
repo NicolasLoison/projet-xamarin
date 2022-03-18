@@ -86,6 +86,7 @@ namespace Projet
             AddTimerClick = new Command(AddTimer);
             TimerClick = new Command(TriggerTimer);
             Timers = new ObservableCollection<Timer>(Task.Times);
+            Clickable = TimerInstance.Timer.Started;
             foreach (Timer t in Timers)
             {
                 t.View = this;

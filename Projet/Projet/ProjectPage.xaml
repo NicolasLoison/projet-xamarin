@@ -11,12 +11,12 @@
                 <!-- Order a secondary pour les textes, primary pour les images -->
                 <ToolbarItem Text="Edit"
                              IconImageSource="pencil.png"
-                             Order="Secondary"
+                             Order="Primary"
                              Priority="0"
                              Command="{Binding EditClick}"/>
                 <ToolbarItem Text="Delete"
                              IconImageSource="bin.png"
-                             Order="Secondary"
+                             Order="Primary"
                              Priority="0"
                              Command="{Binding DeleteClick}"/>
             </ContentPage.ToolbarItems>
