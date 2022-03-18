@@ -38,7 +38,7 @@ namespace Projet
             set
             {
                 SetProperty(ref _timerValue, value);
-                OnPropertyChanged(nameof(TimerValue));
+                OnPropertyChanged(TimerValue);
             }
         }
         private string TimerColorUpdater
@@ -60,8 +60,7 @@ namespace Projet
             set
             {
                 SetProperty(ref _timerColor, value);
-                // OnPropertyChanged(nameof(TimerColor));
-                OnPropertyChanged(nameof(TimerInstance.Timer.Started));
+                OnPropertyChanged(nameof(TimerColor));
             } 
         }
         
@@ -111,6 +110,8 @@ namespace Projet
             AddProjectClick = new Command(AddProject);
             TimerClick = new Command(TriggerTimer);
             GraphClick = new Command(GraphProject);
+            TimerInstance.Timer.HomeViewModel = this;
+            TimerValue = TimerInstance.Timer.GetCurrentTotalTime().ToString("hh':'mm':'ss'.'ff");
         }
 
         public async void FindProjects()
@@ -180,6 +181,7 @@ namespace Projet
             {
                 TimerInstance.Timer.Stop();
                 TimerColor = TimerColorUpdater;
+                Debug.WriteLine("Current: " + TimerInstance.Timer.CurrentTime);
                 TimerValue = TimerInstance.Timer.GetTotalTime().ToString("hh':'mm':'ss'.'ff");
             }
             // Start
@@ -187,17 +189,6 @@ namespace Projet
             {
                 TimerInstance.Timer.Start();
                 TimerColor = TimerColorUpdater;
-                Device.StartTimer (new TimeSpan (0, 0, 0, 0, 50), () =>
-                {
-                    if (TimerInstance.Timer.Started)
-                    {
-                        Device.BeginInvokeOnMainThread (() =>
-                        {
-                            TimerValue = TimerInstance.Timer.GetCurrentTotalTime().ToString("hh':'mm':'ss'.'ff");
-                        });
-                    }
-                    return TimerInstance.Timer.Started; // runs again, or false to stop
-                });
             }
         }
     }

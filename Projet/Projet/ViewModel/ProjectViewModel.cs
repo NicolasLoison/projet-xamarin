@@ -27,7 +27,7 @@ namespace Projet
             set => SetProperty(ref _tasks, value);
         }
         
-
+    
         public Project Project
         {
             get => _project;
@@ -48,7 +48,18 @@ namespace Projet
                 OnPropertyChanged(nameof(Editing));
             } 
         }
-
+        
+        private string _timerValue;
+        public string TimerValue
+        {
+            get => _timerValue;
+            set
+            {
+                SetProperty(ref _timerValue, value);
+                OnPropertyChanged(TimerValue);
+            }
+        }
+        
         public ICommand EditClick
         {
             get;
@@ -84,6 +95,8 @@ namespace Projet
             DeleteClick = new Command(DeleteProject);
             AddTaskClick = new Command(AddTask);
             GraphClick = new Command(GraphTask);
+            TimerInstance.Timer.ProjectViewModel = this;
+            TimerValue = TimerInstance.Timer.GetCurrentTotalTime().ToString("hh':'mm':'ss'.'ff");
         }
         
         public async void FindTasks()

@@ -6,6 +6,14 @@
              xmlns:model="clr-namespace:Projet.Model;assembly=Projet"
              x:Class="Projet.HomePage"
              x:DataType="projet:HomeViewModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Time:"
+                     Order="Primary"
+                     Priority="0"/>
+        <ToolbarItem Text="{Binding TimerValue}"
+                     Order="Primary"
+                     Priority="0"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Margin="20, 10">
             <Label Text="{Binding TimerValue}"

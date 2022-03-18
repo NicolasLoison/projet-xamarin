@@ -8,7 +8,12 @@
              x:Class="Projet.TaskPage"
              x:DataType="projet:TaskViewModel">
     <ContentPage.ToolbarItems>
-        <!-- Order a secondary pour les textes, primary pour les images -->
+        <ToolbarItem Text="Time:"
+                     Order="Primary"
+                     Priority="0"/>
+        <ToolbarItem Text="{Binding TimerValue}"
+                     Order="Primary"
+                     Priority="0"/>
         <ToolbarItem Text="Edit"
                      IconImageSource="pencil.png"
                      Order="Primary"
