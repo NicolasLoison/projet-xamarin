@@ -4,6 +4,34 @@
                       xmlns:mvvm="clr-namespace:Storm.Mvvm;assembly=Storm.Mvvm.Forms"
                       x:Class="Projet.App">
     <Application.Resources>
-
+        <Color x:Key="PrimaryColor">#082070</Color>
+        <Color x:Key="SecondaryColor">#b4ffa2</Color>
+        <Style TargetType="Button">
+            <Setter Property="Visual" Value="Material"></Setter>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Visual" Value="Material"></Setter>
+        </Style>
+        <Style TargetType="ListView">
+            <Setter Property="Visual" Value="Material"></Setter>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Visual" Value="Material"></Setter>
+        </Style>
+        <Style TargetType="Entry">
+            <Setter Property="Visual" Value="Material"></Setter>
+        </Style>
+        <Style TargetType="Editor">
+            <Setter Property="Visual" Value="Material"></Setter>
+        </Style>
+        <Style TargetType="Picker">
+            <Setter Property="Visual" Value="Material"></Setter>
+        </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Visual" Value="Material"></Setter>
+        </Style>
+        <Style TargetType="TimePicker">
+            <Setter Property="Visual" Value="Material"></Setter>
+        </Style>
     </Application.Resources>
 </mvvm:MvvmApplication>

@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:projet="clr-namespace:Projet"
              x:Class="Projet.ConnexionPage"
-             x:DataType="projet:ConnexionViewModel">
+             x:DataType="projet:ConnexionViewModel"
+             Visual="Material">
 
     <StackLayout HorizontalOptions="Center"
                  VerticalOptions="Center" >
