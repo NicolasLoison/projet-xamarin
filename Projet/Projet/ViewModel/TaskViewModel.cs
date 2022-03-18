@@ -83,6 +83,18 @@ namespace Projet
             } 
         }
         
+        private string _timerValue;
+        public string TimerValue
+        {
+            get => _timerValue;
+            set
+            {
+                SetProperty(ref _timerValue, value);
+                OnPropertyChanged(TimerValue);
+            }
+        }
+        
+        
         public ICommand EditClick
         {
             get;
@@ -125,11 +137,15 @@ namespace Projet
             AddTimerClick = new Command(AddTimer);
             TimerClick = new Command(TriggerTimer);
             Timers = new ObservableCollection<Timer>(Task.Times);
-            Clickable = TimerInstance.Timer.Started;
+            Clickable = TimerInstance.Timer.GetCurrentTotalTime().Milliseconds > 0;
             foreach (Timer t in Timers)
             {
                 t.View = this;
             }
+
+            TimerInstance.Timer.TaskViewModel = this;
+            TimerValue = TimerInstance.Timer.GetCurrentTotalTime().ToString("hh':'mm':'ss'.'ff");
+
         }
         
         public void TriggerEdit()
@@ -160,6 +176,7 @@ namespace Projet
             {
                 TimerInstance.Timer.Start();
                 TimerColor = TimerColorUpdater;
+                Clickable = true;
             }
         }
         

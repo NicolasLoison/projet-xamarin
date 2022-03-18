@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using Xamarin.Forms;
 
@@ -8,25 +9,30 @@ namespace Projet.Model
     {
         public static TimerInstance Timer = new TimerInstance();
 
-        // public string CurrentTime
-        // {
-        //     get;
-        //     set;
-        // }
-        // public TimerInstance()
-        // {
-        //     Device.StartTimer (new TimeSpan (0, 0, 0, 0, 10), () =>
-        //     {
-        //         if (Timer.Started)
-        //         {
-        //             Device.BeginInvokeOnMainThread (() =>
-        //             {
-        //                 Timer.CurrentTime = Timer.GetCurrentTotalTime().ToString();
-        //             });
-        //         }
-        //         return true; // runs again, or false to stop
-        //     });
-        // }
+        public HomeViewModel HomeViewModel
+        {
+            get;
+            set;
+        }
+
+        public ProjectViewModel ProjectViewModel
+        {
+            get;
+            set;
+        }
+
+        public TaskViewModel TaskViewModel
+        {
+            get;
+            set;
+        }
+        
+        public string CurrentTime
+        {
+            get;
+            set;
+        }
+        
         public bool Started
         {
             get;
@@ -48,6 +54,27 @@ namespace Projet.Model
         {
             StartTime = DateTime.Now;
             Started = true;
+            Device.StartTimer (new TimeSpan (0, 0, 0, 0, 10), () =>
+            {
+                Device.BeginInvokeOnMainThread (() =>
+                {
+                    CurrentTime = GetCurrentTotalTime().ToString("hh':'mm':'ss'.'ff");
+                    if (HomeViewModel != null)
+                    {
+                        HomeViewModel.TimerValue = CurrentTime;
+                    }
+                    if (ProjectViewModel != null)
+                    {
+                        ProjectViewModel.TimerValue = CurrentTime;
+                    }
+                    if (TaskViewModel != null)
+                    {
+                        TaskViewModel.TimerValue = CurrentTime;
+                    }
+                });
+                
+                return Started; // runs again, or false to stop
+            });
         }
         
         public void Stop()
@@ -58,7 +85,12 @@ namespace Projet.Model
         
         public TimeSpan GetCurrentTotalTime()
         {
-            return DateTime.Now.Subtract(StartTime);
+            if (Started)
+            {
+                return DateTime.Now.Subtract(StartTime);
+            }
+
+            return GetTotalTime();
         }
         
         public TimeSpan GetTotalTime()
