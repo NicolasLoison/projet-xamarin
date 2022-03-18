@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Windows.Input;
+using Newtonsoft.Json;
 using Storm.Mvvm;
 using TimeTracker.Dtos;
+using TimeTracker.Dtos.Projects;
 using Xamarin.Forms;
 
 namespace Projet.Model
@@ -27,19 +31,7 @@ namespace Projet.Model
             get;
             set;
         }
-        
-        public ICommand PageClick
-        {
-            get;
-            set;
-        }
-        
-        public ICommand DeleteClick
-        {
-            get;
-            set;
-        }
-        
+
         public ProjectViewModel View
         {
             get;
@@ -51,8 +43,6 @@ namespace Projet.Model
             Id = id;
             Name = name;
             Times = new List<Timer>();
-            PageClick = new Command(ToPage);
-            DeleteClick = new Command(DeleteProject);
         }
 
         public int GetTotalHours()
@@ -89,17 +79,43 @@ namespace Projet.Model
             }
         }
         
-        public async void DeleteProject()
+        public async void ModifyTask(TaskViewModel taskViewModel)
+        {
+            bool answer = await App.Current.MainPage.DisplayAlert("Confirm changes", "Do you really want to confirm changes?", "Yes", "No");
+            if (!answer) return;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(Urls.HOST);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
+            AddTaskRequest modifyTask = new AddTaskRequest(Name);
+            StringContent content = new StringContent(JsonConvert.SerializeObject(modifyTask), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await client.PutAsync(new Uri(Urls.UPDATE_TASK
+                .Replace("{projectId}", View.Project.Id.ToString())
+                .Replace("{taskId}", Id.ToString())), content);
+            if (!response.IsSuccessStatusCode)
+            {
+                Debug.WriteLine("Modify task error: " + response.ReasonPhrase);
+            }
+            else
+            {
+                taskViewModel.Editing = false;
+                taskViewModel.Task = this;
+            }
+        }
+        
+        public async void DeleteTask()
         {
             bool answer = await App.Current.MainPage.DisplayAlert("Delete", "Do you really want to delete this task?", "Yes", "No");
             if (!answer) return;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(Urls.HOST);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
-            HttpResponseMessage response = await client.DeleteAsync(new Uri(Urls.DELETE_TASK.Replace("{projectId}", View.Project.Id.ToString()).Replace("{taskId}", Id.ToString())));
+            HttpResponseMessage response = await client.DeleteAsync(new Uri(Urls.DELETE_TASK
+                .Replace("{projectId}", View.Project.Id.ToString())
+                .Replace("{taskId}", Id.ToString())));
             if (response.IsSuccessStatusCode)
             {
-                View.Tasks.Remove(this);
+                await NavigationService.PushAsync(new ProjectPage(View.Project));
             }
         }
     }

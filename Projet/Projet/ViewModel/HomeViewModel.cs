@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using Storm.Mvvm.Services;
 using TimeTracker.Dtos;
 using TimeTracker.Dtos.Authentications;
 using Xamarin.Forms;
+using Timer = System.Timers.Timer;
 
 namespace Projet
 {
@@ -29,6 +31,16 @@ namespace Projet
             set => AppSettings.AddOrUpdateValue("MySettingKey", value);
         }
 
+        private string _timerValue;
+        public string TimerValue
+        {
+            get => _timerValue;
+            set
+            {
+                SetProperty(ref _timerValue, value);
+                OnPropertyChanged(nameof(TimerValue));
+            }
+        }
         private string TimerColorUpdater
         {
             get
@@ -40,9 +52,8 @@ namespace Projet
                 return "#FF9ACD32";
             }
         }
-
-        private string _timerColor;
         
+        private string _timerColor;
         public string TimerColor
         {
             get => _timerColor;
@@ -100,18 +111,6 @@ namespace Projet
             AddProjectClick = new Command(AddProject);
             TimerClick = new Command(TriggerTimer);
             GraphClick = new Command(GraphProject);
-            // Device.StartTimer (new TimeSpan (0, 0, 1), () =>
-            // {
-            //     // do something every 60 seconds
-            //     Device.BeginInvokeOnMainThread (() => 
-            //     {
-            //         if (TimerInstance.Timer != null)
-            //         {
-            //             Console.WriteLine(TimerInstance.Timer.GetTotalTime());
-            //         }
-            //     });
-            //     return true; // runs again, or false to stop
-            // });
         }
 
         public async void FindProjects()
@@ -177,17 +176,28 @@ namespace Projet
         public void TriggerTimer()
         {
             // Stop
-            Console.WriteLine(TimerInstance.Timer.Started);
             if (TimerInstance.Timer.Started)
             {
                 TimerInstance.Timer.Stop();
                 TimerColor = TimerColorUpdater;
+                TimerValue = TimerInstance.Timer.GetTotalTime().ToString("hh':'mm':'ss'.'ff");
             }
             // Start
             else
             {
                 TimerInstance.Timer.Start();
                 TimerColor = TimerColorUpdater;
+                Device.StartTimer (new TimeSpan (0, 0, 0, 0, 50), () =>
+                {
+                    if (TimerInstance.Timer.Started)
+                    {
+                        Device.BeginInvokeOnMainThread (() =>
+                        {
+                            TimerValue = TimerInstance.Timer.GetCurrentTotalTime().ToString("hh':'mm':'ss'.'ff");
+                        });
+                    }
+                    return TimerInstance.Timer.Started; // runs again, or false to stop
+                });
             }
         }
     }

@@ -4,8 +4,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:projet="clr-namespace:Projet"
              xmlns:model="clr-namespace:Projet.Model;assembly=Projet"
+             xmlns:converter="clr-namespace:Projet.Converter;assembly=Projet"
              x:Class="Projet.TaskPage"
              x:DataType="projet:TaskViewModel">
+    <ContentPage.ToolbarItems>
+        <!-- Order a secondary pour les textes, primary pour les images -->
+        <ToolbarItem Text="Edit"
+                     IconImageSource="pencil.png"
+                     Order="Primary"
+                     Priority="0"
+                     Command="{Binding EditClick}"/>
+        <ToolbarItem Text="Delete"
+                     IconImageSource="bin.png"
+                     Order="Primary"
+                     Priority="0"
+                     Command="{Binding DeleteClick}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <RefreshView x:Name="MyRefreshView" Refreshing="Refresh">
         <StackLayout HorizontalOptions="Center"
@@ -17,8 +31,18 @@
                    FontSize="30"
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"
-                   Margin="0, 0, 0, 10"/>
+                   Margin="0, 0, 0, 10"
+                   IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
             
+            <Entry Text="{Binding Task.Name}"
+                   FontSize="30"
+                   HorizontalOptions="Center"
+                   VerticalOptions="CenterAndExpand"
+                   Margin="0, 0, 0, 10"
+                   IsVisible="{Binding Editing}"/>
+            <Button Text="Ok"
+                    IsVisible="{Binding Editing}"
+                    Command="{Binding ConfirmEditClick}"/>
             <Label Text="Timers:"
                    FontSize="30"
                    HorizontalOptions="Center"

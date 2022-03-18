@@ -61,7 +61,41 @@ namespace Projet
             } 
         }
         
+        private Task _task;
         public Task Task
+        {
+            get => _task;
+            set
+            {
+                SetProperty(ref _task, value);
+                OnPropertyChanged(nameof(Task));
+            } 
+        }
+        
+        private bool _editing;
+        public bool Editing
+        {
+            get => _editing;
+            set
+            {
+                SetProperty(ref _editing, value);
+                OnPropertyChanged(nameof(Editing));
+            } 
+        }
+        
+        public ICommand EditClick
+        {
+            get;
+            set;
+        }
+
+        public ICommand ConfirmEditClick
+        {
+            get;
+            set;
+        }
+        
+        public ICommand DeleteClick
         {
             get;
             set;
@@ -83,6 +117,11 @@ namespace Projet
         {
             Task = task;
             TimerColor = TimerColorUpdater;
+            Editing = false;
+            EditClick = new Command(TriggerEdit);
+            ConfirmEditClick = new Command(ConfirmEdit);
+            DeleteClick = new Command(DeleteTask);
+            
             AddTimerClick = new Command(AddTimer);
             TimerClick = new Command(TriggerTimer);
             Timers = new ObservableCollection<Timer>(Task.Times);
@@ -91,6 +130,21 @@ namespace Projet
             {
                 t.View = this;
             }
+        }
+        
+        public void TriggerEdit()
+        {
+            Editing = true;
+        }
+
+        public void ConfirmEdit()
+        {
+            Task.ModifyTask(this);
+        }
+        
+        public void DeleteTask()
+        {
+            Task.DeleteTask();
         }
         
         public void TriggerTimer()
@@ -138,8 +192,7 @@ namespace Projet
             }
             else
             {
-                Debug.WriteLine("Not success");
-                Debug.WriteLine(response.ReasonPhrase);
+                Debug.WriteLine("Not success add timer: " + response.ReasonPhrase);
             }
         }
     }

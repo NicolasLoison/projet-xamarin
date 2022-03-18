@@ -8,6 +8,10 @@
              x:DataType="projet:HomeViewModel">
     <ContentPage.Content>
         <StackLayout Margin="20, 10">
+            <Label Text="{Binding TimerValue}"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="CenterAndExpand"
+                   FontSize="20"/>
             <Label Text="Your projects"
                    VerticalOptions="CenterAndExpand"
                    HorizontalOptions="CenterAndExpand"
