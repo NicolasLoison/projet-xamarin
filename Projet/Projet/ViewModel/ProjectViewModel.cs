@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -59,6 +60,12 @@ namespace Projet
                 OnPropertyChanged(TimerValue);
             }
         }
+
+        public ICommand HomeClick
+        {
+            get;
+            set;
+        }
         
         public ICommand EditClick
         {
@@ -90,6 +97,7 @@ namespace Projet
             Project = project;
             FindTasks();
             Editing = false;
+            HomeClick = new Command(ToHome);
             EditClick = new Command(TriggerEdit);
             ConfirmEditClick = new Command(ConfirmEdit);
             DeleteClick = new Command(DeleteProject);
@@ -112,9 +120,10 @@ namespace Projet
                     JsonConvert.DeserializeObject<Response<List<Task>>>(task.Result);
                 ObservableCollection<Task> tasks = new ObservableCollection<Task>(projectTasks.Data);
                 Tasks = tasks;
-                foreach (Task t in tasks)
+                for (int i = 0; i < tasks.Count; i++)
                 {
-                    t.View = this;
+                    tasks[i].View = this;
+                    tasks[i].IndexInProject = i;
                 }
             }
         }
@@ -132,6 +141,23 @@ namespace Projet
         public void DeleteProject()
         {
             Project.DeleteProject();
+        }
+        
+        public async void ToHome()
+        {
+            try
+            {
+                while (!(Application.Current.MainPage.Navigation.NavigationStack.Last() is HomePage))
+                {
+                    await NavigationService.PopAsync(false);
+                }
+                // HomePage homePage = new HomePage();
+                // await NavigationService.PushAsync(homePage);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
         
         public async void AddTask()

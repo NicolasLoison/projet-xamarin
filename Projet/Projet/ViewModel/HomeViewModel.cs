@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -128,9 +129,10 @@ namespace Projet
                 UserInstance.User.Projets = userProjects.Data;
                 ObservableCollection<Project> projects = new ObservableCollection<Project>(UserInstance.User.Projets);
                 Projects = projects;
-                foreach (Project p in Projects)
+                for (int i = 0; i < Projects.Count; i++)
                 {
-                    p.View = this;
+                    Projects[i].View = this;
+                    Projects[i].IndexInHome = i;
                 }
             }
         }

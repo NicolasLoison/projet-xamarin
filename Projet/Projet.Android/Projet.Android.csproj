@@ -74,14 +74,6 @@
         <None Include="Properties\AndroidManifest.xml" />
     </ItemGroup>
     <ItemGroup>
-        <AndroidResource Include="Resources\drawable\bar_chart.png" />
-        <AndroidResource Include="Resources\drawable\bin.png" />
-        <AndroidResource Include="Resources\drawable\bin_android.png" />
-        <AndroidResource Include="Resources\drawable\edit_android.png" />
-        <AndroidResource Include="Resources\drawable\eye.png" />
-        <AndroidResource Include="Resources\drawable\hourglass.png" />
-        <AndroidResource Include="Resources\drawable\pencil.png" />
-        <AndroidResource Include="Resources\drawable\profile.png" />
         <AndroidResource Include="Resources\layout\Tabbar.axml" />
         <AndroidResource Include="Resources\layout\Toolbar.axml" />
         <AndroidResource Include="Resources\values\styles.xml" />
@@ -92,6 +84,9 @@
             <Project>{76009B47-C9DF-4BB0-B2C3-8AF1FAB01931}</Project>
             <Name>Projet</Name>
         </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Resources\drawable" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

@@ -15,6 +15,12 @@ namespace Projet.Model
 {
     public class Task : ViewModelBase
     {
+        public int IndexInProject
+        {
+            get;
+            set;
+        }
+        
         public int Id
         {
             get;
@@ -100,6 +106,7 @@ namespace Projet.Model
             {
                 taskViewModel.Editing = false;
                 taskViewModel.Task = this;
+                View.Tasks[IndexInProject] = this;
             }
         }
         
@@ -115,6 +122,11 @@ namespace Projet.Model
                 .Replace("{taskId}", Id.ToString())));
             if (response.IsSuccessStatusCode)
             {
+                // View.Tasks.Remove(this);
+                // for (int i = 0; i < View.Tasks.Count; i++)
+                // {
+                //     View.Tasks[i].IndexInProject = i;
+                // }
                 await NavigationService.PushAsync(new ProjectPage(View.Project));
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -94,6 +95,11 @@ namespace Projet
             }
         }
         
+        public ICommand HomeClick
+        {
+            get;
+            set;
+        }
         
         public ICommand EditClick
         {
@@ -130,6 +136,7 @@ namespace Projet
             Task = task;
             TimerColor = TimerColorUpdater;
             Editing = false;
+            HomeClick = new Command(ToHome);
             EditClick = new Command(TriggerEdit);
             ConfirmEditClick = new Command(ConfirmEdit);
             DeleteClick = new Command(DeleteTask);
@@ -142,7 +149,8 @@ namespace Projet
             {
                 t.View = this;
             }
-
+            
+            // NavigationService.OnPop();
             TimerInstance.Timer.TaskViewModel = this;
             TimerValue = TimerInstance.Timer.GetCurrentTotalTime().ToString("hh':'mm':'ss");
 
@@ -161,6 +169,23 @@ namespace Projet
         public void DeleteTask()
         {
             Task.DeleteTask();
+        }
+        
+        public async void ToHome()
+        {
+            try
+            {
+                while (!(Application.Current.MainPage.Navigation.NavigationStack.Last() is HomePage))
+                {
+                    await NavigationService.PopAsync(false);
+                }
+                // HomePage homePage = new HomePage();
+                // await NavigationService.PushAsync(homePage);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
         
         public void TriggerTimer()

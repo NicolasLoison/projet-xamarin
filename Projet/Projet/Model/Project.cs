@@ -18,6 +18,12 @@ namespace Projet.Model
 {
     public class Project : ViewModelBase
     {
+        public int IndexInHome
+        {
+            get;
+            set;
+        }
+        
         public int Id
         {
             get;
@@ -128,6 +134,7 @@ namespace Projet.Model
             {
                 projectViewModel.Editing = false;
                 projectViewModel.Project = this;
+                View.Projects[IndexInHome] = this;
             }
         }
         

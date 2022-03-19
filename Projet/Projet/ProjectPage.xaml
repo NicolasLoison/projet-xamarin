@@ -8,41 +8,77 @@
              x:Class="Projet.ProjectPage"
              x:DataType="projet:ProjectViewModel"
              xmlns:fontAwesome="clr-namespace:FontAwesome;assembly=Projet">
-            <ContentPage.ToolbarItems>
-                <!-- Order a secondary pour les textes, primary pour les images -->
-                <ToolbarItem Text="Time :"
-                             Order="Primary"
-                             Priority="0"/>
-                
-                <ToolbarItem Text="{Binding TimerValue}"
-                             Order="Primary"
-                             Priority="0"/>
-                
-                <ToolbarItem Text="    "
-                             Order="Primary"
-                             Priority="0"/>
-                
-                <ToolbarItem Text="Edit"
-                             Order="Primary"
-                             Priority="0"
-                             Command="{Binding EditClick}">
-                    <ToolbarItem.IconImageSource>
-                        <FontImageSource FontFamily="FAS"
-                                         Glyph="{x:Static fontAwesome:FontAwesomeIcons.Pen}"/>
-                    </ToolbarItem.IconImageSource>
-                </ToolbarItem>
-                
-                <ToolbarItem Order="Primary"
-                             Priority="0"
-                             Command="{Binding DeleteClick}">
-                    <ToolbarItem.IconImageSource>
-                        <FontImageSource FontFamily="FAS"
-                                         Glyph="{x:Static fontAwesome:FontAwesomeIcons.Trash}"/>
-                    </ToolbarItem.IconImageSource>
-                </ToolbarItem>
-                
-            </ContentPage.ToolbarItems>
-        
+            <!-- <ContentPage.ToolbarItems> -->
+            <!--     ~1~ Order a secondary pour les textes, primary pour les images @1@ -->
+            <!--     <ToolbarItem Text="Time :" -->
+            <!--                  Order="Primary" -->
+            <!--                  Priority="0"/> -->
+            <!--      -->
+            <!--     <ToolbarItem Text="{Binding TimerValue}" -->
+            <!--                  Order="Primary" -->
+            <!--                  Priority="0"/> -->
+            <!--      -->
+            <!--     <ToolbarItem Text="    " -->
+            <!--                  Order="Primary" -->
+            <!--                  Priority="0"/> -->
+            <!--      -->
+            <!--     <ToolbarItem Text="Edit" -->
+            <!--                  Order="Primary" -->
+            <!--                  Priority="0" -->
+            <!--                  Command="{Binding EditClick}"> -->
+            <!--         <ToolbarItem.IconImageSource> -->
+            <!--             <FontImageSource FontFamily="FAS" -->
+            <!--                              Glyph="{x:Static fontAwesome:FontAwesomeIcons.Pen}"/> -->
+            <!--         </ToolbarItem.IconImageSource> -->
+            <!--     </ToolbarItem> -->
+            <!--      -->
+            <!--     <ToolbarItem Order="Primary" -->
+            <!--                  Priority="0" -->
+            <!--                  Command="{Binding DeleteClick}"> -->
+            <!--         <ToolbarItem.IconImageSource> -->
+            <!--             <FontImageSource FontFamily="FAS" -->
+            <!--                              Glyph="{x:Static fontAwesome:FontAwesomeIcons.Trash}"/> -->
+            <!--         </ToolbarItem.IconImageSource> -->
+            <!--     </ToolbarItem> -->
+            <!--      -->
+            <!-- </ContentPage.ToolbarItems> -->
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal"
+                     HorizontalOptions="Center"
+                     VerticalOptions="Center"
+                     Margin="0, 0, 0, 0">
+            <Label Text="TIME:"
+                   VerticalTextAlignment="Center"
+                   FontSize="20"/>
+            <Label Text="{Binding TimerValue}"
+                   VerticalTextAlignment="Center"
+                   FontSize="20"/>
+            <Label Text="{x:Static fontAwesome:FontAwesomeIcons.HourglassHalf}"
+                   VerticalTextAlignment="Center"
+                   FontSize="35"
+                   FontFamily="FAS"></Label>
+            <StackLayout Orientation="Horizontal"
+                         Margin="30,0,0,0">
+                <Button WidthRequest="50"
+                        HeightRequest="50"
+                        CornerRadius="25"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.Pen}"
+                        FontSize="20"
+                        FontFamily="FAS"
+                        Command="{Binding EditClick}"
+                        BackgroundColor="MediumBlue"/>
+                <Button WidthRequest="50"
+                        HeightRequest="50"
+                        CornerRadius="25"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.Trash}"
+                        FontSize="20"
+                        FontFamily="FAS"
+                        Command="{Binding DeleteClick}"
+                        BackgroundColor="Red"/>
+            </StackLayout>
+            
+        </StackLayout>
+    </NavigationPage.TitleView>
         <StackLayout Margin="20, 10" x:DataType="projet:ProjectViewModel">
             <ScrollView >
             </ScrollView>
@@ -107,33 +143,43 @@
                 
                 
                 
-            <Grid ColumnSpacing="70">
+            <Grid ColumnSpacing="60">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Button Grid.Column="0"
-                             WidthRequest="70"
-                             HeightRequest="70"
-                             CornerRadius="35"
-                             Text="{x:Static fontAwesome:FontAwesomeIcons.ChartBar}"
-                             FontSize="35"
-                             FontFamily="FAS"
-                             Command="{Binding GraphClick}"
-                             BackgroundColor="CornflowerBlue"
-                             HorizontalOptions="Start"/>
-                <Grid Grid.Column="1"
-                      HorizontalOptions="End"
-                      ColumnSpacing="70">
-                    <Button WidthRequest="70"
-                            HeightRequest="70"
-                            CornerRadius="35"
-                            Text="{x:Static fontAwesome:FontAwesomeIcons.Plus}"
-                            FontSize="30"
-                            FontFamily="FAS"
-                            Command="{Binding AddTaskClick}"
-                            BackgroundColor="YellowGreen"
-                            HorizontalOptions="End"/>
-                </Grid>
+                        Grid.ColumnSpan="2"
+                        WidthRequest="70"
+                        HeightRequest="70"
+                        CornerRadius="35"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.Home}"
+                        FontSize="35"
+                        FontFamily="FAS"
+                        Command="{Binding HomeClick}"
+                        BackgroundColor="CornflowerBlue"
+                        HorizontalOptions="Start"/>
+                <Button Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                         WidthRequest="70"
+                         HeightRequest="70"
+                         CornerRadius="35"
+                         Text="{x:Static fontAwesome:FontAwesomeIcons.ChartBar}"
+                         FontSize="35"
+                         FontFamily="FAS"
+                         Command="{Binding GraphClick}"
+                         BackgroundColor="CornflowerBlue"
+                         HorizontalOptions="Start"/>
+                <Button Grid.Column="4"
+                        Grid.ColumnSpan="2"
+                        WidthRequest="70"
+                        HeightRequest="70"
+                        CornerRadius="35"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.Plus}"
+                        FontSize="30"
+                        FontFamily="FAS"
+                        Command="{Binding AddTaskClick}"
+                        BackgroundColor="YellowGreen"
+                        HorizontalOptions="End"/>
             </Grid>
         </StackLayout>
 </ContentPage>

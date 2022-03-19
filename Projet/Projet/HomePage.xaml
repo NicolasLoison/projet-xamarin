@@ -7,49 +7,57 @@
              x:Class="Projet.HomePage"
              xmlns:fontAwesome="clr-namespace:FontAwesome;assembly=Projet"
              x:DataType="projet:HomeViewModel">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Time:"
-                     Order="Primary"
-                     Priority="0"/>
-        <ToolbarItem Text="{Binding TimerValue}"
-                     Order="Primary"
-                     Priority="0"/>
-
-        
-
-    </ContentPage.ToolbarItems>
+    <!-- <ContentPage.ToolbarItems> -->
+    <!--     <ToolbarItem Text="Time:" -->
+    <!--                  Order="Primary" -->
+    <!--                  Priority="0"/> -->
+    <!--     <ToolbarItem Text="{Binding TimerValue}" -->
+    <!--                  Order="Primary" -->
+    <!--                  Priority="0"/> -->
+    <!-- -->
+    <!--      -->
+    <!-- -->
+    <!-- </ContentPage.ToolbarItems> -->
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal"
+                     HorizontalOptions="Center"
+                     VerticalOptions="Center"
+                     Margin="0, 0, 70, 0"
+                     >
+            <Label Text="TIME:"
+                   VerticalTextAlignment="Center"
+                   FontSize="20"/>
+            <Label Text="{Binding TimerValue}"
+                   VerticalTextAlignment="Center"
+                   FontSize="20"/>
+            <Label Text="{x:Static fontAwesome:FontAwesomeIcons.HourglassHalf}"
+                   VerticalTextAlignment="Center"
+                   FontSize="35"
+                   FontFamily="FAS"></Label>
+        </StackLayout>
+    </NavigationPage.TitleView>
     <ContentPage.Content>
         <StackLayout Margin="20, 10">
-            <!-- <Label Text="{Binding TimerValue}" -->
-            <!--        VerticalOptions="CenterAndExpand" -->
-            <!--        HorizontalOptions="CenterAndExpand" -->
-            <!--        FontSize="20"/> -->
-            <Label Text="Your projects"
+            <Label Text="My projects"
                    VerticalOptions="CenterAndExpand"
                    HorizontalOptions="CenterAndExpand"
-                   FontSize="30"/>
-            <ListView HasUnevenRows="True"
+                   FontSize="25"/>
+            <ListView HasUnevenRows="False"
                       ItemsSource="{Binding Projects}"
                       ItemTapped="OnItemTapped"
-                      SelectionMode="None">
+                      SelectionMode="None"
+                      SeparatorVisibility="Default"
+                      SeparatorColor="Green">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:Project">
-                        <ViewCell>
-                            <Grid VerticalOptions="StartAndExpand"
-                                  ColumnSpacing="30"
-                                  Margin="0, 0, 0, 10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
-                                <Label Grid.Column="0"
-                                       Grid.ColumnSpan="2"
-                                       Grid.Row="0"
-                                       Text="{Binding Name}" FontSize="Medium"/>
-                            </Grid>
-                        </ViewCell>
+                        <TextCell Text="{Binding Name}"
+                                  Detail="{Binding Description}"
+                                  TextColor="Black"
+                                  DetailColor="Gray"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            
             <Grid ColumnSpacing="60">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />

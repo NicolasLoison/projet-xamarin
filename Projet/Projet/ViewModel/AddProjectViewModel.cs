@@ -68,7 +68,8 @@ namespace Projet
                 HttpResponseMessage response = await client.PostAsync(new Uri(Urls.ADD_PROJECT), content);
                 if (response.IsSuccessStatusCode)
                 {
-                    await NavigationService.PushAsync(new HomePage());
+                    // View.FindProjects();
+                    await NavigationService.PopAsync();
                 }
                 else
                 {
