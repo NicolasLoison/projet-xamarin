@@ -5,6 +5,9 @@ using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 [assembly: ExportFont("MaterialIcons-Regular.ttf", Alias = "MatIcons")]
+[assembly: ExportFont("fabrands400.ttf", Alias = "FAB")]
+[assembly: ExportFont("faregular400.ttf", Alias = "FAR")]
+[assembly: ExportFont("fasolid900.ttf", Alias = "FAS")]
 
 
 namespace Projet
