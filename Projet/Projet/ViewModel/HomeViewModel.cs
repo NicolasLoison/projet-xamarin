@@ -111,7 +111,7 @@ namespace Projet
             TimerClick = new Command(TriggerTimer);
             GraphClick = new Command(GraphProject);
             TimerInstance.Timer.HomeViewModel = this;
-            TimerValue = TimerInstance.Timer.GetCurrentTotalTime().ToString("hh':'mm':'ss'.'ff");
+            TimerValue = TimerInstance.Timer.GetCurrentTotalTime().ToString("hh':'mm':'ss");
         }
 
         public async void FindProjects()
@@ -182,7 +182,7 @@ namespace Projet
                 TimerInstance.Timer.Stop();
                 TimerColor = TimerColorUpdater;
                 Debug.WriteLine("Current: " + TimerInstance.Timer.CurrentTime);
-                TimerValue = TimerInstance.Timer.GetTotalTime().ToString("hh':'mm':'ss'.'ff");
+                TimerValue = TimerInstance.Timer.GetTotalTime().ToString("hh':'mm':'ss");
             }
             // Start
             else

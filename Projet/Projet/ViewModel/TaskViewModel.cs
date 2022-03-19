@@ -144,7 +144,7 @@ namespace Projet
             }
 
             TimerInstance.Timer.TaskViewModel = this;
-            TimerValue = TimerInstance.Timer.GetCurrentTotalTime().ToString("hh':'mm':'ss'.'ff");
+            TimerValue = TimerInstance.Timer.GetCurrentTotalTime().ToString("hh':'mm':'ss");
 
         }
         

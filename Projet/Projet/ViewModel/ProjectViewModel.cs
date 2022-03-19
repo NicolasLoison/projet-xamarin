@@ -96,7 +96,7 @@ namespace Projet
             AddTaskClick = new Command(AddTask);
             GraphClick = new Command(GraphTask);
             TimerInstance.Timer.ProjectViewModel = this;
-            TimerValue = TimerInstance.Timer.GetCurrentTotalTime().ToString("hh':'mm':'ss'.'ff");
+            TimerValue = TimerInstance.Timer.GetCurrentTotalTime().ToString("hh':'mm':'ss");
         }
         
         public async void FindTasks()

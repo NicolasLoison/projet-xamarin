@@ -58,7 +58,7 @@ namespace Projet.Model
             {
                 Device.BeginInvokeOnMainThread (() =>
                 {
-                    CurrentTime = GetCurrentTotalTime().ToString("hh':'mm':'ss'.'ff");
+                    CurrentTime = GetCurrentTotalTime().ToString("hh':'mm':'ss");
                     if (HomeViewModel != null)
                     {
                         HomeViewModel.TimerValue = CurrentTime;
