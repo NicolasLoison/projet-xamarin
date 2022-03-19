@@ -21,11 +21,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Resources\Icons" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="Resources\Icons\MaterialIcons-Regular.ttf" />
-      <EmbeddedResource Include="Resources\Icons\MaterialIcons-Regular.ttf" />
+      <EmbeddedResource Include="Resources\Icons\fabrands400.ttf">
+        <SubType>Designer</SubType>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Resources\Icons\faregular400.ttf">
+        <SubType>Designer</SubType>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Resources\Icons\fasolid900.ttf">
+        <SubType>Designer</SubType>
+      </EmbeddedResource>
     </ItemGroup>
 </Project>
