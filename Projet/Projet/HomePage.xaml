@@ -5,6 +5,7 @@
              xmlns:projet="clr-namespace:Projet"
              xmlns:model="clr-namespace:Projet.Model;assembly=Projet"
              x:Class="Projet.HomePage"
+             xmlns:fontAwesome="clr-namespace:FontAwesome;assembly=Projet"
              x:DataType="projet:HomeViewModel">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Time:"
@@ -50,56 +51,50 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <ImageButton Grid.Column="0"
-                             Grid.ColumnSpan="3"
-                             Grid.Row="0"
-                             WidthRequest="50"
-                             HeightRequest="50"
-                             CornerRadius="25"
-                             Source="profile.png"
-                             Command="{Binding ProfileClick}"
-                             BackgroundColor="CornflowerBlue"
-                             HorizontalOptions="Start"/>
-                <ImageButton Grid.Column="1"
-                             Grid.ColumnSpan="3"
-                             Grid.Row="0"
-                             WidthRequest="50"
-                             HeightRequest="50"
-                             CornerRadius="25"
-                             Source="bar_chart.png"
-                             Command="{Binding GraphClick}"
-                             BackgroundColor="CornflowerBlue"
-                             HorizontalOptions="Start"/>
-                <Grid Grid.Column="2"
-                      Grid.ColumnSpan="3"
-                      Grid.Row="0"
-                      HorizontalOptions="End"
-                      ColumnSpacing="70">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <ImageButton Grid.Column="0"
-                                 Grid.ColumnSpan="2"
-                                 Grid.Row="0"
-                                 WidthRequest="50"
-                                 HeightRequest="50"
-                                 CornerRadius="25"
-                                 BackgroundColor="{Binding TimerColor}"
-                                 Source="hourglass.png"
-                                 Command="{Binding TimerClick}"
-                                 HorizontalOptions="End"/>
-                    <Button Grid.Column="1"
-                             Grid.ColumnSpan="2"
-                             Grid.Row="0"
-                             WidthRequest="50"
-                             HeightRequest="50"
-                             CornerRadius="25"
-                             Text="+"
-                             FontSize="20"
-                             Command="{Binding AddProjectClick}"
-                             BackgroundColor="YellowGreen"
-                             HorizontalOptions="End"/>
-                </Grid>
+                <Button Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        WidthRequest="70"
+                        HeightRequest="70"
+                        CornerRadius="35"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.User}"
+                        FontSize="35"
+                        FontFamily="FAS"
+                        Command="{Binding ProfileClick}"
+                        BackgroundColor="CornflowerBlue"
+                        HorizontalOptions="Start"/>
+                <Button Grid.Column="1"
+                         Grid.ColumnSpan="2"
+                         WidthRequest="70"
+                         HeightRequest="70"
+                         CornerRadius="35"
+                         Text="{x:Static fontAwesome:FontAwesomeIcons.ChartBar}"
+                         FontSize="35"
+                         FontFamily="FAS"
+                         Command="{Binding GraphClick}"
+                         BackgroundColor="CornflowerBlue"
+                         HorizontalOptions="Start"/>
+                <Button Grid.Column="3"
+                        Grid.ColumnSpan="2"
+                        WidthRequest="70"
+                        HeightRequest="70"
+                        CornerRadius="35"
+                        BackgroundColor="{Binding TimerColor}"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.HourglassHalf}"
+                        FontSize="35"
+                        FontFamily="FAS"
+                        Command="{Binding TimerClick}"
+                        HorizontalOptions="End"/>
+                <Button Grid.Column="4"
+                        Grid.ColumnSpan="2"
+                        WidthRequest="70"
+                        HeightRequest="70"
+                        CornerRadius="35"
+                        Text="{x:Static fontAwesome:FontAwesomeIcons.Plus}"
+                        FontSize="35"
+                        FontFamily="FAS"
+                        Command="{Binding AddProjectClick}"
+                        BackgroundColor="YellowGreen"
+                        HorizontalOptions="End"/>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

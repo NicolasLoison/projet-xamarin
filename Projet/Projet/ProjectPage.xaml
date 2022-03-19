@@ -6,25 +6,41 @@
              xmlns:model="clr-namespace:Projet.Model"
              xmlns:converter="clr-namespace:Projet.Converter"
              x:Class="Projet.ProjectPage"
-             x:DataType="projet:ProjectViewModel">
+             x:DataType="projet:ProjectViewModel"
+             xmlns:fontAwesome="clr-namespace:FontAwesome;assembly=Projet">
             <ContentPage.ToolbarItems>
                 <!-- Order a secondary pour les textes, primary pour les images -->
-                <ToolbarItem Text="Time:"
+                <ToolbarItem Text="Time :"
                              Order="Primary"
                              Priority="0"/>
+                
                 <ToolbarItem Text="{Binding TimerValue}"
                              Order="Primary"
                              Priority="0"/>
+                
+                <ToolbarItem Text="    "
+                             Order="Primary"
+                             Priority="0"/>
+                
                 <ToolbarItem Text="Edit"
-                             IconImageSource="pencil.png"
                              Order="Primary"
                              Priority="0"
-                             Command="{Binding EditClick}"/>
-                <ToolbarItem Text="Delete"
-                             IconImageSource="bin.png"
-                             Order="Primary"
+                             Command="{Binding EditClick}">
+                    <ToolbarItem.IconImageSource>
+                        <FontImageSource FontFamily="FAS"
+                                         Glyph="{x:Static fontAwesome:FontAwesomeIcons.Pen}"/>
+                    </ToolbarItem.IconImageSource>
+                </ToolbarItem>
+                
+                <ToolbarItem Order="Primary"
                              Priority="0"
-                             Command="{Binding DeleteClick}"/>
+                             Command="{Binding DeleteClick}">
+                    <ToolbarItem.IconImageSource>
+                        <FontImageSource FontFamily="FAS"
+                                         Glyph="{x:Static fontAwesome:FontAwesomeIcons.Trash}"/>
+                    </ToolbarItem.IconImageSource>
+                </ToolbarItem>
+                
             </ContentPage.ToolbarItems>
         
     <RefreshView x:Name="MyRefreshView" Refreshing="Refresh">    
@@ -35,14 +51,15 @@
                    FontSize="30"
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"
-                   Margin="0, 20, 0, 20"
+                   Margin="0, 20, 0, 10"
                    IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
             <Entry Text="{Binding Project.Name}"
                    FontSize="30"
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"
+                   Placeholder="Name"
                    IsVisible="{Binding Editing}"
-                   Margin="0, 20, 0, 20"/>
+                   Margin="0, 20, 0, 10"/>
             
             <Label Text="{Binding Project.Description}"
                    FontSize="15"
@@ -54,6 +71,7 @@
                    FontSize="15"
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"
+                   Placeholder="Description"
                    IsVisible="{Binding Editing}"
                    Margin="0, 0, 0, 10"/>
             
@@ -64,8 +82,7 @@
                    FontSize="30"
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"/>
-        
-                
+            
             <ListView HasUnevenRows="True"
                       ItemsSource="{Binding Tasks}"
                       ItemTapped="OnItemTapped"
@@ -95,29 +112,25 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <ImageButton Grid.Column="0"
-                             Grid.ColumnSpan="2"
-                             Grid.Row="0"
-                             WidthRequest="50"
-                             HeightRequest="50"
-                             CornerRadius="25"
-                             Source="bar_chart.png"
+                <Button Grid.Column="0"
+                             WidthRequest="70"
+                             HeightRequest="70"
+                             CornerRadius="35"
+                             Text="{x:Static fontAwesome:FontAwesomeIcons.ChartBar}"
+                             FontSize="35"
+                             FontFamily="FAS"
                              Command="{Binding GraphClick}"
                              BackgroundColor="CornflowerBlue"
                              HorizontalOptions="Start"/>
                 <Grid Grid.Column="1"
-                      Grid.ColumnSpan="2"
-                      Grid.Row="0"
                       HorizontalOptions="End"
                       ColumnSpacing="70">
-                    <Button Grid.Column="1"
-                            Grid.ColumnSpan="2"
-                            Grid.Row="0"
-                            WidthRequest="50"
-                            HeightRequest="50"
-                            CornerRadius="25"
-                            Text="+"
-                            FontSize="20"
+                    <Button WidthRequest="70"
+                            HeightRequest="70"
+                            CornerRadius="35"
+                            Text="{x:Static fontAwesome:FontAwesomeIcons.Plus}"
+                            FontSize="30"
+                            FontFamily="FAS"
                             Command="{Binding AddTaskClick}"
                             BackgroundColor="YellowGreen"
                             HorizontalOptions="End"/>
