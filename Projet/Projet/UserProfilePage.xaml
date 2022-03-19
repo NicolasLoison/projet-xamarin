@@ -15,20 +15,14 @@
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"/>
             
-            <Label Text="Email" 
-                   FontSize="20"/>
             <Entry WidthRequest="300"
                    MaxLength="30"
                    Placeholder="Email"
                    Text="{Binding Email}"/>
-            <Label Text="First name" 
-                   FontSize="20"/>
             <Entry WidthRequest="300"
                    MaxLength="30"
                    Placeholder="First name"
                    Text="{Binding FirstName}"/>
-            <Label Text="Last name" 
-                   FontSize="20"/>
             <Entry WidthRequest="300"
                    MaxLength="30"
                    Placeholder="Last name"
