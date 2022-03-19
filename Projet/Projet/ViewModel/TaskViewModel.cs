@@ -179,8 +179,9 @@ namespace Projet
                 {
                     await NavigationService.PopAsync(false);
                 }
-                // HomePage homePage = new HomePage();
-                // await NavigationService.PushAsync(homePage);
+                HomePage page = Application.Current.MainPage.Navigation.NavigationStack.Last() as HomePage;
+                HomeViewModel viewModel = page.BindingContext as HomeViewModel;
+                viewModel.FindProjects();
             }
             catch (Exception e)
             {

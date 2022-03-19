@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -10,10 +11,8 @@ using Newtonsoft.Json;
 using Projet.Model;
 using Storm.Mvvm;
 using TimeTracker.Dtos;
-using TimeTracker.Dtos.Authentications;
 using TimeTracker.Dtos.Projects;
 using Xamarin.Forms;
-using Task = Projet.Model.Task;
 
 namespace Projet
 {
@@ -50,14 +49,14 @@ namespace Projet
         
         public AddProjectViewModel()
         {
-            _description = "";
-            _name = "";
+            Description = "";
+            Name = "";
             AddClick = new Command(AddProject);
         }
         
         public async void AddProject()
         {
-            if (_name.Length > 0)
+            if (Name.Length > 0)
             {
                 ErrorMessage = "";
                 HttpClient client = new HttpClient();
@@ -68,8 +67,10 @@ namespace Projet
                 HttpResponseMessage response = await client.PostAsync(new Uri(Urls.ADD_PROJECT), content);
                 if (response.IsSuccessStatusCode)
                 {
-                    // View.FindProjects();
                     await NavigationService.PopAsync();
+                    HomePage page = Application.Current.MainPage.Navigation.NavigationStack.Last() as HomePage;
+                    HomeViewModel viewModel = page.BindingContext as HomeViewModel;
+                    viewModel.FindProjects();
                 }
                 else
                 {

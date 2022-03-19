@@ -95,6 +95,7 @@ namespace Projet
                         string firstName = userData.Data.FirstName;
                         string lastName = userData.Data.LastName;
                         UserInstance.User = new User(accessToken, refreshToken, tokenType, firstName, lastName, Email, Password);
+                        
                         await NavigationService.PushAsync(new HomePage());
                     }
                     else

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -49,7 +50,7 @@ namespace Projet
         
         public async void AddTask()
         {
-            if (_name.Length > 0)
+            if (Name.Length > 0)
             {
                 ErrorMessage = "";
                 HttpClient client = new HttpClient();
@@ -60,7 +61,10 @@ namespace Projet
                 HttpResponseMessage response = await client.PostAsync(new Uri(Urls.CREATE_TASK.Replace("{projectId}", _project.Id.ToString())), content);
                 if (response.IsSuccessStatusCode)
                 {
-                    await NavigationService.PushAsync(new ProjectPage(_project));
+                    await NavigationService.PopAsync();
+                    ProjectPage page = Application.Current.MainPage.Navigation.NavigationStack.Last() as ProjectPage;
+                    ProjectViewModel projectViewModel = page.BindingContext as ProjectViewModel;
+                    projectViewModel.FindTasks();
                 }
             }
             else
