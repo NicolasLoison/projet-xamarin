@@ -18,13 +18,6 @@ namespace Projet
             InitializeComponent();
             BindingContext = new ProjectViewModel(_project);
         }
-        
-        public async void Refresh(Object sender, EventArgs e)
-        {
-            await Task.Delay(100);
-            MyRefreshView.IsRefreshing = false;
-            BindingContext = new ProjectViewModel(_project);
-        }
 
         private void OnItemTapped(object sender, ItemTappedEventArgs e)
         {

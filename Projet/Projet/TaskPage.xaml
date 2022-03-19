@@ -43,7 +43,6 @@
                 
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <RefreshView x:Name="MyRefreshView" Refreshing="Refresh">
         <StackLayout HorizontalOptions="Center"
                      VerticalOptions="CenterAndExpand"
                      Margin="15, 10">
@@ -119,6 +118,7 @@
                                     <Button Grid.Column="0"
                                                  Grid.Row="0"
                                                  Command="{Binding DeleteClick}"
+                                                 WidthRequest="60"
                                                  FontFamily="FAS" FontSize="30"
                                                  BackgroundColor="#FF3E2B"
                                                  Text="{x:Static fontAwesome:FontAwesomeIcons.Trash}"/>
@@ -162,6 +162,5 @@
                 </Grid>
             </Grid>
         </StackLayout>
-        </RefreshView>
     </ContentPage.Content>
 </ContentPage>

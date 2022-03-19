@@ -43,7 +43,6 @@
                 
             </ContentPage.ToolbarItems>
         
-    <RefreshView x:Name="MyRefreshView" Refreshing="Refresh">    
         <StackLayout Margin="20, 10" x:DataType="projet:ProjectViewModel">
             <ScrollView >
             </ScrollView>
@@ -137,5 +136,4 @@
                 </Grid>
             </Grid>
         </StackLayout>
-    </RefreshView>
 </ContentPage>

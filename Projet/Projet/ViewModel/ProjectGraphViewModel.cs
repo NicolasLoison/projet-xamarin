@@ -78,15 +78,20 @@ namespace Projet
             foreach (Project p in UserInstance.User.Projets)
             {
                 int time = p.GetTotalMinutes();
-                entries.Add(new ChartEntry(time)
+                if (time > 0)
                 {
-                    Color = SKColor.Parse(getRandColor()),
-                    Label = p.Name,  
-                    ValueLabel = time.ToString()
-                });
+                    entries.Add(new ChartEntry(time)
+                    {
+                        Label = p.Name,  
+                        ValueLabel = time.ToString(),
+                        Color = SKColor.Parse(getRandColor())
+                    }); 
+                }
+                
             }
-            ProjectChart = new BarChart{Entries = entries};
-            ProjectChart.LabelTextSize = 50.0f;
+            // ProjectChart = new LineChart{Entries = entries};
+            ProjectChart = new DonutChart{Entries = entries};
+            ProjectChart.LabelTextSize = 30.0f;
             Working = false;
         }
     }

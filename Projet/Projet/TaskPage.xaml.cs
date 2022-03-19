@@ -16,13 +16,5 @@ namespace Projet
             InitializeComponent();
             BindingContext = new TaskViewModel(task);
         }
-        
-                
-        public async void Refresh(Object sender, EventArgs e)
-        {
-            await System.Threading.Tasks.Task.Delay(100);
-            MyRefreshView.IsRefreshing = false;
-            BindingContext = new TaskViewModel(_task);
-        }
     }
 }

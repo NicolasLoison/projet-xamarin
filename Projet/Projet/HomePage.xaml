@@ -14,13 +14,16 @@
         <ToolbarItem Text="{Binding TimerValue}"
                      Order="Primary"
                      Priority="0"/>
+
+        
+
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Margin="20, 10">
-            <Label Text="{Binding TimerValue}"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand"
-                   FontSize="20"/>
+            <!-- <Label Text="{Binding TimerValue}" -->
+            <!--        VerticalOptions="CenterAndExpand" -->
+            <!--        HorizontalOptions="CenterAndExpand" -->
+            <!--        FontSize="20"/> -->
             <Label Text="Your projects"
                    VerticalOptions="CenterAndExpand"
                    HorizontalOptions="CenterAndExpand"
@@ -47,7 +50,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Grid ColumnSpacing="50">
+            <Grid ColumnSpacing="60">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>

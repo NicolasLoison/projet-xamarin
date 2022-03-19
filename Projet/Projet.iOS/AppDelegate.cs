@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Foundation;
+using Syncfusion.ListView.XForms.iOS;
+using Syncfusion.XForms.iOS.EffectsView;
 using UIKit;
 
 namespace Projet.iOS
@@ -24,7 +26,7 @@ namespace Projet.iOS
             global::Xamarin.Forms.Forms.Init();
             Xamarin.Forms.FormsMaterial.Init();
             LoadApplication(new App());
-
+        
             return base.FinishedLaunching(app, options);
         }
     }
