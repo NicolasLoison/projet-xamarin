@@ -6,8 +6,7 @@
              x:DataType="projet:AddProjectViewModel">
 
     <StackLayout Margin="20, 10"
-                 HorizontalOptions="Center"
-                 VerticalOptions="Center" >
+                 HorizontalOptions="Center">
         <!-- Place new controls here -->
         <Label Text="Create a new project"
                FontSize="30"
@@ -25,8 +24,7 @@
         
         <Label Text="{Binding ErrorMessage}"
                TextColor="Red"
-               HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand"/>
+               HorizontalOptions="Center"/>
         
         <Button Text="Add"
                 Command="{Binding AddClick}"/>

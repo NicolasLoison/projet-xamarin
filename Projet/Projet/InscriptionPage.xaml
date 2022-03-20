@@ -6,8 +6,7 @@
              x:Class="Projet.InscriptionPage"
              x:DataType="projet:InscriptionModelView">
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="Center"
-                     VerticalOptions="Center">
+        <StackLayout HorizontalOptions="Center">
             <!-- Place new controls here -->
             <Label Text="Register" 
                    FontSize="30"
@@ -35,8 +34,7 @@
             
             <Label Text="{Binding ErrorMessage}"
                    TextColor="Red"
-                   HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"/>
+                   HorizontalOptions="Center"/>
             
             <Button Text="Confirm" Command="{Binding ConfirmClick}"/>
         </StackLayout>

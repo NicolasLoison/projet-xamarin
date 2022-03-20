@@ -8,12 +8,11 @@
              x:DataType="projet:UserProfileViewModel">
     <ContentPage.Content>
            <StackLayout HorizontalOptions="Center"
-                        VerticalOptions="CenterAndExpand" >
+                        Margin="20, 10">
             <Label Text="Profile" 
-                   Margin="0, 0, 0, 50"
+                   Margin="0, 0, 0, 10"
                    FontSize="30"
-                   HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"/>
+                   HorizontalOptions="Center"/>
             
             <Entry WidthRequest="300"
                    MaxLength="30"
