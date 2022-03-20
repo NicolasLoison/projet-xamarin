@@ -7,16 +7,13 @@
              x:Class="Projet.TaskGraphPage"
              x:DataType="projet:TaskGraphViewModel">
     <ContentPage.Content>
-        <StackLayout VerticalOptions="Center"
-                     HorizontalOptions="Center"
-                     Margin="20, 10">
-            <Label Text="Time spent on a project (minutes)"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand"
+        <StackLayout Margin="20, 10">
+            <Label Text="{Binding ChartLabel}"
                    FontSize="30"/>
             <ActivityIndicator IsRunning="{Binding Working}" />
-            <forms:ChartView HeightRequest="300" WidthRequest="300"
-                             Chart="{Binding TaskChart}"></forms:ChartView>
+            <forms:ChartView 
+                HeightRequest="300" 
+                Chart="{Binding TaskChart}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

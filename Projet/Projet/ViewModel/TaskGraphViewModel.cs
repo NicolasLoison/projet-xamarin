@@ -49,9 +49,11 @@ namespace Projet
             get;
             set;
         }
+        public string ChartLabel { get; set; }
         public TaskGraphViewModel(Project project)
         {
             Project = project;
+            ChartLabel = "Time spent on " + Project.Name + " (minutes)";
             Working = false;
             FindTasks();
         }
@@ -83,17 +85,19 @@ namespace Projet
             foreach (Task task in Project.Tasks)
             {
                 int time = task.GetTotalMinutes();
-                Debug.WriteLine(task.Name);
-                Debug.WriteLine(time);
-                entries.Add(new ChartEntry(time)
+                if (time > 0)
                 {
-                    Color = SKColor.Parse(getRandColor()),
-                    Label = task.Name,  
-                    ValueLabel = time.ToString()
-                });
+                    var color = SKColor.Parse(getRandColor());
+                    entries.Add(new ChartEntry(time)
+                    {
+                        Color = color,
+                        Label = task.Name,  
+                        ValueLabel = time.ToString(),
+                        ValueLabelColor = color,
+                    });
+                }
             }
-            TaskChart = new BarChart() {Entries = entries};
-            TaskChart.LabelTextSize = 50.0f;
+            TaskChart = new DonutChart{Entries = entries, LabelTextSize = 30f};
             Working = false;
         }
     }
