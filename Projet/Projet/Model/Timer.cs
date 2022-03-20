@@ -81,11 +81,11 @@ namespace Projet.Model
             return t.Minutes;
         }
         
-        public int GetTotalMinutes()
+        public double GetTotalMinutes()
         {
             TimeSpan t = EndTime.Subtract(StartTime);
             Console.WriteLine("Timer: " + t.Minutes);
-            return t.Minutes;
+            return t.TotalMinutes;
         }
         
         

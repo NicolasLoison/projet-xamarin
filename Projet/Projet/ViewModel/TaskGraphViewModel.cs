@@ -84,15 +84,15 @@ namespace Projet
             List<ChartEntry> entries = new List<ChartEntry>();
             foreach (Task task in Project.Tasks)
             {
-                int time = task.GetTotalMinutes();
+                double time = task.GetTotalMinutes();
                 if (time > 0)
                 {
                     var color = SKColor.Parse(getRandColor());
-                    entries.Add(new ChartEntry(time)
+                    entries.Add(new ChartEntry((float)time)
                     {
                         Color = color,
                         Label = task.Name,  
-                        ValueLabel = time.ToString(),
+                        ValueLabel = time.ToString("F1"),
                         ValueLabelColor = color,
                     });
                 }

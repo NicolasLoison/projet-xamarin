@@ -91,9 +91,9 @@ namespace Projet.Model
             return total;
         }
         
-        public int GetTotalMinutes()
+        public double GetTotalMinutes()
         {
-            int total = 0;
+            double total = 0;
             foreach (Task t in Tasks)
             {
                 total += t.GetTotalMinutes();
