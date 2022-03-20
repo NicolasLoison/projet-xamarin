@@ -7,30 +7,15 @@
              x:Class="Projet.HomePage"
              xmlns:fontAwesome="clr-namespace:FontAwesome;assembly=Projet"
              x:DataType="projet:HomeViewModel">
-    <!-- <ContentPage.ToolbarItems> -->
-    <!--     <ToolbarItem Text="Time:" -->
-    <!--                  Order="Primary" -->
-    <!--                  Priority="0"/> -->
-    <!--     <ToolbarItem Text="{Binding TimerValue}" -->
-    <!--                  Order="Primary" -->
-    <!--                  Priority="0"/> -->
-    <!-- -->
-    <!--      -->
-    <!-- -->
-    <!-- </ContentPage.ToolbarItems> -->
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal"
                      HorizontalOptions="Center"
                      VerticalOptions="Center"
-                     Margin="0, 0, 70, 0"
-                     >
-            <Label Text="TIME:"
-                   VerticalTextAlignment="Center"
-                   FontSize="20"/>
+                     Margin="0, 0, 70, 0">
             <Label Text="{Binding TimerValue}"
                    VerticalTextAlignment="Center"
                    FontSize="20"/>
-            <Label Text="{x:Static fontAwesome:FontAwesomeIcons.HourglassHalf}"
+            <Label Text="{x:Static fontAwesome:FontAwesomeIcons.Stopwatch}"
                    VerticalTextAlignment="Center"
                    FontSize="35"
                    FontFamily="FAS"></Label>
@@ -58,7 +43,7 @@
                 </ListView.ItemTemplate>
             </ListView>
             
-            <Grid ColumnSpacing="60">
+            <Grid ColumnSpacing="60" Margin="0, 0, 0, 5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>

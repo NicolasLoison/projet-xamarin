@@ -8,18 +8,15 @@
              x:Class="Projet.ProjectPage"
              x:DataType="projet:ProjectViewModel"
              xmlns:fontAwesome="clr-namespace:FontAwesome;assembly=Projet">
-    <NavigationPage.TitleView>
+    <NavigationPage.TitleView> 
         <StackLayout Orientation="Horizontal"
                      HorizontalOptions="Center"
                      VerticalOptions="Center"
-                     Margin="0, 0, 0, 0">
-            <Label Text="TIME:"
-                   VerticalTextAlignment="Center"
-                   FontSize="20"/>
+                     Margin="90, 0, 0, 0">
             <Label Text="{Binding TimerValue}"
                    VerticalTextAlignment="Center"
                    FontSize="20"/>
-            <Label Text="{x:Static fontAwesome:FontAwesomeIcons.HourglassHalf}"
+            <Label Text="{x:Static fontAwesome:FontAwesomeIcons.Stopwatch}"
                    VerticalTextAlignment="Center"
                    FontSize="35"
                    FontFamily="FAS"></Label>
@@ -42,7 +39,6 @@
                         Command="{Binding DeleteClick}"
                         BackgroundColor="Red"/>
             </StackLayout>
-            
         </StackLayout>
     </NavigationPage.TitleView>
         <StackLayout Margin="20, 10" x:DataType="projet:ProjectViewModel">
@@ -109,7 +105,7 @@
                 
                 
                 
-            <Grid ColumnSpacing="60">
+            <Grid ColumnSpacing="60" Margin="0, 0, 0, 5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
@@ -119,7 +115,7 @@
                         HeightRequest="70"
                         CornerRadius="35"
                         Text="{x:Static fontAwesome:FontAwesomeIcons.Home}"
-                        FontSize="35"
+                        FontSize="33"
                         FontFamily="FAS"
                         Command="{Binding HomeClick}"
                         BackgroundColor="CornflowerBlue"
