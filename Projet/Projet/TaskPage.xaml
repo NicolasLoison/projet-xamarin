@@ -57,12 +57,9 @@
             <Entry Text="{Binding EntryName}"
                    FontSize="30"
                    HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"
+                   WidthRequest="200"
                    Margin="0, 0, 0, 10"
                    IsVisible="{Binding Editing}"/>
-            <!-- <Button Text="Ok" -->
-            <!--         IsVisible="{Binding Editing}" -->
-            <!--         Command="{Binding ConfirmEditClick}"/> -->
             <Label Text="Timers:"
                    FontSize="30"
                    HorizontalOptions="Center"

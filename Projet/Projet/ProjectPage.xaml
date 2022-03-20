@@ -12,17 +12,17 @@
         <StackLayout Orientation="Horizontal"
                      HorizontalOptions="Center"
                      VerticalOptions="Center"
-                     Margin="90, 0, 0, 0">
+                     Margin="80, 0, 0, 0">
             <Label Text="{Binding TimerValue}"
                    VerticalTextAlignment="Center"
-                   FontSize="20"/>
+                   FontSize="25"/>
             <Label Text="{x:Static fontAwesome:FontAwesomeIcons.Stopwatch}"
                    VerticalTextAlignment="Center"
                    FontSize="35"
-                   FontFamily="FAS"></Label>
+                   FontFamily="FAS" />
             <StackLayout Orientation="Horizontal"
                          Margin="30,0,0,0">
-                <Button WidthRequest="50"
+                <Button WidthRequest="50" 
                         HeightRequest="50"
                         CornerRadius="25"
                         Text="{x:Static fontAwesome:FontAwesomeIcons.Pen}"
@@ -42,43 +42,35 @@
         </StackLayout>
     </NavigationPage.TitleView>
         <StackLayout Margin="20, 10" x:DataType="projet:ProjectViewModel">
-            <ScrollView >
-            </ScrollView>
             <Label Text="{Binding Project.Name}"
                    FontSize="30"
                    HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"
                    Margin="0, 20, 0, 10"
                    IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
             <Entry Text="{Binding EntryName}"
                    FontSize="30"
+                   WidthRequest="300"
                    HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"
                    Placeholder="Name"
                    IsVisible="{Binding Editing}"
                    Margin="0, 20, 0, 10"/>
             
             <Label Text="{Binding Project.Description}"
-                   FontSize="15"
+                   FontSize="20"
                    HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"
                    Margin="0, 0, 0, 10"
                    IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
             <Entry Text="{Binding EntryDescription}"
-                   FontSize="15"
+                   FontSize="20"
                    HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"
+                   WidthRequest="300"
                    Placeholder="Description"
                    IsVisible="{Binding Editing}"
                    Margin="0, 0, 0, 10"/>
             
-            <!-- <Button Text="Ok" -->
-            <!--         IsVisible="{Binding Editing}" -->
-            <!--         Command="{Binding ConfirmEditClick}"/> -->
             <Label Text="Tasks:"
                    FontSize="30"
-                   HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"/>
+                   HorizontalOptions="Center"/>
             
             <ListView HasUnevenRows="True"
                       ItemsSource="{Binding Tasks}"
