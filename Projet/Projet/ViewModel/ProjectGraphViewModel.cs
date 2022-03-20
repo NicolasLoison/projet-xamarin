@@ -80,18 +80,18 @@ namespace Projet
                 int time = p.GetTotalMinutes();
                 if (time > 0)
                 {
+                    var color = SKColor.Parse(getRandColor());
                     entries.Add(new ChartEntry(time)
                     {
                         Label = p.Name,  
                         ValueLabel = time.ToString(),
-                        Color = SKColor.Parse(getRandColor())
+                        Color = color,
+                        ValueLabelColor = color,
                     }); 
                 }
                 
             }
-            // ProjectChart = new LineChart{Entries = entries};
-            ProjectChart = new DonutChart{Entries = entries};
-            ProjectChart.LabelTextSize = 30.0f;
+            ProjectChart = new DonutChart{Entries = entries, LabelTextSize = 30f};
             Working = false;
         }
     }
