@@ -118,24 +118,37 @@ namespace Projet.Model
         public async void ModifyProject(ProjectViewModel projectViewModel)
         {
             bool answer = await App.Current.MainPage.DisplayAlert("Confirm changes", "Do you really want to confirm changes?", "Yes", "No");
-            if (!answer) return;
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(Urls.HOST);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
-            AddProjectRequest modifyProject = new AddProjectRequest(Name, Description);
-            StringContent content = new StringContent(JsonConvert.SerializeObject(modifyProject), Encoding.UTF8, "application/json");
-
-            HttpResponseMessage response = await client.PutAsync(new Uri(Urls.UPDATE_PROJECT.Replace("{projectId}", Id.ToString())), content);
-            if (!response.IsSuccessStatusCode)
+            if (answer)
             {
-                Debug.WriteLine("Modify error: " + response.ReasonPhrase);
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(Urls.HOST);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
+                AddProjectRequest modifyProject = new AddProjectRequest(projectViewModel.EntryName, projectViewModel.EntryDescription);
+                StringContent content = new StringContent(JsonConvert.SerializeObject(modifyProject), Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await client.PutAsync(new Uri(Urls.UPDATE_PROJECT.Replace("{projectId}", Id.ToString())), content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Modify error: " + response.ReasonPhrase);
+                }
+                else
+                {
+                    Name = projectViewModel.EntryName;
+                    Description = projectViewModel.EntryDescription;
+                    projectViewModel.Project = this;
+                    View.Projects[IndexInHome] = this;
+                    projectViewModel.SaveName = Name;
+                    projectViewModel.SaveDescription = Description;
+                }
             }
             else
             {
-                projectViewModel.Editing = false;
-                projectViewModel.Project = this;
-                View.Projects[IndexInHome] = this;
+                Name = projectViewModel.SaveName;
+                Description = projectViewModel.SaveDescription;
+                projectViewModel.EntryDescription = Description;
+                projectViewModel.EntryName = Name;
             }
+            projectViewModel.Editing = false;
         }
         
         public async void DeleteProject()
@@ -148,7 +161,12 @@ namespace Projet.Model
             HttpResponseMessage response = await client.DeleteAsync(new Uri(Urls.DELETE_PROJECT.Replace("{projectId}", Id.ToString())));
             if (response.IsSuccessStatusCode)
             {
-                await NavigationService.PushAsync(new HomePage());
+                View.Projects.Remove(this);
+                for (int i = 0; i < View.Projects.Count; i++)
+                {
+                    View.Projects[i].IndexInHome = i;
+                }
+                await NavigationService.PopAsync(false);
             }
         }
     }

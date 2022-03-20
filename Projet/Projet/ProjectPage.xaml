@@ -8,40 +8,6 @@
              x:Class="Projet.ProjectPage"
              x:DataType="projet:ProjectViewModel"
              xmlns:fontAwesome="clr-namespace:FontAwesome;assembly=Projet">
-            <!-- <ContentPage.ToolbarItems> -->
-            <!--     ~1~ Order a secondary pour les textes, primary pour les images @1@ -->
-            <!--     <ToolbarItem Text="Time :" -->
-            <!--                  Order="Primary" -->
-            <!--                  Priority="0"/> -->
-            <!--      -->
-            <!--     <ToolbarItem Text="{Binding TimerValue}" -->
-            <!--                  Order="Primary" -->
-            <!--                  Priority="0"/> -->
-            <!--      -->
-            <!--     <ToolbarItem Text="    " -->
-            <!--                  Order="Primary" -->
-            <!--                  Priority="0"/> -->
-            <!--      -->
-            <!--     <ToolbarItem Text="Edit" -->
-            <!--                  Order="Primary" -->
-            <!--                  Priority="0" -->
-            <!--                  Command="{Binding EditClick}"> -->
-            <!--         <ToolbarItem.IconImageSource> -->
-            <!--             <FontImageSource FontFamily="FAS" -->
-            <!--                              Glyph="{x:Static fontAwesome:FontAwesomeIcons.Pen}"/> -->
-            <!--         </ToolbarItem.IconImageSource> -->
-            <!--     </ToolbarItem> -->
-            <!--      -->
-            <!--     <ToolbarItem Order="Primary" -->
-            <!--                  Priority="0" -->
-            <!--                  Command="{Binding DeleteClick}"> -->
-            <!--         <ToolbarItem.IconImageSource> -->
-            <!--             <FontImageSource FontFamily="FAS" -->
-            <!--                              Glyph="{x:Static fontAwesome:FontAwesomeIcons.Trash}"/> -->
-            <!--         </ToolbarItem.IconImageSource> -->
-            <!--     </ToolbarItem> -->
-            <!--      -->
-            <!-- </ContentPage.ToolbarItems> -->
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal"
                      HorizontalOptions="Center"
@@ -88,7 +54,7 @@
                    VerticalOptions="CenterAndExpand"
                    Margin="0, 20, 0, 10"
                    IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
-            <Entry Text="{Binding Project.Name}"
+            <Entry Text="{Binding EntryName}"
                    FontSize="30"
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"
@@ -102,7 +68,7 @@
                    VerticalOptions="CenterAndExpand"
                    Margin="0, 0, 0, 10"
                    IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
-            <Entry Text="{Binding Project.Description}"
+            <Entry Text="{Binding EntryDescription}"
                    FontSize="15"
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"
@@ -110,9 +76,9 @@
                    IsVisible="{Binding Editing}"
                    Margin="0, 0, 0, 10"/>
             
-            <Button Text="Ok"
-                    IsVisible="{Binding Editing}"
-                    Command="{Binding ConfirmEditClick}"/>
+            <!-- <Button Text="Ok" -->
+            <!--         IsVisible="{Binding Editing}" -->
+            <!--         Command="{Binding ConfirmEditClick}"/> -->
             <Label Text="Tasks:"
                    FontSize="30"
                    HorizontalOptions="Center"

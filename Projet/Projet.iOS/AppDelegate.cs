@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Foundation;
-using Syncfusion.ListView.XForms.iOS;
-using Syncfusion.XForms.iOS.EffectsView;
+﻿using Foundation;
 using UIKit;
 
 namespace Projet.iOS

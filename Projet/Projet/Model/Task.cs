@@ -88,26 +88,35 @@ namespace Projet.Model
         public async void ModifyTask(TaskViewModel taskViewModel)
         {
             bool answer = await App.Current.MainPage.DisplayAlert("Confirm changes", "Do you really want to confirm changes?", "Yes", "No");
-            if (!answer) return;
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(Urls.HOST);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
-            AddTaskRequest modifyTask = new AddTaskRequest(Name);
-            StringContent content = new StringContent(JsonConvert.SerializeObject(modifyTask), Encoding.UTF8, "application/json");
-
-            HttpResponseMessage response = await client.PutAsync(new Uri(Urls.UPDATE_TASK
-                .Replace("{projectId}", View.Project.Id.ToString())
-                .Replace("{taskId}", Id.ToString())), content);
-            if (!response.IsSuccessStatusCode)
+            if (answer)
             {
-                Debug.WriteLine("Modify task error: " + response.ReasonPhrase);
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(Urls.HOST);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
+                AddTaskRequest modifyTask = new AddTaskRequest(taskViewModel.EntryName);
+                StringContent content = new StringContent(JsonConvert.SerializeObject(modifyTask), Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await client.PutAsync(new Uri(Urls.UPDATE_TASK
+                    .Replace("{projectId}", View.Project.Id.ToString())
+                    .Replace("{taskId}", Id.ToString())), content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Modify task error: " + response.ReasonPhrase);
+                }
+                else
+                {
+                    Name = taskViewModel.EntryName;
+                    taskViewModel.Task = this;
+                    View.Tasks[IndexInProject] = this;
+                    taskViewModel.SaveName = Name;
+                }
             }
             else
             {
-                taskViewModel.Editing = false;
-                taskViewModel.Task = this;
-                View.Tasks[IndexInProject] = this;
+                Name = taskViewModel.SaveName;
+                taskViewModel.EntryName = Name;
             }
+            taskViewModel.Editing = false;
         }
         
         public async void DeleteTask()
@@ -122,12 +131,12 @@ namespace Projet.Model
                 .Replace("{taskId}", Id.ToString())));
             if (response.IsSuccessStatusCode)
             {
-                // View.Tasks.Remove(this);
-                // for (int i = 0; i < View.Tasks.Count; i++)
-                // {
-                //     View.Tasks[i].IndexInProject = i;
-                // }
-                await NavigationService.PushAsync(new ProjectPage(View.Project));
+                View.Tasks.Remove(this);
+                for (int i = 0; i < View.Tasks.Count; i++)
+                {
+                    View.Tasks[i].IndexInProject = i;
+                }
+                await NavigationService.PopAsync(false);
             }
         }
     }

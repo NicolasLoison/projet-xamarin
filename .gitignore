@@ -14,13 +14,13 @@ riderModule.iml
 *.user
 *.sln.docstates
 *.userprefs
-
+.idea/
 # ignore Xamarin.Android Resource.Designer.cs files
 **/*.Droid/**/[Rr]esource.[Dd]esigner.cs
 **/*.Android/**/[Rr]esource.[Dd]esigner.cs
 **/Android/**/[Rr]esource.[Dd]esigner.cs
 **/Droid/**/[Rr]esource.[Dd]esigner.cs
-
+**/Projet.Android/Resources/Resource.designer.cs
 # Xamarin Components
 Components/
 

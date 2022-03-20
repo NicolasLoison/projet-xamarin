@@ -91,10 +91,49 @@ namespace Projet
             get;
             set;
         }
+
+        public string SaveName
+        {
+            get;
+            set;
+        }
+
+        public string SaveDescription
+        {
+            get;
+            set;
+        }
+
+        private string _entryName, _entryDescription;
+        
+        public string EntryName
+        {
+            get => _entryName;
+            set
+            {
+                SetProperty(ref _entryName, value);
+                OnPropertyChanged(nameof(EntryName));
+            }
+        }
+
+        public string EntryDescription
+        {
+            get => _entryDescription;
+            set
+            {
+                SetProperty(ref _entryDescription, value);
+                OnPropertyChanged(nameof(EntryDescription));
+            }
+        }
         
         public ProjectViewModel(Project project)
         {
             Project = project;
+            SaveName = project.Name;
+            SaveDescription = project.Description;
+            EntryName = project.Name;
+            EntryDescription = project.Description;
+            
             FindTasks();
             Editing = false;
             HomeClick = new Command(ToHome);
@@ -130,7 +169,14 @@ namespace Projet
 
         public void TriggerEdit()
         {
-            Editing = true;
+            if (Editing)
+            {
+                Project.ModifyProject(this);
+            }
+            else
+            {
+                Editing = true;
+            }
         }
 
         public void ConfirmEdit()

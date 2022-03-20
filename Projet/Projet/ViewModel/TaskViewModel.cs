@@ -131,9 +131,28 @@ namespace Projet
             set;
         }
         
+        public string SaveName
+        {
+            get;
+            set;
+        }
+        
+        private string _entryName;
+        
+        public string EntryName
+        {
+            get => _entryName;
+            set
+            {
+                SetProperty(ref _entryName, value);
+                OnPropertyChanged(nameof(EntryName));
+            }
+        }
         public TaskViewModel(Task task)
         {
             Task = task;
+            SaveName = task.Name;
+            EntryName = task.Name;
             TimerColor = TimerColorUpdater;
             Editing = false;
             HomeClick = new Command(ToHome);
@@ -158,7 +177,14 @@ namespace Projet
         
         public void TriggerEdit()
         {
-            Editing = true;
+            if (Editing)
+            {
+                Task.ModifyTask(this);
+            }
+            else
+            {
+                Editing = true;
+            }
         }
 
         public void ConfirmEdit()
