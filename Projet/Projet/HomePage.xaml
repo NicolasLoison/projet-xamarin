@@ -11,10 +11,10 @@
         <StackLayout Orientation="Horizontal"
                      HorizontalOptions="Center"
                      VerticalOptions="Center"
-                     Margin="0, 0, 70, 0">
+                     Margin="0, 0, 50, 0">
             <Label Text="{Binding TimerValue}"
                    VerticalTextAlignment="Center"
-                   FontSize="20"/>
+                   FontSize="25"/>
             <Label Text="{x:Static fontAwesome:FontAwesomeIcons.Stopwatch}"
                    VerticalTextAlignment="Center"
                    FontSize="35"
@@ -24,21 +24,33 @@
     <ContentPage.Content>
         <StackLayout Margin="20, 10">
             <Label Text="My projects"
+                   Margin="0, 15"
                    VerticalOptions="CenterAndExpand"
                    HorizontalOptions="CenterAndExpand"
-                   FontSize="25"/>
-            <ListView HasUnevenRows="False"
+                   TextColor="Black"
+                   FontAttributes="Bold"
+                   FontSize="35"/>
+            <ListView HasUnevenRows="True"
                       ItemsSource="{Binding Projects}"
                       ItemTapped="OnItemTapped"
                       SelectionMode="None"
-                      SeparatorVisibility="Default"
-                      SeparatorColor="Green">
+                      SeparatorVisibility="None"
+                      CachingStrategy="RecycleElement"
+                      SeparatorColor="DodgerBlue">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:Project">
-                        <TextCell Text="{Binding Name}"
-                                  Detail="{Binding Description}"
-                                  TextColor="Black"
-                                  DetailColor="Gray"/>
+                        <ViewCell>
+                            <Grid Padding="5">
+                                <Frame CornerRadius="20">
+                                    <StackLayout>
+                                        <Label Text="{Binding Name}" FontSize="Large" TextColor="Black"
+                                               HorizontalTextAlignment="Center"/>
+                                        <Label Text="{Binding Description}" FontSize="Medium"
+                                               HorizontalTextAlignment="Center"/>
+                                    </StackLayout>
+                                </Frame>
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
