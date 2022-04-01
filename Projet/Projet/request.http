@@ -27,7 +27,7 @@ POST https://timetracker.julienmialon.ovh/api/v1/refresh
 Content-Type: application/json
 
 {
-  "refresh_token": "cd0aaba620cf43c48814d74f11a046cc",
+  "refresh_token": "672359d7fc4c4fb786645137d7d77d3e",
   "client_id": "MOBILE",
   "client_secret": "COURS"
 }
@@ -59,7 +59,7 @@ Authorization: Bearer 955180500765425bbf97d4f730dd1161
 
 ### Afficher les projets
 GET https://timetracker.julienmialon.ovh/api/v1/projects
-Authorization: Bearer 955180500765425bbf97d4f730dd1161
+Authorization: Bearer 843790bc72ac4d2f83e750d1fce83e4f
 
 ### Ajouter un projet
 POST https://timetracker.julienmialon.ovh/api/v1/projects
@@ -87,8 +87,8 @@ Authorization: Bearer 955180500765425bbf97d4f730dd1161
 
 
 ### Afficher les taches d'un projet par id
-GET https://timetracker.julienmialon.ovh/api/v1/projects/5/tasks
-Authorization: Bearer 955180500765425bbf97d4f730dd1161
+GET https://timetracker.julienmialon.ovh/api/v1/projects/14/tasks
+Authorization: Bearer 843790bc72ac4d2f83e750d1fce83e4f
 
 ### Ajouter une tache à un projet par id
 POST https://timetracker.julienmialon.ovh/api/v1/projects/5/tasks

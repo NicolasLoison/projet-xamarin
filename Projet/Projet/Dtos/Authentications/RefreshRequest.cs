@@ -12,5 +12,12 @@ namespace TimeTracker.Dtos.Authentications
 		
 		[JsonProperty("client_secret")]
 		public string ClientSecret { get; set; }
+
+		public RefreshRequest(string rt, string id, string secret)
+		{
+			RefreshToken = rt;
+			ClientId = id;
+			ClientSecret = secret;
+		}
 	}
 }

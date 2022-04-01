@@ -12,10 +12,10 @@
         <StackLayout Orientation="Horizontal"
                      HorizontalOptions="Center"
                      VerticalOptions="Center"
-                     Margin="80, 0, 0, 0">
+                     Margin="90, 0, 0, 0">
             <Label Text="{Binding TimerValue}"
                    VerticalTextAlignment="Center"
-                   FontSize="25"/>
+                   FontSize="20"/>
             <Label Text="{x:Static fontAwesome:FontAwesomeIcons.Stopwatch}"
                    VerticalTextAlignment="Center"
                    FontSize="35"

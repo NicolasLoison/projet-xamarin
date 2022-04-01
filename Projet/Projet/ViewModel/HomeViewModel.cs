@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Newtonsoft.Json;
@@ -119,21 +120,38 @@ namespace Projet
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(Urls.HOST);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(User.TokenType, User.AccessToken);
-            HttpResponseMessage response = await client.GetAsync(new Uri(Urls.LIST_PROJECTS));
+            RefreshRequest refreshRequest =
+                new RefreshRequest(UserInstance.User.RefreshToken, Urls.CLIENT_ID, Urls.CLIENT_SECRET);
+            StringContent content = new StringContent(JsonConvert.SerializeObject(refreshRequest), Encoding.UTF8,
+                "application/json");
+            HttpResponseMessage response = await client.PostAsync(new Uri(Urls.REFRESH_TOKEN), content);
             if (response.IsSuccessStatusCode)
             {
                 Task<string> task = response.Content.ReadAsStringAsync();
-                Response<List<Project>> userProjects =
-                    JsonConvert.DeserializeObject<Response<List<Project>>>(task.Result);
-                UserInstance.User.Projets = userProjects.Data;
-                ObservableCollection<Project> projects = new ObservableCollection<Project>(UserInstance.User.Projets);
-                Projects = projects;
-                for (int i = 0; i < Projects.Count; i++)
+                Response<LoginResponse> r =
+                    JsonConvert.DeserializeObject<Response<LoginResponse>>(task.Result);
+                UserInstance.User.AccessToken = r.Data.AccessToken;
+                UserInstance.User.RefreshToken = r.Data.RefreshToken;
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
+                response = await client.GetAsync(new Uri(Urls.LIST_PROJECTS));
+                if (response.IsSuccessStatusCode)
                 {
-                    Projects[i].View = this;
-                    Projects[i].IndexInHome = i;
+                    task = response.Content.ReadAsStringAsync();
+                    Response<List<Project>> userProjects =
+                        JsonConvert.DeserializeObject<Response<List<Project>>>(task.Result);
+                    UserInstance.User.Projets = userProjects.Data;
+                    ObservableCollection<Project> projects = new ObservableCollection<Project>(UserInstance.User.Projets);
+                    Projects = projects;
+                    for (int i = 0; i < Projects.Count; i++)
+                    {
+                        Projects[i].View = this;
+                        Projects[i].IndexInHome = i;
+                    }
                 }
+            }
+            else
+            {
+                Debug.WriteLine(response.ReasonPhrase);
             }
         }
         

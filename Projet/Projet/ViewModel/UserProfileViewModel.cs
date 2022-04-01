@@ -79,36 +79,42 @@ namespace Projet
 
         public async void SaveChanges()
         {
-            try
+            // si l'adresse mail est deja prise, afficher une pop up
+            // sinon, on va vers la page Home de l'utilisateur
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(Urls.HOST);
+            RefreshRequest refreshRequest =
+                new RefreshRequest(UserInstance.User.RefreshToken, Urls.CLIENT_ID, Urls.CLIENT_SECRET);
+            StringContent content = new StringContent(JsonConvert.SerializeObject(refreshRequest), Encoding.UTF8,
+                "application/json");
+            HttpResponseMessage response = await client.PostAsync(new Uri(Urls.REFRESH_TOKEN), content);
+            if (response.IsSuccessStatusCode)
             {
-                // si l'adresse mail est deja prise, afficher une pop up
-                // sinon, on va vers la page Home de l'utilisateur
-                HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(Urls.HOST);
+                Task<string> task = response.Content.ReadAsStringAsync();
+                Response<LoginResponse> r =
+                    JsonConvert.DeserializeObject<Response<LoginResponse>>(task.Result);
+                UserInstance.User.AccessToken = r.Data.AccessToken;
+                UserInstance.User.RefreshToken = r.Data.RefreshToken;
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(_tokenType, _accessToken);
                 SetUserProfileRequest profileRequest = new SetUserProfileRequest(Email, FirstName, LastName);
 
-                StringContent content = new StringContent(JsonConvert.SerializeObject(profileRequest), Encoding.UTF8, "application/json");
+                content = new StringContent(JsonConvert.SerializeObject(profileRequest), Encoding.UTF8, "application/json");
 
                 var method = new HttpMethod("PATCH");
                 var request = new HttpRequestMessage(method, Urls.SET_USER_PROFILE) {
                     Content = content
                 };
-                HttpResponseMessage response = await client.SendAsync(request);
+                response = await client.SendAsync(request);
                 Console.WriteLine(response.IsSuccessStatusCode);
                 if (response.IsSuccessStatusCode)
                 {
-                    Task<string> task = response.Content.ReadAsStringAsync();
+                    task = response.Content.ReadAsStringAsync();
                     Response<SetUserProfileRequest> data = JsonConvert.DeserializeObject<Response<SetUserProfileRequest>>(task.Result);
                     User.Email = data.Data.Email;
                     User.FirstName = data.Data.FirstName;
                     User.LastName = data.Data.LastName;
                     await NavigationService.PushAsync(new UserProfilePage());
                 }
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e);
             }
         }
 

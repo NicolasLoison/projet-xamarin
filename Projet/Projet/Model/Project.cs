@@ -5,10 +5,12 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Newtonsoft.Json;
 using Storm.Mvvm;
 using TimeTracker.Dtos;
+using TimeTracker.Dtos.Authentications;
 using TimeTracker.Dtos.Authentications.Credentials;
 using TimeTracker.Dtos.Projects;
 using Xamarin.Essentials;
@@ -122,33 +124,52 @@ namespace Projet.Model
             {
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(Urls.HOST);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
-                AddProjectRequest modifyProject = new AddProjectRequest(projectViewModel.EntryName, projectViewModel.EntryDescription);
-                StringContent content = new StringContent(JsonConvert.SerializeObject(modifyProject), Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await client.PutAsync(new Uri(Urls.UPDATE_PROJECT.Replace("{projectId}", Id.ToString())), content);
-                if (!response.IsSuccessStatusCode)
+                RefreshRequest refreshRequest =
+                    new RefreshRequest(UserInstance.User.RefreshToken, Urls.CLIENT_ID, Urls.CLIENT_SECRET);
+                StringContent content = new StringContent(JsonConvert.SerializeObject(refreshRequest), Encoding.UTF8,
+                    "application/json");
+                HttpResponseMessage response = await client.PostAsync(new Uri(Urls.REFRESH_TOKEN), content);
+                if (response.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("Modify error: " + response.ReasonPhrase);
+                    Task<string> task = response.Content.ReadAsStringAsync();
+                    Response<LoginResponse> r =
+                        JsonConvert.DeserializeObject<Response<LoginResponse>>(task.Result);
+                    UserInstance.User.AccessToken = r.Data.AccessToken;
+                    UserInstance.User.RefreshToken = r.Data.RefreshToken;
+                    client.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
+                    AddProjectRequest modifyProject =
+                        new AddProjectRequest(projectViewModel.EntryName, projectViewModel.EntryDescription);
+                    content = new StringContent(JsonConvert.SerializeObject(modifyProject), Encoding.UTF8,
+                        "application/json");
+
+                    response =
+                        await client.PutAsync(new Uri(Urls.UPDATE_PROJECT.Replace("{projectId}", Id.ToString())),
+                            content);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        Debug.WriteLine("Modify error: " + response.ReasonPhrase);
+                    }
+                    else
+                    {
+                        Name = projectViewModel.EntryName;
+                        Description = projectViewModel.EntryDescription;
+                        projectViewModel.Project = this;
+                        View.Projects[IndexInHome] = this;
+                        projectViewModel.SaveName = Name;
+                        projectViewModel.SaveDescription = Description;
+                    }
                 }
                 else
                 {
-                    Name = projectViewModel.EntryName;
-                    Description = projectViewModel.EntryDescription;
-                    projectViewModel.Project = this;
-                    View.Projects[IndexInHome] = this;
-                    projectViewModel.SaveName = Name;
-                    projectViewModel.SaveDescription = Description;
+                    Name = projectViewModel.SaveName;
+                    Description = projectViewModel.SaveDescription;
+                    projectViewModel.EntryDescription = Description;
+                    projectViewModel.EntryName = Name;
                 }
+
+                projectViewModel.Editing = false;
             }
-            else
-            {
-                Name = projectViewModel.SaveName;
-                Description = projectViewModel.SaveDescription;
-                projectViewModel.EntryDescription = Description;
-                projectViewModel.EntryName = Name;
-            }
-            projectViewModel.Editing = false;
         }
         
         public async void DeleteProject()

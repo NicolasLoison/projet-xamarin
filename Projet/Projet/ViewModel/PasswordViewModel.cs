@@ -68,24 +68,38 @@ namespace Projet
             else
             {
                 ErrorMessage = "";
-                try
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(Urls.HOST);
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue(User.TokenType, User.AccessToken);
+                RefreshRequest refreshRequest =
+                    new RefreshRequest(UserInstance.User.RefreshToken, Urls.CLIENT_ID, Urls.CLIENT_SECRET);
+                StringContent content = new StringContent(JsonConvert.SerializeObject(refreshRequest), Encoding.UTF8,
+                    "application/json");
+                HttpResponseMessage response = await client.PostAsync(new Uri(Urls.REFRESH_TOKEN), content);
+                if (response.IsSuccessStatusCode)
                 {
-                    HttpClient client = new HttpClient();
-                    client.BaseAddress = new Uri(Urls.HOST);
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(User.TokenType, User.AccessToken);
+                    Task<string> task = response.Content.ReadAsStringAsync();
+                    Response<LoginResponse> r =
+                        JsonConvert.DeserializeObject<Response<LoginResponse>>(task.Result);
+                    UserInstance.User.AccessToken = r.Data.AccessToken;
+                    UserInstance.User.RefreshToken = r.Data.RefreshToken;
                     SetPasswordRequest passwordRequest = new SetPasswordRequest(CurrentPassword, NewPassword);
-                    StringContent content = new StringContent(JsonConvert.SerializeObject(passwordRequest), Encoding.UTF8, "application/json");
+                    content = new StringContent(JsonConvert.SerializeObject(passwordRequest),
+                        Encoding.UTF8, "application/json");
 
                     HttpMethod method = new HttpMethod("PATCH");
-                    HttpRequestMessage request = new HttpRequestMessage(method, Urls.SET_PASSWORD) {
+                    HttpRequestMessage request = new HttpRequestMessage(method, Urls.SET_PASSWORD)
+                    {
                         Content = content
                     };
-                    HttpResponseMessage response = await client.SendAsync(request);
+                    response = await client.SendAsync(request);
                     if (response.IsSuccessStatusCode)
                     {
                         Console.WriteLine(response.ReasonPhrase);
-                        Task<string> task = response.Content.ReadAsStringAsync();
-                        Response<SetUserProfileRequest> data = JsonConvert.DeserializeObject<Response<SetUserProfileRequest>>(task.Result);
+                        task = response.Content.ReadAsStringAsync();
+                        Response<SetUserProfileRequest> data =
+                            JsonConvert.DeserializeObject<Response<SetUserProfileRequest>>(task.Result);
                         if (data.ErrorCode == ErrorCodes.WEAK_PASSWORD)
                         {
                             ErrorMessage = data.ErrorMessage;
@@ -103,12 +117,7 @@ namespace Projet
                         Console.WriteLine(response.ReasonPhrase);
                     }
                 }
-                catch(Exception e)
-                {
-                    Console.WriteLine(e);
-                }
             }
-            
         }
     }
 }

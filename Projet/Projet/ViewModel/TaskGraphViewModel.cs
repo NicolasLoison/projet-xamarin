@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Microcharts;
 using Microcharts.Forms;
@@ -33,7 +34,7 @@ namespace Projet
         }
 
         private Chart _chart;
-        
+
         public Chart TaskChart
         {
             get => _chart;
@@ -44,12 +45,9 @@ namespace Projet
             }
         }
 
-        public Project Project
-        {
-            get;
-            set;
-        }
+        public Project Project { get; set; }
         public string ChartLabel { get; set; }
+
         public TaskGraphViewModel(Project project)
         {
             Project = project;
@@ -57,6 +55,7 @@ namespace Projet
             Working = false;
             FindTasks();
         }
+
         private string getRandColor()
         {
             Random rnd = new Random();
@@ -65,40 +64,57 @@ namespace Projet
                 hexOutput = "0" + hexOutput;
             return "#" + hexOutput;
         }
-        
+
         public async void FindTasks()
         {
             Working = true;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(Urls.HOST);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
-            HttpResponseMessage response = await client.GetAsync(new Uri(Urls.LIST_TASKS.Replace("{projectId}", Project.Id.ToString())));
+            RefreshRequest refreshRequest =
+                new RefreshRequest(UserInstance.User.RefreshToken, Urls.CLIENT_ID, Urls.CLIENT_SECRET);
+            StringContent content = new StringContent(JsonConvert.SerializeObject(refreshRequest), Encoding.UTF8,
+                "application/json");
+            HttpResponseMessage response = await client.PostAsync(new Uri(Urls.REFRESH_TOKEN), content);
             if (response.IsSuccessStatusCode)
             {
                 Task<string> task = response.Content.ReadAsStringAsync();
-                Response<List<Task>> projectTasks =
-                    JsonConvert.DeserializeObject<Response<List<Task>>>(task.Result);
-                List<Task> tasks = new List<Task>(projectTasks.Data);
-                Project.Tasks = tasks;
-            }
-            List<ChartEntry> entries = new List<ChartEntry>();
-            foreach (Task task in Project.Tasks)
-            {
-                double time = task.GetTotalMinutes();
-                if (time > 0)
+                Response<LoginResponse> r =
+                    JsonConvert.DeserializeObject<Response<LoginResponse>>(task.Result);
+                UserInstance.User.AccessToken = r.Data.AccessToken;
+                UserInstance.User.RefreshToken = r.Data.RefreshToken;
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
+                response =
+                    await client.GetAsync(new Uri(Urls.LIST_TASKS.Replace("{projectId}", Project.Id.ToString())));
+                if (response.IsSuccessStatusCode)
                 {
-                    var color = SKColor.Parse(getRandColor());
-                    entries.Add(new ChartEntry((float)time)
-                    {
-                        Color = color,
-                        Label = task.Name,  
-                        ValueLabel = time.ToString("F1"),
-                        ValueLabelColor = color,
-                    });
+                    task = response.Content.ReadAsStringAsync();
+                    Response<List<Task>> projectTasks =
+                        JsonConvert.DeserializeObject<Response<List<Task>>>(task.Result);
+                    List<Task> tasks = new List<Task>(projectTasks.Data);
+                    Project.Tasks = tasks;
                 }
+
+                List<ChartEntry> entries = new List<ChartEntry>();
+                foreach (Task task2 in Project.Tasks)
+                {
+                    double time = task2.GetTotalMinutes();
+                    if (time > 0)
+                    {
+                        var color = SKColor.Parse(getRandColor());
+                        entries.Add(new ChartEntry((float) time)
+                        {
+                            Color = color,
+                            Label = task2.Name,
+                            ValueLabel = time.ToString("F1"),
+                            ValueLabelColor = color,
+                        });
+                    }
+                }
+
+                TaskChart = new DonutChart {Entries = entries, LabelTextSize = 30f};
+                Working = false;
             }
-            TaskChart = new DonutChart{Entries = entries, LabelTextSize = 30f};
-            Working = false;
         }
     }
 }

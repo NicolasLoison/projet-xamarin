@@ -71,7 +71,6 @@ namespace Projet
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(Urls.HOST);
-            client.Timeout = TimeSpan.FromSeconds(1);
             LoginWithCredentialsRequest loginRequest = new LoginWithCredentialsRequest(Email, Password, Urls.CLIENT_ID, Urls.CLIENT_SECRET);
             StringContent content = new StringContent(JsonConvert.SerializeObject(loginRequest), Encoding.UTF8, "application/json");
             try

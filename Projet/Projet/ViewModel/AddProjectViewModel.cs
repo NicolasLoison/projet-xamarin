@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Projet.Model;
 using Storm.Mvvm;
 using TimeTracker.Dtos;
+using TimeTracker.Dtos.Authentications;
 using TimeTracker.Dtos.Projects;
 using Xamarin.Forms;
 
@@ -53,7 +54,7 @@ namespace Projet
             Name = "";
             AddClick = new Command(AddProject);
         }
-        
+
         public async void AddProject()
         {
             if (Name.Length > 0)
@@ -61,25 +62,40 @@ namespace Projet
                 ErrorMessage = "";
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(Urls.HOST);
-                AddProjectRequest request = new AddProjectRequest(Name, Description);
-                StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
-                HttpResponseMessage response = await client.PostAsync(new Uri(Urls.ADD_PROJECT), content);
+                RefreshRequest refreshRequest =
+                    new RefreshRequest(UserInstance.User.RefreshToken, Urls.CLIENT_ID, Urls.CLIENT_SECRET);
+                StringContent content = new StringContent(JsonConvert.SerializeObject(refreshRequest), Encoding.UTF8,
+                    "application/json");
+                HttpResponseMessage response = await client.PostAsync(new Uri(Urls.REFRESH_TOKEN), content);
                 if (response.IsSuccessStatusCode)
                 {
-                    await NavigationService.PopAsync();
-                    HomePage page = Application.Current.MainPage.Navigation.NavigationStack.Last() as HomePage;
-                    HomeViewModel viewModel = page.BindingContext as HomeViewModel;
-                    viewModel.FindProjects();
+                    Task<string> task = response.Content.ReadAsStringAsync();
+                    Response<LoginResponse> r =
+                        JsonConvert.DeserializeObject<Response<LoginResponse>>(task.Result);
+                    UserInstance.User.AccessToken = r.Data.AccessToken;
+                    UserInstance.User.RefreshToken = r.Data.RefreshToken;
+                    AddProjectRequest request = new AddProjectRequest(Name, Description);
+                    content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8,
+                        "application/json");
+                    client.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
+                    response = await client.PostAsync(new Uri(Urls.ADD_PROJECT), content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        await NavigationService.PopAsync();
+                        HomePage page = Application.Current.MainPage.Navigation.NavigationStack.Last() as HomePage;
+                        HomeViewModel viewModel = page.BindingContext as HomeViewModel;
+                        viewModel.FindProjects();
+                    }
+                    else
+                    {
+                        Console.WriteLine(response.ReasonPhrase);
+                    }
                 }
                 else
                 {
-                    Console.WriteLine(response.ReasonPhrase);
+                    ErrorMessage = "Please enter a name for your project";
                 }
-            }
-            else
-            {
-                ErrorMessage = "Please enter a name for your project";
             }
         }
     }
