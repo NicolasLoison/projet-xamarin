@@ -78,6 +78,7 @@ namespace Projet
                     JsonConvert.DeserializeObject<Response<LoginResponse>>(task.Result);
                 UserInstance.User.AccessToken = r.Data.AccessToken;
                 UserInstance.User.RefreshToken = r.Data.RefreshToken;
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(UserInstance.User.TokenType, UserInstance.User.AccessToken);
                 foreach (Project p in UserInstance.User.Projets)
                 {
                     response =

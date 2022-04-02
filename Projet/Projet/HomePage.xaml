@@ -35,8 +35,7 @@
                       ItemTapped="OnItemTapped"
                       SelectionMode="None"
                       SeparatorVisibility="None"
-                      CachingStrategy="RecycleElement"
-                      SeparatorColor="DodgerBlue">
+                      CachingStrategy="RecycleElement">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:Project">
                         <ViewCell>

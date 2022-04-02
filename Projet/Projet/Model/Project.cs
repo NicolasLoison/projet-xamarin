@@ -167,9 +167,8 @@ namespace Projet.Model
                     projectViewModel.EntryDescription = Description;
                     projectViewModel.EntryName = Name;
                 }
-
-                projectViewModel.Editing = false;
             }
+            projectViewModel.Editing = false;
         }
         
         public async void DeleteProject()

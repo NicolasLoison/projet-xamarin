@@ -41,9 +41,10 @@
             </StackLayout>
         </StackLayout>
     </NavigationPage.TitleView>
-        <StackLayout Margin="20, 10" x:DataType="projet:ProjectViewModel">
+        <StackLayout Margin="20, 5" x:DataType="projet:ProjectViewModel">
             <Label Text="{Binding Project.Name}"
-                   FontSize="30"
+                   TextColor="Black"
+                   FontSize="35"
                    HorizontalOptions="Center"
                    Margin="0, 20, 0, 10"
                    IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
@@ -56,9 +57,9 @@
                    Margin="0, 20, 0, 10"/>
             
             <Label Text="{Binding Project.Description}"
-                   FontSize="20"
+                   FontSize="25"
                    HorizontalOptions="Center"
-                   Margin="0, 0, 0, 10"
+                   Margin="0, 0, 0, 20"
                    IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
             <Entry Text="{Binding EntryDescription}"
                    FontSize="20"
@@ -68,27 +69,23 @@
                    IsVisible="{Binding Editing}"
                    Margin="0, 0, 0, 10"/>
             
-            <Label Text="Tasks:"
-                   FontSize="30"
-                   HorizontalOptions="Center"/>
-            
             <ListView HasUnevenRows="True"
                       ItemsSource="{Binding Tasks}"
                       ItemTapped="OnItemTapped"
-                      SelectionMode="None">
+                      SelectionMode="None"
+                      SeparatorVisibility="None">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:Task">
                         <ViewCell>
-                            <Grid VerticalOptions="StartAndExpand"
-                                  ColumnSpacing="30"
-                                  Margin="0, 0, 0, 10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
-                                <Label Grid.Column="0"
-                                       Grid.ColumnSpan="2"
-                                       Grid.Row="0"
-                                       Text="{Binding Name}" FontSize="Medium"/>
+                            <Grid Padding="5">
+                                <Frame CornerRadius="20">
+                                    <StackLayout>
+                                        <Label Text="{Binding Name}" FontSize="Large" TextColor="Black"
+                                               HorizontalTextAlignment="Center"/>
+                                        <Label Text="{Binding TotalMinutes}" FontSize="Medium"
+                                               HorizontalTextAlignment="Center"/>
+                                    </StackLayout>
+                                </Frame>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

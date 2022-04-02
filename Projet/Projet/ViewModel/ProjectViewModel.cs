@@ -177,6 +177,7 @@ namespace Projet
                     {
                         tasks[i].View = this;
                         tasks[i].IndexInProject = i;
+                        tasks[i].SetTotalMinutes();
                     }
                 }
             }

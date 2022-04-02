@@ -45,12 +45,21 @@ namespace Projet.Model
             get;
             set;
         }
+        
+        public string TotalMinutes
+        {
+            get;
+            set;
+        }
+        
 
         public Task(int id, string name)
         {
             Id = id;
             Name = name;
             Times = new List<Timer>();
+            double test = GetTotalMinutes();
+            TotalMinutes = GetTotalMinutes() != 0 ? GetTotalMinutes().ToString("F0") + " minutes" : "Aucun timer";
         }
 
         public int GetTotalHours()
@@ -73,6 +82,22 @@ namespace Projet.Model
             }
 
             return total;
+        }
+        public void SetTotalMinutes()
+        {
+            String res = "";
+            double total = GetTotalMinutes();
+            if (total == 0) {
+                res = "Aucun timer";
+            } 
+            else if (total < 1) {
+                double seconde = total * 60;
+                res = "Total : " + seconde.ToString("F0") + " sec";
+            } 
+            else {
+                res = "Total : " + total.ToString("F0") + " min";
+            }
+            TotalMinutes = res;
         }
         
         public async void ToPage()
@@ -132,9 +157,8 @@ namespace Projet.Model
                     Name = taskViewModel.SaveName;
                     taskViewModel.EntryName = Name;
                 }
-
-                taskViewModel.Editing = false;
             }
+            taskViewModel.Editing = false;
         }
         
         public async void DeleteTask()

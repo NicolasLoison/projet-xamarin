@@ -48,10 +48,11 @@
             <ScrollView>
             </ScrollView>
             <Label Text="{Binding Task.Name}"
-                   FontSize="30"
+                   FontSize="35"
+                   TextColor="Black"
                    HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand"
-                   Margin="0, 0, 0, 10"
+                   Margin="0, 0, 0, 20"
                    IsVisible="{Binding Editing, Converter={converter:InverseBoolConverter}}"/>
             
             <Entry Text="{Binding EntryName}"
@@ -60,10 +61,6 @@
                    WidthRequest="200"
                    Margin="0, 0, 0, 10"
                    IsVisible="{Binding Editing}"/>
-            <Label Text="Timers:"
-                   FontSize="30"
-                   HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"/>
             
             <ListView HasUnevenRows="True"
                       ItemsSource="{Binding Timers}"
@@ -74,7 +71,7 @@
                         <ViewCell>
                             <StackLayout Margin="10">
                                 <Grid VerticalOptions="StartAndExpand"
-                                  ColumnSpacing="30"
+                                  ColumnSpacing="20"
                                   Margin="0, 0, 0, 10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto" />
